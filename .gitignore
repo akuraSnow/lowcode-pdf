@@ -1,0 +1,9 @@
+/dist
+/node_modules
+temp/*
+!temp/.gitkeep
+.nyc_output
+coverage
+.scannerwork
+.idea
+/pos-report-engine.iml

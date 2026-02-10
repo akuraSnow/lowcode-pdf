@@ -1,0 +1,44 @@
+{
+  "chat.useAgentsMdFile": true,
+  "chat.promptFilesLocations": {
+    ".github/prompts": true
+  },
+  "chat.instructionsFilesLocations": {
+    ".github/instructions/methodology/ai-assistant-interaction.instructions.md": true,
+    ".github/instructions/methodology/large-file-editing.instructions.md": true,
+    ".github/instructions/methodology/problem-solving-methodology.instructions.md": true,
+    ".github/instructions/language/html.instructions.md": true,
+    ".github/instructions/language/scss.instructions.md": true,
+    ".github/instructions/language/typescript.instructions.md": true,
+    ".github/instructions/react/code-review.instructions.md": true,
+    ".github/instructions/react/file-structure.instructions.md": true,
+    ".github/instructions/react/i18n.instructions.md": true,
+    ".github/instructions/react/jsdoc-standards.instructions.md": true,
+    ".github/instructions/react/naming-conventions.instructions.md": true,
+    ".github/instructions/react/react.instructions.md": true,
+    ".github/instructions/workflow/code-review.instructions.md": true,
+    ".github/instructions/workflow/commit-message.instructions.md": true,
+    ".github/skills/developRole.md": true
+  },
+  "chat.tools.terminal.autoApprove": true,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".github/instructions/workflow/commit-message.instructions.md"
+    }
+  ],
+  "github.copilot.chat.reviewSelection.enabled": true,
+  "github.copilot.chat.reviewSelection.instructions": [
+    {
+      "file": ".github/instructions/workflow/code-review.instructions.md"
+    },
+    {
+      "file": ".github/instructions/react/code-review.instructions.md"
+    }
+  ],
+  "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
+    {
+      "file": ".github/instructions/workflow/pull-request-desc.instructions.md"
+    }
+  ]
+}

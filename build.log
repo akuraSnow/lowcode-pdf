@@ -1,0 +1,1878 @@
+
+> lowcode-demo-pdf@1.0.28 build
+> build-scripts build
+
+@alib/build-scripts 0.1.32
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import "./scss/mixin";
+  │         ^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/animate/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./scss/variable";
+  │         ^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/animate/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "../core/index-noreset.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/animate/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "./scss/_fading-entrances/_fadeIn.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/animate/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import "./scss/_fading-entrances/_fadeInDown.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/animate/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/animate/main.scss 3:9         root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/animate/main.scss 3:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/animate/main.scss 3:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/animate/main.scss 3:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/animate/main.scss 3:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/animate/main.scss 3:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/animate/main.scss 3:9         root stylesheet
+
+WARNING: 50 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "../core/index-noreset.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/search/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "../input/scss/mixin.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/search/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "./scss/mixin";
+  │         ^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/search/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import "./scss/variable";
+  │         ^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/search/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+6 │ @import "./rtl.scss";
+  │         ^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/search/main.scss 6:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import "../core/index-noreset.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/icon/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./rtl.scss";
+  │         ^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/icon/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./util/_varMap.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 2:9  @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9           root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "./util/_function.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 3:9  @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9           root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "./util/_mixin.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9  @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9           root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/search/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/search/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/search/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/search/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/search/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/search/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/search/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/icon/main.scss 1:9            root stylesheet
+
+WARNING: 19 repetitive deprecation warnings omitted.
+
+WARNING: 21 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '../core/index-noreset';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/button/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import './scss/variable';
+  │         ^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/button/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import './scss/normalize';
+  │         ^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/button/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import './scss/mixin';
+  │         ^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/button/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+    ╷
+513 │ @import './rtl.scss';
+    │         ^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/button/main.scss 513:9  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/button/main.scss 1:9          root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/button/main.scss 1:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/button/main.scss 1:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/button/main.scss 1:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/button/main.scss 1:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/button/main.scss 1:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/button/main.scss 1:9          root stylesheet
+
+WARNING: 21 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import '../core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/input/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import 'scss/mixin';
+  │         ^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/input/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import 'scss/variable';
+  │         ^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/input/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+    ╷
+522 │ @import './rtl.scss';
+    │         ^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/input/main.scss 522:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "../core/index-noreset.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/select/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "../input/scss/variable.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/select/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "../input/scss/mixin.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/select/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import "./scss/mixin";
+  │         ^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/select/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+6 │ @import "./scss/variable";
+  │         ^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/select/main.scss 6:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./util/_varMap.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 2:9  @import
+    node_modules/@alifd/next/es/input/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/input/main.scss 2:9           root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/input/main.scss 2:9           root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/select/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/select/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/input/main.scss 2:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/select/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/input/main.scss 2:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/select/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/input/main.scss 2:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/select/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/input/main.scss 2:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/select/main.scss 2:9          root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/input/main.scss 2:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/select/main.scss 2:9          root stylesheet
+
+WARNING: 21 repetitive deprecation warnings omitted.
+
+WARNING: 20 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(100, 3) or calc(100 / 3)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ╷
+7 │   width: (100 / 3) * 1%;
+  │           ^^^^^^^
+  ╵
+    node_modules/@alilc/lowcode-plugin-components-pane/es/components/Component/index.module.scss 7:11  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import "../core/index-noreset.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/menu/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./scss/variable";
+  │         ^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/menu/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "./scss/mixin";
+  │         ^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/menu/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "./rtl.scss";
+  │         ^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/menu/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./util/_varMap.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 2:9  @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9           root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9            root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/menu/main.scss 1:9            root stylesheet
+
+WARNING: 21 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import "../core/index-noreset.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/overlay/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./scss/variable.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/overlay/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "../core/index-noreset.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/tag/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "./scss/variable.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/tag/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "./scss/animation.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/tag/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import "./scss/mixin.scss";
+  │         ^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/tag/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+6 │ @import "./scss/placeholder.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/tag/main.scss 6:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./util/_varMap.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 2:9  @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9        root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "./util/_function.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 3:9  @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9        root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "./util/_mixin.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9  @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9        root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9         root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9         root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/tag/main.scss 2:9             root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/tag/main.scss 2:9             root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/tag/main.scss 2:9             root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/tag/main.scss 2:9             root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/tag/main.scss 2:9             root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/tag/main.scss 2:9             root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/overlay/main.scss 1:9         root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/tag/main.scss 2:9             root stylesheet
+
+WARNING: 17 repetitive deprecation warnings omitted.
+
+WARNING: 23 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import '../core/index-noreset';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import 'scss/variable';
+  │         ^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/checkbox/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import './rtl.scss';
+  │         ^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/checkbox/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./util/_varMap.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 2:9  @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9       root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "./util/_function.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 3:9  @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9       root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9        root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9        root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9        root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9        root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9        root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9        root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/checkbox/main.scss 3:9        root stylesheet
+
+WARNING: 20 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import '../core/index-noreset';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/radio/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import "./scss/variable";
+  │         ^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/radio/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+5 │ @import './rtl.scss';
+  │         ^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/radio/main.scss 5:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import "./util/_varMap.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 2:9  @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9          root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import "./util/_function.scss";
+  │         ^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/index-noreset.scss 3:9  @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9          root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($color) == 2): nth($color, 2); else: transparent)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+332 │     $background-color: if(length($color) == 2, nth($color, 2), transparent);
+    │                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 332:24  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9           root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(length($size) > 1): $height; else: $height / 2)
+
+More info: https://sass-lang.com/d/if-function
+
+    ╷
+338 │         $height: if(length($size) > 1, $height, $height/2);
+    │                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    node_modules/@alifd/next/es/core/util/_mixin.scss 338:18  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 4:9   @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+9 │ $css-prefix: "#{str-slice($class-prefix, 2)}-" !default;
+  │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@alifd/next/es/core/style/_global.scss 9:17  @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 7:9   @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:36   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:22   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:94   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9           root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+16 │ $icon-font-family: #{to-upper-case(str-slice($css-prefix, 1, 1))}#{str-slice($css-prefix, 2, str-length($css-prefix) - 1)}Icon !default;
+   │                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    node_modules/@alifd/next/es/core/style/_icon.scss 16:68   @import
+    node_modules/@alifd/next/es/core/index-noreset.scss 17:9  @import
+    node_modules/@alifd/next/es/radio/main.scss 3:9           root stylesheet
+
+WARNING: 17 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/space/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import '~@alifd/next/lib/form/scss/variable.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/space/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/upload/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/select-table/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import '~@alifd/next/lib/form/scss/variable.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/select-table/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/preview-text/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/array-base/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/editable/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/form-item/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import './scss/variable.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/form-item/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+3 │ @import './grid.scss';
+  │         ^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/form-item/main.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+4 │ @import './animation.scss';
+  │         ^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/form-item/main.scss 4:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/form-button-group/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/form-grid/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/date-picker2/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/array-table/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import '~@alifd/next/lib/form/scss/variable.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/array-table/main.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/array-items/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/array-collapse/main.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+1 │ @import '~@alifd/next/lib/core/index-noreset.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+    node_modules/@formily/next/esm/array-cards/main.scss 1:9  root stylesheet
+
+info WEBPACK Hash: [1m8933f90bab41f8c2da98[39m[22m
+info WEBPACK Version: webpack [1m4.47.0[39m[22m
+info WEBPACK Child [1mweb[39m[22m:
+info WEBPACK     Hash: [1m8933f90bab41f8c2da98[39m[22m
+info WEBPACK     Time: [1m4968[39m[22mms
+info WEBPACK     Built at: 02/10/2026 [1m4:33:18 PM[39m[22m
+info WEBPACK                      [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m       [1mChunk Names[39m[22m
+info WEBPACK              [1m[32mcss/index.css[39m[22m    205 KiB       [1m1[39m[22m  [1m[32m[emitted][39m[22m         index
+info WEBPACK            [1m[32mcss/preview.css[39m[22m   2.43 KiB       [1m2[39m[22m  [1m[32m[emitted][39m[22m         preview
+info WEBPACK                  [1m[32medit.html[39m[22m   2.85 KiB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK                [1m[32meditor.html[39m[22m   2.85 KiB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK                [1m[32mfavicon.png[39m[22m   3.53 KiB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK                  [1m[32mhome.html[39m[22m  612 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK                  [1m[32mindex.ejs[39m[22m   3.14 KiB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK                 [1m[32mindex.html[39m[22m   1.08 KiB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK                    [1m[32mjs/3.js[39m[22m    498 KiB       [1m3[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK                 [1m[32mjs/home.js[39m[22m    218 KiB       [1m0[39m[22m  [1m[32m[emitted][39m[22m         home
+info WEBPACK                [1m[33mjs/index.js[39m[22m   [1m[33m5.39 MiB[39m[22m       [1m1[39m[22m  [1m[32m[emitted][39m[22m  [1m[33m[big][39m[22m  index
+info WEBPACK              [1m[32mjs/preview.js[39m[22m    963 KiB       [1m2[39m[22m  [1m[32m[emitted][39m[22m         preview
+info WEBPACK            [1m[32mmock-pages.json[39m[22m  468 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK             [1m[32mmock/info.json[39m[22m   34 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK               [1m[32mpreview.html[39m[22m   1.03 KiB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK     [1m[32mstorage-sync-test.html[39m[22m   10.8 KiB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+info WEBPACK     Child [1mHtmlWebpackCompiler[39m[22m:
+info WEBPACK                               [1mAsset[39m[22m      [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+info WEBPACK         [1m[32m__child-HtmlWebpackPlugin_0[39m[22m  4.99 KiB       [1m0[39m[22m  [1m[32m[39m[22mHtmlWebpackPlugin_0
+info WEBPACK         [1m[32m__child-HtmlWebpackPlugin_1[39m[22m  5.12 KiB       [1m1[39m[22m  [1m[32m[39m[22mHtmlWebpackPlugin_1
+info WEBPACK         [1m[32m__child-HtmlWebpackPlugin_2[39m[22m  4.51 KiB       [1m2[39m[22m  [1m[32m[39m[22mHtmlWebpackPlugin_2
+info WEBPACK         [1m[32m__child-HtmlWebpackPlugin_3[39m[22m  7.09 KiB       [1m3[39m[22m  [1m[32m[39m[22mHtmlWebpackPlugin_3
+info WEBPACK Compiled successfully

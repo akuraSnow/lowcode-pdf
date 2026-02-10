@@ -1,0 +1,264 @@
+/**
+ * 自定义样式 - 优化新添加功能的视觉效果
+ */
+
+/* ==================== 全局优化 ==================== */
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s;
+}
+
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active {
+  background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+  border-bottom-color: #fff;
+  font-weight: 600;
+}
+
+/* ==================== 按钮优化 ==================== */
+.ant-btn {
+  transition: all 0.3s;
+}
+
+.ant-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12) !important;
+}
+
+.ant-btn-primary {
+  font-weight: 500;
+}
+
+/* ==================== 卡片优化 ==================== */
+.ant-card {
+  transition: all 0.3s;
+}
+
+.ant-card-hoverable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.ant-card-head {
+  font-weight: 600;
+}
+
+/* ==================== 列表优化 ==================== */
+.ant-list-item {
+  transition: all 0.3s;
+}
+
+.ant-list-item:hover {
+  background: #fafafa !important;
+}
+
+/* ==================== 表单优化 ==================== */
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: #333;
+}
+
+.ant-input-number,
+.ant-select,
+.ant-input {
+  border-radius: 4px;
+}
+
+/* ==================== 模态框优化 ==================== */
+.ant-modal-header {
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.ant-modal-title {
+  color: #fff;
+  font-weight: 600;
+}
+
+.ant-modal-content {
+  border-radius: 8px;
+}
+
+.ant-modal-close-x {
+  color: #fff;
+}
+
+/* ==================== 上传组件优化 ==================== */
+.ant-upload-picture-card-wrapper {
+  .ant-upload.ant-upload-select {
+    border-radius: 8px;
+    border: 2px dashed #d9d9d9;
+    transition: all 0.3s;
+    
+    &:hover {
+      border-color: #1890ff;
+      background: #f5f8ff;
+    }
+  }
+}
+
+/* ==================== Tabs 优化 ==================== */
+.ant-tabs-tab {
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: all 0.3s;
+  
+  &:hover {
+    color: #1890ff;
+  }
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #1890ff;
+  font-weight: 600;
+}
+
+/* ==================== 消息提示优化 ==================== */
+.ant-message {
+  .ant-message-notice-content {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 12px 16px;
+  }
+}
+
+/* ==================== 页面管理器优化 ==================== */
+.page-manager-container {
+  .ant-tabs-nav {
+    margin-bottom: 0;
+  }
+  
+  .ant-tabs-tab {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-bottom: none;
+    margin-right: 4px;
+    border-radius: 8px 8px 0 0;
+    
+    &:hover {
+      background: #fafafa;
+    }
+  }
+  
+  .ant-tabs-tab-active {
+    background: #fff;
+    border-bottom-color: #fff;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #1890ff;
+    }
+  }
+}
+
+/* ==================== 资源管理器优化 ==================== */
+.resource-manager {
+  .resource-card {
+    border-radius: 8px;
+    overflow: hidden;
+    
+    &:hover {
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+  }
+  
+  .resource-actions {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  &:hover .resource-actions {
+    opacity: 1;
+  }
+}
+
+/* ==================== 配置面板优化 ==================== */
+.settings-panel {
+  .settings-section {
+    margin-bottom: 16px;
+    
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      &::before {
+        content: '';
+        width: 3px;
+        height: 14px;
+        background: #1890ff;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+
+/* ==================== 滚动条美化 ==================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* ==================== 动画效果 ==================== */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* ==================== 响应式优化 ==================== */
+@media (max-width: 768px) {
+  .ant-card {
+    margin-bottom: 12px;
+  }
+  
+  .ant-space {
+    flex-wrap: wrap;
+  }
+}
