@@ -6,6 +6,7 @@
 import React from 'react';
 import { IPublicModelPluginContext } from '@alilc/lowcode-types';
 import { PageManager } from '../../components/PageManager';
+import { FloatingAddButton } from '../../components/PageManager/FloatingAddButton';
 import { EnhancedPageSettingsPanel } from '../../components/PageSettingsPanel/enhanced';
 
 export interface IPluginPageManagementOptions {
@@ -20,15 +21,26 @@ const PluginPageManagement = (
     async init() {
       const { skeleton } = ctx;
 
-      // 注册页面管理组件到顶部区域
+      // 注册页面标签栏到子顶部区域（在顶部工具栏和画布之间，独立一行）
       skeleton.add({
-        area: 'topArea',
+        area: 'subTopArea',
         type: 'Widget',
-        name: 'pageManager',
+        name: 'pageManagerTabs',
         content: PageManager as any,
+        contentProps: {
+          ctx,
+        },
         props: {
           align: 'center',
         },
+      });
+
+      // 注册浮动添加按钮
+      skeleton.add({
+        area: 'mainArea',
+        type: 'Widget',
+        name: 'floatingAddButton',
+        content: FloatingAddButton as any,
         contentProps: {
           ctx,
         },

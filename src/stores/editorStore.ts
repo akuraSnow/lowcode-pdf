@@ -69,7 +69,7 @@ interface EditorStore extends EditorState {
   resetDocument: () => void;
 
   // ==================== 页面操作 ====================
-  addPage: (settings?: Partial<PageSettings>) => void;
+  addPage: (settings?: Partial<PageSettings>) => string;
   deletePage: (pageId: string) => void;
   duplicatePage: (pageId: string) => void;
   updatePageSettings: (pageId: string, settings: Partial<PageSettings>) => void;
@@ -183,6 +183,9 @@ export const useEditorStore = create<EditorStore>((set, get) => {
         state.document.updatedAt = new Date();
       });
       get().addToHistory();
+      
+      // 返回新页面的 ID
+      return newPageSettings.id;
     },
 
     deletePage: (pageId) => {

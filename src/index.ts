@@ -11,6 +11,8 @@ import ManualPlugin from "@alilc/lowcode-plugin-manual";
 import InjectPlugin from '@alilc/lowcode-plugin-inject';
 import SimulatorResizerPlugin from '@alilc/lowcode-plugin-simulator-select';
 import ComponentPanelPlugin from '@alilc/lowcode-plugin-components-pane';
+import ComponentPanelConfigPlugin from './plugins/plugin-component-panel-config/index';
+import PluginLeftSidebarMenu from './plugins/plugin-left-sidebar-menu';
 import DefaultSettersRegistryPlugin from './plugins/plugin-default-setters-registry';
 import LoadIncrementalAssetsWidgetPlugin from './plugins/plugin-load-incremental-assets-widget';
 import SaveSamplePlugin from './plugins/plugin-save-sample';
@@ -70,6 +72,12 @@ async function registerPlugins() {
 
   await plugins.register(ComponentPanelPlugin);
 
+  // 注册组件库面板配置插件（固定左侧面板宽度为 250px）
+  await plugins.register(ComponentPanelConfigPlugin);
+
+  // 注册左侧菜单导航插件（组件树、组件库、数据源、源码面板）
+  // await plugins.register(PluginLeftSidebarMenu);
+
   await plugins.register(SchemaPlugin, { isProjectSchema: true });
 
   await plugins.register(ManualPlugin);
@@ -82,7 +90,7 @@ async function registerPlugins() {
 
   // await plugins.register(SetRefPropPlugin);
 
-  // await plugins.register(SimulatorResizerPlugin);
+  await plugins.register(SimulatorResizerPlugin);
 
   // await plugins.register(LoadIncrementalAssetsWidgetPlugin);
 
@@ -143,7 +151,7 @@ async function registerPlugins() {
     requestHandlersMap: {
       fetch: createFetchHandler(),
     },
-    appHelper,
+    // appHelper,
     enableContextMenu: true,
   });
 })();

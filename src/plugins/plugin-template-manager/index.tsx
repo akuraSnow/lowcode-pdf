@@ -4,6 +4,7 @@
 
 import { IPublicModelPluginContext } from '@alilc/lowcode-types';
 import { Button, Dialog, Input, Message, Card } from '@alifd/next';
+import { useGlobalSettingsStore } from '../../stores/globalSettingsStore';
 
 interface Template {
   id: string;
@@ -13,50 +14,15 @@ interface Template {
   createdAt: string;
 }
 
-interface GlobalSettings {
-  paths: {
-    productPath: string;
-    templatePath: string;
-    methodPath: string;
-    filePath: string;
-  };
-  updatedAt: string;
-}
-
 const TemplateManagerPlugin = (ctx: IPublicModelPluginContext) => {
   return {
     async init() {
       const { skeleton, project, canvas } = ctx;
       
-      // 从 localStorage 读取全局设置
-      const getGlobalSettings = (): GlobalSettings => {
-        const stored = localStorage.getItem('global-settings-storage');
-        if (!stored) {
-          return {
-            paths: {
-              productPath: './data/products',
-              templatePath: './data/templates',
-              methodPath: './data/methods',
-              filePath: './data/files',
-            },
-            updatedAt: new Date().toISOString(),
-          };
-        }
-        
-        try {
-          const parsed = JSON.parse(stored);
-          return parsed.state || parsed;
-        } catch {
-          return {
-            paths: {
-              productPath: './data/products',
-              templatePath: './data/templates',
-              methodPath: './data/methods',
-              filePath: './data/files',
-            },
-            updatedAt: new Date().toISOString(),
-          };
-        }
+      // 从 Zustand store 读取全局设置
+      const getGlobalSettings = () => {
+        const store = useGlobalSettingsStore.getState();
+        return store.settings;
       };
       
       // 获取本地存储的模板
@@ -74,6 +40,13 @@ const TemplateManagerPlugin = (ctx: IPublicModelPluginContext) => {
       const saveTemplateToServer = async (templateName: string, schema: any): Promise<boolean> => {
         try {
           const globalSettings = getGlobalSettings();
+          
+          // 安全检查：确保 paths 对象存在
+          if (!globalSettings || !globalSettings.paths) {
+            console.warn('全局设置缺失，使用默认路径');
+            throw new Error('无法获取模板保存路径');
+          }
+          
           const templatePath = `${globalSettings.paths.templatePath}/${templateName}.json`;
           
           const response = await fetch('http://localhost:3001/api/publish', {

@@ -12,6 +12,7 @@ import {
   MoreOutlined,
 } from '@ant-design/icons';
 import { useEditorStore } from '../../stores/editorStore';
+import { project } from '@alilc/lowcode-engine';
 import type { MenuProps } from 'antd';
 
 export const PageManager: React.FC = () => {
@@ -32,8 +33,21 @@ export const PageManager: React.FC = () => {
   };
 
   const handleAddPage = () => {
-    addPage();
-    message.success('新页面已创建');
+    const newPageId = addPage();
+    message.success('新页面已创建，正在切换...');
+    
+    // 使用短暂延迟确保状态已更新
+    setTimeout(() => {
+      // 通知引擎刷新以显示新页面
+      try {
+        if (project.simulatorHost) {
+          project.simulatorHost.rerender();
+        }
+        message.success('已切换到新页面');
+      } catch (error) {
+        console.error('刷新画布失败:', error);
+      }
+    }, 150);
   };
 
   const handleDuplicatePage = (pageId: string) => {
@@ -139,35 +153,25 @@ export const PageManager: React.FC = () => {
 
   return (
     <div style={{ 
-      padding: '12px 16px', 
+      padding: '8px 16px',
       background: '#fff',
       borderBottom: '1px solid #e8e8e8',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.04)'
+      boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
     }}>
-      <Tabs
-        type="card"
-        activeKey={currentPageId}
-        onChange={handleTabChange}
-        items={tabItems}
-        addIcon={
-          <span style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '4px',
-            padding: '0 8px',
-            color: '#1890ff',
-            fontWeight: 500
-          }}>
-            <PlusOutlined /> 新建
-          </span>
-        }
-        onEdit={(targetKey, action) => {
-          if (action === 'add') {
-            handleAddPage();
-          }
-        }}
-        tabBarStyle={{ marginBottom: 0 }}
-      />
+      <div style={{ maxWidth: '1200px', width: '100%' }}>
+        <Tabs
+          type="card"
+          activeKey={currentPageId}
+          onChange={handleTabChange}
+          items={tabItems}
+          tabBarStyle={{ 
+            marginBottom: 0,
+          }}
+        />
+      </div>
 
       <Modal
         title="重命名页面"

@@ -3,6 +3,7 @@
  * 支持: HTML、图片、PDF、Word等格式，提取样式并转换为可用的组件
  */
 
+import React from 'react';
 import { IPublicModelPluginContext } from '@alilc/lowcode-types';
 import { Button, Dialog, Upload, Message, Loading } from '@alifd/next';
 
@@ -76,9 +77,14 @@ const flattenSchema = (content: any): any[] => {
       .filter(Boolean);
   }
   
-  // 处理字符串（纯文本）
+  // 处理字符串（纯文本）- 转换为 FDP 组件（段落）
   if (typeof content === 'string') {
-    return [content];
+    return [{
+      componentName: 'FDP',
+      props: {
+        children: content,
+      },
+    }];
   }
   
   // 处理组件对象
@@ -139,42 +145,924 @@ const HtmlToSchemaConverter = {
   },
   
   /**
-   * 递归转换HTML元素为Schema
+   * 生成完整的 Lowcode Schema 格式
+   * 将组件树包装为符合 Lowcode Engine 标准的完整 schema 结构
    */
-  elementToSchema(element: HTMLElement): any {
+  generateLowcodeSchema(components: any[], fileName: string = 'document'): any {
+    const docId = this.getDocId();
+    const pageId = this.generateId();
+    
+    // 确保 components 是数组
+    const childrenArray = Array.isArray(components) ? components : [components];
+    
+    return {
+      version: '1.0.0',
+      componentsMap: [
+        {
+          devMode: 'lowCode',
+          componentName: 'Page'
+        },
+        {
+          package: '@alilc/lowcode-materials',
+          version: '1.0.7',
+          exportName: 'NextText',
+          main: 'lib/index.js',
+          destructuring: true,
+          subName: '',
+          componentName: 'NextText'
+        },
+        {
+          package: '@alifd/layout',
+          version: '2.4.1',
+          exportName: 'P',
+          main: 'lib/index.js',
+          destructuring: true,
+          subName: '',
+          componentName: 'FDP'
+        },
+        {
+          package: '@alifd/layout',
+          version: '2.4.1',
+          exportName: 'Cell',
+          main: 'lib/index.js',
+          destructuring: true,
+          subName: '',
+          componentName: 'FDCell'
+        },
+        {
+          package: '@alifd/layout',
+          version: '2.4.1',
+          exportName: 'Block',
+          main: 'lib/index.js',
+          destructuring: true,
+          subName: '',
+          componentName: 'FDBlock'
+        },
+        {
+          package: '@alifd/next',
+          version: '1.25.23',
+          exportName: 'Button',
+          main: '',
+          destructuring: true,
+          subName: '',
+          componentName: 'Button'
+        },
+        {
+          package: '@alifd/layout',
+          version: '2.4.1',
+          exportName: 'Row',
+          main: 'lib/index.js',
+          destructuring: true,
+          subName: '',
+          componentName: 'FDRow'
+        },
+        {
+          package: '@alifd/layout',
+          version: '2.4.1',
+          exportName: 'Section',
+          main: 'lib/index.js',
+          destructuring: true,
+          subName: '',
+          componentName: 'FDSection'
+        },
+        {
+          package: '@alifd/layout',
+          version: '2.4.1',
+          exportName: 'Page',
+          main: 'lib/index.js',
+          destructuring: true,
+          componentName: 'FDPage'
+        }
+      ],
+      componentsTree: [
+        {
+          componentName: 'Page',
+          id: pageId,
+          docId,
+          props: {
+            ref: 'outerView',
+            style: {
+              height: '100%'
+            }
+          },
+          fileName: fileName || '/',
+          hidden: false,
+          title: '',
+          isLocked: false,
+          condition: true,
+          conditionGroup: '',
+          children: [
+            {
+              componentName: 'FDPage',
+              id: this.generateId(),
+              docId,
+              props: {
+                contentProps: {
+                  style: {
+                    background: 'rgba(255,255,255,0)'
+                  }
+                },
+                ref: 'fdpage-' + Math.random().toString(36).substr(2, 9)
+              },
+              title: '页面',
+              hidden: false,
+              isLocked: false,
+              condition: true,
+              conditionGroup: '',
+              children: [
+                {
+                  componentName: 'FDSection',
+                  id: this.generateId(),
+                  docId,
+                  props: {
+                    style: {
+                      backgroundColor: 'rgba(255,255,255,1)',
+                      minHeight: ''
+                    }
+                  },
+                  title: '区域',
+                  hidden: false,
+                  isLocked: false,
+                  condition: true,
+                  conditionGroup: '',
+                  children: [
+                    {
+                      componentName: 'FDBlock',
+                      id: this.generateId(),
+                      docId,
+                      props: {
+                        mode: 'transparent',
+                        span: 12
+                      },
+                      title: '区块',
+                      hidden: false,
+                      isLocked: false,
+                      condition: true,
+                      conditionGroup: '',
+                      children: childrenArray
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      i18n: {
+        'zh-CN': {},
+        'en-US': {}
+      }
+    };
+  },
+  
+  /**
+   * 递归转换HTML元素为Schema - 符合 Lowcode Engine 标准格式
+   */
+  elementToSchema(element: HTMLElement, parentTag?: string): any {
     const tag = element.tagName.toLowerCase();
     const text = element.innerText?.trim();
     const styles = this.extractStyles(element);
     const docId = this.getDocId();
     
-    // 确定组件类型 - 使用简化的纯文本节点
-    let componentName = 'Slot';  // 默认使用 Slot 作为容器
-    let props: Record<string, any> = {};
-    let title = '';
+    console.log(`[elementToSchema] 处理 <${tag}> 元素，文本长度: ${text?.length || 0}，子元素数: ${element.children.length}`);
     
-    // 针对不同HTML标签的转换 - 全部转换为纯文本
-    // 不依赖特定组件，直接返回文本字符串
-    if (!text) {
-      // 没有文本内容的元素，检查是否有子元素
-      if (element.children.length > 0) {
-        const convertedChildren = Array.from(element.children)
-          .map(child => this.elementToSchema(child as HTMLElement))
-          .filter(Boolean);
-        
-        // 返回子元素数组或单个元素
-        if (convertedChildren.length === 1) {
-          return convertedChildren[0];
-        }
-        if (convertedChildren.length > 1) {
-          return convertedChildren;
+    // 处理子元素
+    const childrenSchemas: any[] = [];
+    if (element.children.length > 0) {
+      for (let i = 0; i < element.children.length; i++) {
+        const child = element.children[i] as HTMLElement;
+        const childSchema = this.elementToSchema(child, tag);
+        if (childSchema) {
+          childrenSchemas.push(childSchema);
         }
       }
+    }
+    
+    // 选择合适的组件名称和属性 - 使用引擎可识别的组件
+    let componentName = 'FDCell';
+    let props: Record<string, any> = {};
+    let title = '';
+    let children: any[] = [];
+    
+    // 根据 HTML 标签类型选择对应的低代码组件
+    switch (tag) {
+      case 'h1':
+      case 'h2':
+      case 'h3':
+      case 'h4':
+      case 'h5':
+      case 'h6': {
+        // 标题使用 FDP 包装 NextText
+        const headingLevel = parseInt(tag[1]);
+        const fontSize = `${32 - headingLevel * 4}px`;
+        
+        children = [{
+          componentName: 'NextText',
+          id: this.generateId(),
+          docId,
+          props: {
+            type: tag as any,
+            children: text || '',
+            mark: false,
+            code: false,
+            delete: false,
+            underline: false,
+            strong: false,
+            prefix: '',
+            classname: '',
+            style: {
+              fontSize,
+              ...styles,
+            }
+          },
+          hidden: false,
+          title: '',
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        }];
+        
+        return {
+          componentName: 'FDP',
+          id: this.generateId(),
+          docId,
+          props: {
+            children
+          },
+          title: `标题 H${headingLevel}`,
+          hidden: false,
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        };
+      }
+      
+      case 'p': {
+        // 段落使用 FDP 组件
+        if (childrenSchemas.length > 0) {
+          // 有子元素（如嵌套的 span, strong 等）
+          children = childrenSchemas;
+        } else if (text) {
+          // 纯文本使用 NextText
+          children = [{
+            componentName: 'NextText',
+            id: this.generateId(),
+            docId,
+            props: {
+              type: 'inherit',
+              children: text,
+              mark: false,
+              code: false,
+              delete: false,
+              underline: false,
+              strong: false,
+              prefix: '',
+              classname: '',
+              style: styles
+            },
+            hidden: false,
+            title: '',
+            isLocked: false,
+            condition: true,
+            conditionGroup: ''
+          }];
+        }
+        
+        return {
+          componentName: 'FDP',
+          id: this.generateId(),
+          docId,
+          props: {
+            children,
+            style: {
+              marginBottom: '12px',
+              ...styles
+            }
+          },
+          title: '段落',
+          hidden: false,
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        };
+      }
+      
+      case 'strong':
+      case 'b': {
+        // 粗体文本使用 NextText
+        return {
+          componentName: 'NextText',
+          id: this.generateId(),
+          docId,
+          props: {
+            type: 'inherit',
+            children: text || '',
+            strong: true,
+            mark: false,
+            code: false,
+            delete: false,
+            underline: false,
+            prefix: '',
+            classname: '',
+            style: styles
+          },
+          hidden: false,
+          title: '粗体',
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        };
+      }
+      
+      case 'em':
+      case 'i': {
+        // 斜体使用 NextText 配合样式
+        return {
+          componentName: 'NextText',
+          id: this.generateId(),
+          docId,
+          props: {
+            type: 'inherit',
+            children: text || '',
+            mark: false,
+            code: false,
+            delete: false,
+            underline: false,
+            strong: false,
+            prefix: '',
+            classname: '',
+            style: {
+              fontStyle: 'italic',
+              ...styles
+            }
+          },
+          hidden: false,
+          title: '斜体',
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        };
+      }
+      
+      case 'u': {
+        // 下划线使用 NextText
+        return {
+          componentName: 'NextText',
+          id: this.generateId(),
+          docId,
+          props: {
+            type: 'inherit',
+            children: text || '',
+            underline: true,
+            mark: false,
+            code: false,
+            delete: false,
+            strong: false,
+            prefix: '',
+            classname: '',
+            style: styles
+          },
+          hidden: false,
+          title: '下划线',
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        };
+      }
+      
+      case 'ul':
+      case 'ol': {
+        // 列表使用 FDCell 容器
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          style: {
+            paddingLeft: '24px',
+            marginBottom: '12px',
+            display: 'block',
+            listStyle: tag === 'ul' ? 'disc' : 'decimal',
+            ...styles
+          }
+        };
+        children = childrenSchemas;
+        title = tag === 'ul' ? '无序列表' : '有序列表';
+        break;
+      }
+      
+      case 'li': {
+        // 列表项使用 FDCell
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          style: {
+            marginBottom: '8px',
+            marginLeft: '8px',
+            display: 'list-item',
+            ...styles
+          }
+        };
+        
+        if (childrenSchemas.length > 0) {
+          children = childrenSchemas;
+        } else if (text) {
+          // 列表项文本包装在 FDP + NextText 中（可编辑）
+          children = [{
+            componentName: 'FDP',
+            id: this.generateId(),
+            docId,
+            props: {
+              children: [{
+                componentName: 'NextText',
+                id: this.generateId(),
+                docId,
+                props: {
+                  type: 'inherit',
+                  children: text,
+                  mark: false,
+                  code: false,
+                  delete: false,
+                  underline: false,
+                  strong: false,
+                  prefix: '',
+                  classname: '',
+                  style: {}
+                },
+                hidden: false,
+                title: '',
+                isLocked: false,
+                condition: true,
+                conditionGroup: ''
+              }]
+            },
+            title: '段落',
+            hidden: false,
+            isLocked: false,
+            condition: true,
+            conditionGroup: ''
+          }];
+        }
+        title = '列表项';
+        break;
+      }
+      
+      case 'table': {
+        // 表格使用 FDCell 作为容器
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          className: 'parsed-table',
+          style: {
+            borderCollapse: 'collapse',
+            border: '1px solid #d9d9d9',
+            marginBottom: '12px',
+            width: '100%',
+            display: 'table',
+            tableLayout: 'fixed',
+            borderSpacing: '0',
+            backgroundColor: '#fff',
+            ...styles
+          }
+        };
+        children = childrenSchemas;
+        title = '表格';
+        break;
+      }
+      
+      case 'tbody':
+      case 'thead':
+      case 'tfoot': {
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          className: `parsed-table-${tag}`,
+          style: {
+            display: 'table-row-group',
+            ...styles
+          }
+        };
+        children = childrenSchemas;
+        title = tag.toUpperCase();
+        break;
+      }
+      
+      case 'tr': {
+        // 表格行使用 FDRow
+        componentName = 'FDRow';
+        props = {
+          className: 'parsed-table-row',
+          style: {
+            display: 'table-row',
+            width: '100%',
+            borderBottom: '1px solid #d9d9d9',
+            margin: '0',
+            padding: '0',
+            backgroundColor: 'rgba(255,255,255,1)',
+            ...styles
+          }
+        };
+        children = childrenSchemas;
+        title = '表行';
+        break;
+      }
+      
+      case 'td':
+      case 'th': {
+        // 表格单元格使用 FDCell
+        componentName = 'FDCell';
+        const isTh = tag === 'th';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          className: isTh ? 'parsed-table-th' : 'parsed-table-td',
+          style: {
+            display: 'table-cell',
+            padding: '12px',
+            borderRight: '1px solid #d9d9d9',
+            fontSize: '14px',
+            verticalAlign: 'top',
+            wordWrap: 'break-word',
+            minWidth: '50px',
+            margin: '0',
+            ...(isTh ? { 
+              fontWeight: 'bold', 
+              backgroundColor: '#fafafa',
+              textAlign: 'left',
+            } : { 
+              backgroundColor: '#fff',
+            }),
+            ...styles
+          }
+        };
+        
+        if (childrenSchemas.length > 0) {
+          children = childrenSchemas;
+        } else if (text) {
+          // 单元格文本包装在 FDP + NextText 中（可编辑）
+          children = [{
+            componentName: 'FDP',
+            id: this.generateId(),
+            docId,
+            props: {
+              children: [{
+                componentName: 'NextText',
+                id: this.generateId(),
+                docId,
+                props: {
+                  type: 'inherit',
+                  children: text,
+                  mark: false,
+                  code: false,
+                  delete: false,
+                  underline: false,
+                  strong: isTh,
+                  prefix: '',
+                  classname: '',
+                  style: {}
+                },
+                hidden: false,
+                title: '',
+                isLocked: false,
+                condition: true,
+                conditionGroup: ''
+              }]
+            },
+            title: '段落',
+            hidden: false,
+            isLocked: false,
+            condition: true,
+            conditionGroup: ''
+          }];
+        }
+        title = isTh ? '表头' : '表格单元格';
+        break;
+      }
+      
+      case 'a': {
+        // 链接使用 NextText
+        const href = element.getAttribute('href');
+        return {
+          componentName: 'NextText',
+          id: this.generateId(),
+          docId,
+          props: {
+            type: 'inherit',
+            children: text || href || '',
+            mark: false,
+            code: false,
+            delete: false,
+            underline: true,
+            strong: false,
+            prefix: '',
+            classname: '',
+            style: {
+              color: '#1890ff',
+              cursor: 'pointer',
+              ...styles
+            },
+            ...(href && { href })
+          },
+          hidden: false,
+          title: '链接',
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        };
+      }
+      
+      case 'img': {
+        // 图片暂时使用 FDCell 包装
+        componentName = 'FDCell';
+        const src = element.getAttribute('src');
+        const alt = element.getAttribute('alt');
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          style: {
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '12px',
+            maxWidth: '100%',
+            ...styles
+          },
+          ...(src && { src }),
+          ...(alt && { alt })
+        };
+        title = '图像';
+        break;
+      }
+      
+      case 'blockquote': {
+        // 引用块使用 FDCell
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          style: {
+            borderLeft: '4px solid #1890ff',
+            paddingLeft: '12px',
+            marginLeft: '0',
+            marginBottom: '12px',
+            marginTop: '12px',
+            fontStyle: 'italic',
+            color: '#666',
+            backgroundColor: '#f9f9f9',
+            padding: '12px',
+            display: 'block',
+            ...styles
+          }
+        };
+        children = childrenSchemas.length > 0 ? childrenSchemas : (text ? [{
+          componentName: 'FDP',
+          id: this.generateId(),
+          docId,
+          props: { 
+            children: [{
+              componentName: 'NextText',
+              id: this.generateId(),
+              docId,
+              props: {
+                type: 'inherit',
+                children: text,
+                mark: false,
+                code: false,
+                delete: false,
+                underline: false,
+                strong: false,
+                prefix: '',
+                classname: '',
+                style: { fontStyle: 'italic', color: '#666' }
+              },
+              hidden: false,
+              title: '',
+              isLocked: false,
+              condition: true,
+              conditionGroup: ''
+            }]
+          },
+          title: '段落',
+          hidden: false,
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        }] : []);
+        title = '引用';
+        break;
+      }
+      
+      case 'code': {
+        // 行内代码使用 NextText
+        return {
+          componentName: 'NextText',
+          id: this.generateId(),
+          docId,
+          props: {
+            type: 'inherit',
+            children: text || '',
+            code: true,
+            mark: false,
+            delete: false,
+            underline: false,
+            strong: false,
+            prefix: '',
+            classname: '',
+            style: {
+              backgroundColor: '#f5f5f5',
+              padding: '2px 6px',
+              borderRadius: '3px',
+              fontFamily: 'monospace',
+              fontSize: '12px',
+              ...styles
+            }
+          },
+          hidden: false,
+          title: '代码',
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        };
+      }
+      
+      case 'pre': {
+        // 代码块使用 FDCell
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          style: {
+            backgroundColor: '#f5f5f5',
+            padding: '12px',
+            borderRadius: '4px',
+            overflow: 'auto',
+            marginBottom: '12px',
+            fontFamily: 'monospace',
+            fontSize: '12px',
+            whiteSpace: 'pre-wrap',
+            wordWrap: 'break-word',
+            display: 'block',
+            ...styles
+          }
+        };
+        children = childrenSchemas.length > 0 ? childrenSchemas : (text ? [{
+          componentName: 'FDP',
+          id: this.generateId(),
+          docId,
+          props: { 
+            children: [{
+              componentName: 'NextText',
+              id: this.generateId(),
+              docId,
+              props: {
+                type: 'inherit',
+                children: text,
+                code: true,
+                mark: false,
+                delete: false,
+                underline: false,
+                strong: false,
+                prefix: '',
+                classname: '',
+                style: {
+                  fontFamily: 'monospace',
+                  whiteSpace: 'pre-wrap',
+                  fontSize: '12px'
+                }
+              },
+              hidden: false,
+              title: '',
+              isLocked: false,
+              condition: true,
+              conditionGroup: ''
+            }]
+          },
+          title: '段落',
+          hidden: false,
+          isLocked: false,
+          condition: true,
+          conditionGroup: ''
+        }] : []);
+        title = '代码块';
+        break;
+      }
+      
+      case 'hr': {
+        // 分隔线使用 FDCell
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          style: {
+            height: '1px',
+            backgroundColor: '#d9d9d9',
+            border: 'none',
+            marginTop: '12px',
+            marginBottom: '12px',
+            display: 'block',
+            ...styles
+          }
+        };
+        title = '分隔线';
+        break;
+      }
+      
+      case 'span':
+      case 'div':
+      default: {
+        // 通用容器使用 FDCell
+        componentName = 'FDCell';
+        props = {
+          align: 'left',
+          verAlign: 'top',
+          style: {
+            display: 'block',
+            backgroundColor: 'rgba(255,255,255,1)',
+            ...styles
+          }
+        };
+        
+        if (childrenSchemas.length > 0) {
+          children = childrenSchemas;
+        } else if (text) {
+          // 纯文本包装在 FDP + NextText 中（可编辑）
+          children = [{
+            componentName: 'FDP',
+            id: this.generateId(),
+            docId,
+            props: { 
+              children: [{
+                componentName: 'NextText',
+                id: this.generateId(),
+                docId,
+                props: {
+                  type: 'inherit',
+                  children: text,
+                  mark: false,
+                  code: false,
+                  delete: false,
+                  underline: false,
+                  strong: false,
+                  prefix: '',
+                  classname: '',
+                  style: {}
+                },
+                hidden: false,
+                title: '',
+                isLocked: false,
+                condition: true,
+                conditionGroup: ''
+              }]
+            },
+            title: '段落',
+            hidden: false,
+            isLocked: false,
+            condition: true,
+            conditionGroup: ''
+          }];
+        }
+        title = tag.charAt(0).toUpperCase() + tag.slice(1);
+        break;
+      }
+    }
+    
+    // 如果有 children，添加到 props
+    if (children.length > 0) {
+      props.children = children;
+    } else if (!props.children && text && componentName === 'FDCell') {
+      // 没有children但有文本，且是FDCell，添加文本子节点
+      props.children = [{
+        componentName: 'FDP',
+        id: this.generateId(),
+        docId,
+        props: { children: text },
+        title: '段落',
+        hidden: false,
+        isLocked: false,
+        condition: true,
+        conditionGroup: ''
+      }];
+    }
+    
+    // 如果既没有 children 也没有文本内容，返回 null
+    if (!props.children && !text && children.length === 0) {
       return null;
     }
     
-    // 有文本内容，直接返回纯文本字符串
-    // 画布会将纯字符串自动转换为文本节点
-    return text;
+    // 返回完整的 Schema 对象（符合 Lowcode Engine 标准格式）
+    return {
+      componentName,
+      id: this.generateId(),
+      docId,
+      props,
+      title: title || componentName,
+      hidden: false,
+      isLocked: false,
+      condition: true,
+      conditionGroup: '',
+    };
   },
   
   /**
@@ -256,24 +1144,68 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
       ) => {
         let editableContent = JSON.parse(JSON.stringify(parsedContent)); // 深拷贝
         
+        // 下载 JSON 文件的函数
+        const downloadJSON = () => {
+          const jsonStr = JSON.stringify(editableContent, null, 2);
+          const blob = new Blob([jsonStr], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${fileName.replace(/\.[^/.]+$/, '')}-lowcode-schema.json`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          Message.success('Schema JSON 已下载');
+        };
+        
         const dialogInstance = Dialog.show({
           title: `预览和编辑: ${fileName}`,
-          style: { width: '700px', maxHeight: '80vh' },
+          style: { width: '900px', maxHeight: '80vh' },
           content: (
             <div style={{ maxHeight: '60vh', overflowY: 'auto', padding: '20px' }}>
+              {/* 添加表格相关的 CSS 样式 */}
+              <style>{`
+                .parsed-table {
+                  display: table !important;
+                  border-collapse: collapse;
+                  width: 100%;
+                }
+                .parsed-table-thead, .parsed-table-tbody, .parsed-table-tfoot {
+                  display: table-row-group !important;
+                }
+                .parsed-table-row {
+                  display: table-row !important;
+                }
+                .parsed-table-th, .parsed-table-td {
+                  display: table-cell !important;
+                  vertical-align: middle;
+                }
+              `}</style>
+              
               <div style={{ 
                 padding: '16px', 
                 backgroundColor: '#f5f5f5', 
                 borderRadius: '4px',
                 border: '1px solid #d9d9d9'
               }}>
-                <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-                    📄 文件: {fileName}
-                  </label>
-                  <p style={{ fontSize: '12px', color: '#666', margin: '0' }}>
-                    预览解析结果。点击下方文本可编辑内容。确认无误后点击"应用"按钮。
-                  </p>
+                <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      📄 文件: {fileName}
+                    </label>
+                    <p style={{ fontSize: '12px', color: '#666', margin: '0' }}>
+                      预览解析结果。点击下方文本可编辑内容。确认无误后点击"应用"按钮。
+                    </p>
+                  </div>
+                  <Button
+                    type="secondary"
+                    size="small"
+                    onClick={downloadJSON}
+                    style={{ marginLeft: '16px' }}
+                  >
+                    📥 下载 JSON
+                  </Button>
                 </div>
                 
                 {/* 预览内容 */}
@@ -282,7 +1214,8 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                   backgroundColor: '#fff',
                   borderRadius: '4px',
                   border: '1px solid #e0e0e0',
-                  marginTop: '12px'
+                  marginTop: '12px',
+                  overflowX: 'auto'
                 }}>
                   <PreviewContent 
                     content={editableContent} 
@@ -306,6 +1239,72 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
       };
       
       // 预览内容组件
+      /**
+       * 渲染 Schema 的函数 - 真正显示内容而不是 JSON 编辑
+       */
+      const renderSchema = (content: any): any => {
+        if (Array.isArray(content)) {
+          return content.map((item, idx) => (
+            <React.Fragment key={idx}>
+              {renderSchema(item)}
+            </React.Fragment>
+          ));
+        }
+        
+        if (content && typeof content === 'object' && content.componentName) {
+          const { componentName, props = {} } = content;
+          const { children, style = {}, className, ...otherProps } = props;
+          
+          // 合并类名
+          const mergedClassName = className || '';
+          
+          // 根据 componentName 渲染合适的元素
+          if (componentName === 'FDCell' || componentName === 'Div') {
+            return (
+              <div 
+                style={style} 
+                className={mergedClassName}
+                title={content.title}
+              >
+                {children ? renderSchema(children) : null}
+              </div>
+            );
+          }
+          
+          if (componentName === 'FDP' || componentName === 'Paragraph') {
+            return (
+              <p style={style} className={mergedClassName}>
+                {children ? renderSchema(children) : null}
+              </p>
+            );
+          }
+          
+          if (componentName === 'Image') {
+            return (
+              <img 
+                src={props.src} 
+                alt={props.alt || 'image'}
+                style={style}
+                className={mergedClassName}
+              />
+            );
+          }
+          
+          // 默认渲染为 Div
+          return (
+            <div style={style} className={mergedClassName} title={content.title}>
+              {children ? renderSchema(children) : null}
+            </div>
+          );
+        }
+        
+        if (typeof content === 'string') {
+          return content;
+        }
+        
+        return null;
+      };
+      
       const PreviewContent = ({ 
         content, 
         onContentChange 
@@ -313,6 +1312,8 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
         content: any; 
         onContentChange: (content: any) => void;
       }) => {
+        const [showRaw, setShowRaw] = React.useState(false);
+        
         if (Array.isArray(content)) {
           return (
             <div>
@@ -338,46 +1339,79 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
           const { children, ...otherProps } = props || {};
           
           return (
-            <div style={{
-              padding: '8px',
-              marginBottom: '8px',
-              backgroundColor: '#fafafa',
-              borderLeft: '3px solid #1890ff',
-              borderRadius: '2px'
-            }}>
-              <div style={{ fontSize: '12px', color: '#999', marginBottom: '4px' }}>
-                {componentName}
-              </div>
-              {typeof children === 'string' ? (
-                <textarea
-                  value={children}
-                  onChange={(e) => {
-                    // 完整深拷贝，确保所有属性都被保留
-                    const newContent = JSON.parse(JSON.stringify(content));
-                    newContent.props = { ...newContent.props, children: e.target.value };
-                    onContentChange(newContent);
-                  }}
+            <div>
+              <div style={{
+                padding: '8px',
+                marginBottom: '4px',
+                backgroundColor: '#f0f2f5',
+                borderRadius: '2px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}>
+                <div style={{ fontSize: '12px', color: '#666' }}>
+                  <strong>{componentName}</strong>
+                  {props?.style && ' (带样式)'}
+                </div>
+                <button
+                  onClick={() => setShowRaw(!showRaw)}
                   style={{
-                    width: '100%',
-                    minHeight: '60px',
-                    padding: '8px',
-                    fontSize: '13px',
-                    fontFamily: 'monospace',
+                    padding: '2px 8px',
+                    fontSize: '11px',
+                    background: '#fff',
                     border: '1px solid #d9d9d9',
-                    borderRadius: '4px',
+                    borderRadius: '2px',
+                    cursor: 'pointer',
                   }}
-                />
+                >
+                  {showRaw ? '渲染视图' : '原始JSON'}
+                </button>
+              </div>
+              
+              {showRaw ? (
+                // JSON 编辑视图
+                <div>
+                  {typeof children === 'string' ? (
+                    <textarea
+                      value={children}
+                      onChange={(e) => {
+                        const newContent = JSON.parse(JSON.stringify(content));
+                        newContent.props = { ...newContent.props, children: e.target.value };
+                        onContentChange(newContent);
+                      }}
+                      style={{
+                        width: '100%',
+                        minHeight: '60px',
+                        padding: '8px',
+                        fontSize: '13px',
+                        fontFamily: 'monospace',
+                        border: '1px solid #d9d9d9',
+                        borderRadius: '4px',
+                      }}
+                    />
+                  ) : (
+                    <div style={{ fontSize: '13px', color: '#333' }}>
+                      <PreviewContent 
+                        content={children} 
+                        onContentChange={(newContent) => {
+                          const newItem = JSON.parse(JSON.stringify(content));
+                          newItem.props = { ...newItem.props, children: newContent };
+                          onContentChange(newItem);
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               ) : (
-                <div style={{ fontSize: '13px', color: '#333' }}>
-                  <PreviewContent 
-                    content={children} 
-                    onContentChange={(newContent) => {
-                      // 完整深拷贝，确保所有属性都被保留
-                      const newItem = JSON.parse(JSON.stringify(content));
-                      newItem.props = { ...newItem.props, children: newContent };
-                      onContentChange(newItem);
-                    }}
-                  />
+                // 渲染视图 - 真正显示样式和内容
+                <div style={{
+                  padding: '12px',
+                  marginBottom: '12px',
+                  border: '1px solid #d9d9d9',
+                  borderRadius: '2px',
+                  backgroundColor: '#fafafa'
+                }}>
+                  {renderSchema(content)}
                 </div>
               )}
             </div>
@@ -562,7 +1596,7 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
         }
       };
       
-      // 解析Word文档 - 提取段落和样式
+      // 解析Word文档 - 提取段落和样式，返回完整的 Lowcode Schema
       const parseWord = async (file: File): Promise<any> => {
         try {
           // 动态加载 Mammoth
@@ -588,16 +1622,42 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
             
             // 创建文件名标题
             const titleComponent = {
-              componentName: 'Paragraph',
+              componentName: 'FDP',
+              id: HtmlToSchemaConverter.generateId(),
+              docId: HtmlToSchemaConverter.getDocId(),
               props: {
-                children: `📝 ${file.name}`,
-                style: {
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  marginBottom: '16px',
-                  color: '#1890ff',
-                },
+                children: [{
+                  componentName: 'NextText',
+                  id: HtmlToSchemaConverter.generateId(),
+                  docId: HtmlToSchemaConverter.getDocId(),
+                  props: {
+                    type: 'h3',
+                    children: `📝 ${file.name}`,
+                    mark: false,
+                    code: false,
+                    delete: false,
+                    underline: false,
+                    strong: true,
+                    prefix: '',
+                    classname: '',
+                    style: {
+                      fontSize: '20px',
+                      color: '#1890ff',
+                      marginBottom: '16px'
+                    }
+                  },
+                  hidden: false,
+                  title: '',
+                  isLocked: false,
+                  condition: true,
+                  conditionGroup: ''
+                }]
               },
+              title: '标题',
+              hidden: false,
+              isLocked: false,
+              condition: true,
+              conditionGroup: ''
             };
             
             // 规范化schema为数组形式
@@ -620,57 +1680,107 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
             // 合并标题和内容
             const childrenArray = [titleComponent, ...contentComponents];
             
-            // 返回带有文件名标题的结构
-            return {
-              componentName: '__DocumentContent__',
-              props: {
-                children: childrenArray,
-              },
-            };
+            // 生成完整的 Lowcode Schema
+            return HtmlToSchemaConverter.generateLowcodeSchema(childrenArray, file.name);
           } else {
             // Schema 为空，可能是文档内容为空或无法识别
             console.warn('[parseWord] Schema 转换结果为空，返回空内容提示');
             Message.warning(`文档 "${file.name}" 可能为空或内容无法识别`);
             
-            // 返回一个提示组件
-            return {
-              componentName: '__DocumentContent__',
+            // 创建空内容提示组件
+            const emptyWarning = {
+              componentName: 'FDP',
+              id: HtmlToSchemaConverter.generateId(),
+              docId: HtmlToSchemaConverter.getDocId(),
               props: {
                 children: [{
-                  componentName: 'Paragraph',
+                  componentName: 'NextText',
+                  id: HtmlToSchemaConverter.generateId(),
+                  docId: HtmlToSchemaConverter.getDocId(),
                   props: {
+                    type: 'inherit',
                     children: `⚠️ ${file.name}（文档内容为空或无法识别）`,
+                    mark: false,
+                    code: false,
+                    delete: false,
+                    underline: false,
+                    strong: false,
+                    prefix: '',
+                    classname: '',
                     style: {
                       fontSize: '14px',
                       color: '#faad14',
                       padding: '16px',
                       backgroundColor: '#fffbe6',
                       border: '1px solid #ffe58f',
-                      borderRadius: '4px',
-                    },
+                      borderRadius: '4px'
+                    }
                   },
-                }],
+                  hidden: false,
+                  title: '',
+                  isLocked: false,
+                  condition: true,
+                  conditionGroup: ''
+                }]
               },
+              title: '警告',
+              hidden: false,
+              isLocked: false,
+              condition: true,
+              conditionGroup: ''
             };
+            
+            // 返回完整的 Lowcode Schema
+            return HtmlToSchemaConverter.generateLowcodeSchema([emptyWarning], file.name);
           }
         } catch (error) {
           console.error('Word解析失败:', error);
           const errorMsg = error instanceof Error ? error.message : '未知错误';
           Message.error(`Word解析失败: ${errorMsg}`);
           
-          // 返回错误提示组件
-          return {
-            componentName: 'Paragraph',
+          // 创建错误提示组件
+          const errorComponent = {
+            componentName: 'FDP',
+            id: HtmlToSchemaConverter.generateId(),
+            docId: HtmlToSchemaConverter.getDocId(),
             props: {
-              children: `Word文档: ${file.name} (解析失败: ${errorMsg})`,
-              style: {
-                padding: '20px',
-                backgroundColor: '#fff1f0',
-                borderRadius: '4px',
-                color: '#ff4d4f',
-              },
+              children: [{
+                componentName: 'NextText',
+                id: HtmlToSchemaConverter.generateId(),
+                docId: HtmlToSchemaConverter.getDocId(),
+                props: {
+                  type: 'inherit',
+                  children: `Word文档: ${file.name} (解析失败: ${errorMsg})`,
+                  mark: false,
+                  code: false,
+                  delete: false,
+                  underline: false,
+                  strong: false,
+                  prefix: '',
+                  classname: '',
+                  style: {
+                    padding: '20px',
+                    backgroundColor: '#fff1f0',
+                    borderRadius: '4px',
+                    color: '#ff4d4f'
+                  }
+                },
+                hidden: false,
+                title: '',
+                isLocked: false,
+                condition: true,
+                conditionGroup: ''
+              }]
             },
+            title: '错误',
+            hidden: false,
+            isLocked: false,
+            condition: true,
+            conditionGroup: ''
           };
+          
+          // 返回完整的 Lowcode Schema
+          return HtmlToSchemaConverter.generateLowcodeSchema([errorComponent], file.name);
         }
       };
       
@@ -707,17 +1817,37 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
               file.name,
               (editedContent, dialogInstance) => {
                 // 用户点击"应用"按钮后的回调
-                const rootNode = project.currentDocument?.root;
-                if (!rootNode) {
-                  Message.error('无法获取根节点');
-                  dialogInstance?.hide(); // 关闭对话框
-                  return;
-                }
-                
-                let addedCount = 0;
                 
                 try {
-                  // 处理__DocumentContent__容器（Word文档）
+                  // 检查是否是完整的 Lowcode Schema 格式（包含 version, componentsMap, componentsTree）
+                  if (editedContent?.version && editedContent?.componentsMap && editedContent?.componentsTree) {
+                    console.log('[导入Schema] 检测到完整的 Lowcode Schema 格式');
+                    
+                    // 直接使用 project.importSchema 导入整个 schema
+                    try {
+                      project.importSchema(editedContent);
+                      Message.success(`文件 "${file.name}" 已成功导入为完整页面`);
+                      dialogInstance?.hide();
+                      return;
+                    } catch (err) {
+                      console.error('导入完整 Schema 失败:', err);
+                      Message.error(`导入失败: ${err instanceof Error ? err.message : '未知错误'}`);
+                      dialogInstance?.hide();
+                      return;
+                    }
+                  }
+                  
+                  // 否则按照原有逻辑处理（兼容旧格式）
+                  const rootNode = project.currentDocument?.root;
+                  if (!rootNode) {
+                    Message.error('无法获取根节点');
+                    dialogInstance?.hide();
+                    return;
+                  }
+                  
+                  let addedCount = 0;
+                  
+                  // 处理__DocumentContent__容器（Word文档旧格式）
                   if (editedContent?.componentName === '__DocumentContent__' && editedContent.props?.children) {
                     const children = Array.isArray(editedContent.props.children) 
                       ? editedContent.props.children 
@@ -727,9 +1857,16 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                       if (child) {
                         // 递归展平所有嵌套的数组
                         const flatItems = flattenSchema(child);
-                        flatItems.forEach((item: any) => {
+                        console.log('[导入Schema] flatItems 长度:', flatItems.length);
+                        flatItems.forEach((item: any, idx: number) => {
                           if (item && item.componentName) {
                             try {
+                              console.log(`[导入Schema] 导入第 ${idx + 1} 个元素:`, {
+                                componentName: item.componentName,
+                                title: item.title,
+                                hasChildren: !!item.props?.children,
+                                childrenCount: Array.isArray(item.props?.children) ? item.props.children.length : 0,
+                              });
                               rootNode.children?.importSchema(item);
                               addedCount++;
                             } catch (err) {
@@ -742,10 +1879,10 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                     
                     if (addedCount > 0) {
                       Message.success(`文件 "${file.name}" 已添加到画布（共 ${addedCount} 个元素）`);
-                      dialogInstance?.hide(); // 成功后关闭对话框
+                      dialogInstance?.hide();
                     } else {
                       Message.error('文件解析成功但未能添加任何元素');
-                      dialogInstance?.hide(); // 失败也关闭对话框
+                      dialogInstance?.hide();
                     }
                   } 
                   // 处理__MultipleContent__容器
@@ -754,19 +1891,39 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                       ? editedContent.props.children 
                       : [editedContent.props.children];
                     
-                    children.forEach((child: any) => {
+                    console.log('[导入Schema] __MultipleContent__ 包含子元素数量:', children.length);
+                    
+                    children.forEach((child: any, childIdx: number) => {
                       if (child) {
-                        const flatItems = flattenSchema(child);
-                        flatItems.forEach((item: any) => {
-                          if (item && item.componentName) {
-                            try {
-                              rootNode.children?.importSchema(item);
-                              addedCount++;
-                            } catch (err) {
-                              console.error('导入Schema失败:', item, err);
-                            }
+                        // 如果child本身就是有效的Schema对象（不是数组），直接导入
+                        if (child.componentName && !Array.isArray(child)) {
+                          try {
+                            console.log(`[导入Schema] 直接导入元素 ${childIdx + 1}:`, {
+                              componentName: child.componentName,
+                              hasChildren: !!child.props?.children,
+                              childrenType: Array.isArray(child.props?.children) ? 'array' : typeof child.props?.children,
+                            });
+                            rootNode.children?.importSchema(child);
+                            addedCount++;
+                          } catch (err) {
+                            console.error('导入Schema失败:', child, err);
                           }
-                        });
+                        } else {
+                          // 否则展平处理
+                          const flatItems = flattenSchema(child);
+                          console.log(`[导入Schema] 展平元素 ${childIdx + 1} 后得到:`, flatItems.length, '个子项');
+                          flatItems.forEach((item: any, itemIdx: number) => {
+                            if (item && item.componentName) {
+                              try {
+                                console.log(`[导入Schema]   子项 ${itemIdx + 1}:`, item.componentName);
+                                rootNode.children?.importSchema(item);
+                                addedCount++;
+                              } catch (err) {
+                                console.error('导入Schema失败:', item, err);
+                              }
+                            }
+                          });
+                        }
                       }
                     });
                     
