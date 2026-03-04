@@ -11,6 +11,39 @@ import type {
   FrameComponent,
 } from '../types';
 
+// ==================== 字符串工具 ====================
+
+/**
+ * 将字符串转换为驼峰命名（camelCase）
+ * @param str - 输入字符串
+ * @returns 驼峰命名字符串
+ * 
+ * @example
+ * toCamelCase('Hello World') // 'helloWorld'
+ * toCamelCase('product-name') // 'productName'
+ * toCamelCase('My Product 123') // 'myProduct123'
+ */
+export function toCamelCase(str: string): string {
+  if (!str) return '';
+  
+  // 移除特殊字符，保留字母、数字、空格和连字符
+  const cleaned = str.replace(/[^a-zA-Z0-9\s-_]/g, '');
+  
+  // 按空格、连字符、下划线分割
+  const words = cleaned.split(/[\s-_]+/);
+  
+  // 第一个单词小写，其余单词首字母大写
+  return words
+    .map((word, index) => {
+      if (!word) return '';
+      if (index === 0) {
+        return word.charAt(0).toLowerCase() + word.slice(1).toLowerCase();
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join('');
+}
+
 // ==================== 高度估算 ====================
 
 /**

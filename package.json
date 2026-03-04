@@ -6,7 +6,9 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "start": "build-scripts start --disable-reload --port 5556",
+    "start": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "build-scripts start --disable-reload --port 8000",
+    "dev:backend": "nodemon server/api-server.js",
     "build": "build-scripts build",
     "prepublishOnly": "npm run build",
     "pub": "node ./scripts/watchdog.js && npm pub",
@@ -36,9 +38,11 @@
     "@types/pdfjs-dist": "^2.10.377",
     "antd": "^4.21.4",
     "cors": "^2.8.6",
+    "express": "^5.2.1",
     "immer": "^11.1.3",
-    "mammoth": "^1.6.0",
+    "mammoth": "^1.11.0",
     "moment": "^2.29.3",
+    "multer": "^2.0.2",
     "pdfjs-dist": "^3.11.174",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -59,7 +63,9 @@
     "build-plugin-fusion": "^0.1.0",
     "build-plugin-moment-locales": "^0.1.0",
     "build-plugin-react-app": "^1.1.2",
+    "concurrently": "^8.2.2",
     "fs-extra": "^10.0.1",
+    "nodemon": "^3.0.2",
     "tsconfig-paths-webpack-plugin": "^3.2.0"
   },
   "resolutions": {

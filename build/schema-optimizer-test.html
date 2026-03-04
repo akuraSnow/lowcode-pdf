@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schema 优化器测试</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+      margin-top: 0;
+      color: #1890ff;
+      font-size: 18px;
+      border-bottom: 2px solid #1890ff;
+      padding-bottom: 10px;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 400px;
+      padding: 12px;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      resize: vertical;
+    }
+    
+    .stats {
+      background: #e6f7ff;
+      padding: 12px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+    
+    .stats-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 6px 0;
+    }
+    
+    .stats-label {
+      font-weight: bold;
+      color: #555;
+    }
+    
+    .stats-value {
+      color: #1890ff;
+      font-weight: bold;
+    }
+    
+    .stats-value.reduction {
+      color: #52c41a;
+    }
+    
+    button {
+      background: #1890ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      background: #40a9ff;
+    }
+    
+    button:active {
+      background: #096dd9;
+    }
+    
+    button.secondary {
+      background: #52c41a;
+    }
+    
+    button.secondary:hover {
+      background: #73d13d;
+    }
+    
+    .console {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    
+    .console-line {
+      margin: 4px 0;
+      line-height: 1.5;
+    }
+    
+    .console-success {
+      color: #4ec9b0;
+    }
+    
+    .console-info {
+      color: #9cdcfe;
+    }
+    
+    .console-warn {
+      color: #ce9178;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 Schema 优化器测试工具</h1>
+  
+  <div style="text-align: center; margin-bottom: 20px; color: #666;">
+    <p>粘贴 JSON Schema 到左侧输入框，点击"优化 Schema"查看优化效果</p>
+  </div>
+  
+  <div class="container">
+    <div class="section">
+      <h2>📝 原始 Schema</h2>
+      <textarea id="originalSchema" placeholder="在此粘贴 JSON Schema..."></textarea>
+      <div class="stats">
+        <div class="stats-item">
+          <span class="stats-label">文件大小:</span>
+          <span class="stats-value" id="originalSize">0 KB</span>
+        </div>
+        <div class="stats-item">
+          <span class="stats-label">字符数:</span>
+          <span class="stats-value" id="originalChars">0</span>
+        </div>
+      </div>
+      <button onclick="optimizeSchema()">🚀 优化 Schema</button>
+      <button onclick="loadSampleSchema()" class="secondary">📋 加载示例</button>
+    </div>
+    
+    <div class="section">
+      <h2>✨ 优化后的 Schema</h2>
+      <textarea id="optimizedSchema" placeholder="优化结果将显示在这里..." readonly></textarea>
+      <div class="stats">
+        <div class="stats-item">
+          <span class="stats-label">文件大小:</span>
+          <span class="stats-value" id="optimizedSize">0 KB</span>
+        </div>
+        <div class="stats-item">
+          <span class="stats-label">字符数:</span>
+          <span class="stats-value" id="optimizedChars">0</span>
+        </div>
+        <div class="stats-item">
+          <span class="stats-label">减少:</span>
+          <span class="stats-value reduction" id="reduction">0%</span>
+        </div>
+      </div>
+      <button onclick="restoreSchema()">🔄 恢复 Schema</button>
+      <button onclick="copyOptimized()" class="secondary">📋 复制</button>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>📊 控制台输出</h2>
+    <div class="console" id="console"></div>
+  </div>
+  
+  <script type="module">
+    // 导入优化器（模拟版本，实际使用时需要从项目导入）
+    const DEFAULT_VALUES = {
+      common: {
+        hidden: false,
+        isLocked: false,
+        condition: true,
+        conditionGroup: '',
+        title: '',
+        state: {},
+      },
+      NextText: {
+        mark: false,
+        code: false,
+        delete: false,
+        underline: false,
+        strong: false,
+        prefix: '',
+        classname: '',
+        type: 'inherit',
+      },
+      table: { className: '' },
+      FDCell: { align: 'left', verAlign: 'top' },
+      FDP: {},
+      HtmlRenderer: {},
+    };
+    
+    function isDefaultValue(key, value, componentName) {
+      if (componentName && DEFAULT_VALUES[componentName]) {
+        const componentDefaults = DEFAULT_VALUES[componentName];
+        if (key in componentDefaults) {
+          return componentDefaults[key] === value;
+        }
+      }
+      if (key in DEFAULT_VALUES.common) {
+        return DEFAULT_VALUES.common[key] === value;
+      }
+      return false;
+    }
+    
+    function removeDefaultValues(obj, componentName) {
+      if (!obj || typeof obj !== 'object') return obj;
+      if (Array.isArray(obj)) {
+        return obj.map(item => removeDefaultValues(item, componentName));
+      }
+      
+      const result = {};
+      const currentComponentName = obj.componentName || componentName;
+      
+      for (const key in obj) {
+        if (!obj.hasOwnProperty(key)) continue;
+        const value = obj[key];
+        
+        if (
+          key !== 'componentName' && 
+          key !== 'id' && 
+          key !== 'docId' &&
+          key !== 'props' && 
+          key !== 'children' &&
+          key !== 'style' &&
+          isDefaultValue(key, value, currentComponentName)
+        ) {
+          continue;
+        }
+        
+        if (key === 'children' || key === 'props') {
+          result[key] = removeDefaultValues(value, currentComponentName);
+        } else if (typeof value === 'object' && value !== null) {
+          const processed = removeDefaultValues(value, currentComponentName);
+          if (Array.isArray(processed) ? processed.length > 0 : Object.keys(processed).length > 0) {
+            result[key] = processed;
+          } else if (key === 'props' || key === 'style') {
+            result[key] = processed;
+          }
+        } else {
+          result[key] = value;
+        }
+      }
+      
+      return result;
+    }
+    
+    function addDefaultValues(obj, componentName, isRootLevel = true) {
+      if (!obj || typeof obj !== 'object') return obj;
+      if (Array.isArray(obj)) {
+        return obj.map(item => addDefaultValues(item, componentName, false));
+      }
+      
+      const result = { ...obj };
+      const currentComponentName = obj.componentName || componentName;
+      
+      // 只在组件根级别添加通用默认值（不在 style、props 等嵌套对象中添加）
+      if (isRootLevel && obj.componentName) {
+        for (const key in DEFAULT_VALUES.common) {
+          if (!(key in result)) {
+            result[key] = DEFAULT_VALUES.common[key];
+          }
+        }
+      }
+      
+      if (currentComponentName && result.props) {
+        const componentDefaults = DEFAULT_VALUES[currentComponentName];
+        if (componentDefaults) {
+          for (const key in componentDefaults) {
+            if (!(key in result.props)) {
+              result.props[key] = componentDefaults[key];
+            }
+          }
+        }
+      }
+      
+      for (const key in result) {
+        if (typeof result[key] === 'object' && result[key] !== null) {
+          // 对于 children 数组中的项，它们是新的组件，所以 isRootLevel 应为 true
+          const childIsRootLevel = key === 'children';
+          result[key] = addDefaultValues(result[key], currentComponentName, childIsRootLevel);
+        }
+      }
+      
+      return result;
+    }
+    
+    function log(message, type = 'info') {
+      const console = document.getElementById('console');
+      const line = document.createElement('div');
+      line.className = `console-line console-${type}`;
+      line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      console.appendChild(line);
+      console.scrollTop = console.scrollHeight;
+    }
+    
+    function updateStats(textareaId, sizeId, charsId) {
+      const textarea = document.getElementById(textareaId);
+      const content = textarea.value;
+      const size = new Blob([content]).size;
+      document.getElementById(sizeId).textContent = `${(size / 1024).toFixed(2)} KB`;
+      document.getElementById(charsId).textContent = content.length.toLocaleString();
+    }
+    
+    window.optimizeSchema = function() {
+      const originalTextarea = document.getElementById('originalSchema');
+      const optimizedTextarea = document.getElementById('optimizedSchema');
+      
+      try {
+        const originalSchema = JSON.parse(originalTextarea.value);
+        const startTime = performance.now();
+        const optimized = removeDefaultValues(originalSchema);
+        const endTime = performance.now();
+        
+        optimizedTextarea.value = JSON.stringify(optimized, null, 2);
+        
+        const originalSize = new Blob([originalTextarea.value]).size;
+        const optimizedSize = new Blob([optimizedTextarea.value]).size;
+        const reduction = ((originalSize - optimizedSize) / originalSize * 100).toFixed(2);
+        
+        document.getElementById('reduction').textContent = `${reduction}% (${((originalSize - optimizedSize) / 1024).toFixed(2)} KB)`;
+        
+        updateStats('originalSchema', 'originalSize', 'originalChars');
+        updateStats('optimizedSchema', 'optimizedSize', 'optimizedChars');
+        
+        log(`✓ 优化完成！减少 ${reduction}%，耗时 ${(endTime - startTime).toFixed(2)} ms`, 'success');
+      } catch (error) {
+        log(`✗ 优化失败: ${error.message}`, 'warn');
+        alert('JSON 解析失败，请检查格式');
+      }
+    };
+    
+    window.restoreSchema = function() {
+      const optimizedTextarea = document.getElementById('optimizedSchema');
+      
+      try {
+        const optimizedSchema = JSON.parse(optimizedTextarea.value);
+        const startTime = performance.now();
+        const restored = addDefaultValues(optimizedSchema);
+        const endTime = performance.now();
+        
+        // 显示在原始区域以便比较
+        document.getElementById('originalSchema').value = JSON.stringify(restored, null, 2);
+        updateStats('originalSchema', 'originalSize', 'originalChars');
+        
+        log(`✓ 恢复完成！耗时 ${(endTime - startTime).toFixed(2)} ms`, 'success');
+      } catch (error) {
+        log(`✗ 恢复失败: ${error.message}`, 'warn');
+        alert('JSON 解析失败，请检查格式');
+      }
+    };
+    
+    window.copyOptimized = function() {
+      const optimizedTextarea = document.getElementById('optimizedSchema');
+      optimizedTextarea.select();
+      document.execCommand('copy');
+      log('✓ 已复制到剪贴板', 'info');
+    };
+    
+    window.loadSampleSchema = function() {
+      const sampleSchema = {
+        componentName: 'FDP',
+        id: 'node_123',
+        docId: 'doc_123',
+        props: {
+          style: {
+            marginBottom: '1em'
+          },
+          mark: false,
+          code: false,
+          delete: false,
+          underline: false,
+          strong: false,
+          prefix: '',
+          classname: ''
+        },
+        children: [
+          {
+            componentName: 'NextText',
+            id: 'node_456',
+            docId: 'doc_456',
+            props: {
+              type: 'inherit',
+              children: 'Hello World',
+              mark: false,
+              code: false,
+              delete: false,
+              underline: false,
+              strong: false,
+              prefix: '',
+              classname: '',
+              style: {}
+            },
+            hidden: false,
+            title: '文本',
+            isLocked: false,
+            condition: true,
+            conditionGroup: ''
+          }
+        ],
+        title: '段落',
+        hidden: false,
+        isLocked: false,
+        condition: true,
+        conditionGroup: ''
+      };
+      
+      document.getElementById('originalSchema').value = JSON.stringify(sampleSchema, null, 2);
+      updateStats('originalSchema', 'originalSize', 'originalChars');
+      log('✓ 已加载示例 Schema', 'info');
+    };
+    
+    // 初始化
+    log('Schema 优化器已就绪', 'success');
+    document.getElementById('originalSchema').addEventListener('input', () => {
+      updateStats('originalSchema', 'originalSize', 'originalChars');
+    });
+  </script>
+</body>
+</html>

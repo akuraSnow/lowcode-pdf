@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "componentsMap": [],
+  "componentsTree": [
+    {
+      "componentName": "Component",
+      "id": "html_renderer_root",
+      "props": {
+        "ref": "htmlRendererView",
+        "htmlContent": "<div style='text-align: center; padding: 20px;'><h2>HTML 渲染器</h2><p>在属性面板中输入 HTML 代码</p></div>",
+        "style": {
+          "width": "100%",
+          "height": "auto"
+        }
+      },
+      "state": {},
+      "methods": {
+        "renderHtml": {
+          "type": "JSFunction",
+          "value": "function renderHtml() {\n  const htmlContent = this.props.htmlContent || '';\n  return React.createElement('div', {\n    style: { width: '100%' },\n    dangerouslySetInnerHTML: { __html: htmlContent }\n  });\n}"
+        }
+      },
+      "lifeCycles": {},
+      "children": [
+        {
+          "componentName": "NextText",
+          "id": "html_content_container",
+          "props": {
+            "children": {
+              "type": "JSExpression",
+              "value": "this.renderHtml()"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

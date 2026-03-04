@@ -61,6 +61,109 @@ const SamplePreview = () => {
     // The use of injectComponents is generally used for debugging and injection in the development environment (see the documentation for details). The generally destroyed preview environment does not rely on this plug-in.
     // const components = await injectComponents(buildComponents(libraryMap, componentsMap));
     const components = buildComponents(libraryMap, componentsMap);
+    
+    // 手动注入原生 HTML Table 组件
+    if ((window as any).HtmlComponents) {
+      Object.assign(components, (window as any).HtmlComponents);
+      console.log('[Preview] ✓ 已注入原生 HTML Table 组件');
+    }
+    
+    // 手动注入 Fusion Next 组件的所有子组件
+    if ((window as any).Next) {
+      const Next = (window as any).Next;
+      
+      // Table 子组件
+      if (Next.Table) {
+        const subComponents = [
+          'Column', 'ColumnGroup', 'Header', 'Body', 'Footer', 
+          'GroupHeader', 'GroupFooter', 'StickyLock'
+        ];
+        subComponents.forEach(subComp => {
+          if (Next.Table[subComp]) {
+            components[`Table.${subComp}`] = Next.Table[subComp];
+          }
+        });
+        console.log('[Preview] ✓ 已注入 Fusion Table 子组件');
+      }
+      
+      // Form 子组件
+      if (Next.Form) {
+        const formSubComponents = ['Item', 'Submit', 'Reset', 'Error'];
+        formSubComponents.forEach(subComp => {
+          if (Next.Form[subComp]) {
+            components[`Form.${subComp}`] = Next.Form[subComp];
+          }
+        });
+      }
+      
+      // Select 子组件
+      if (Next.Select) {
+        if (Next.Select.Option) {
+          components['Select.Option'] = Next.Select.Option;
+        }
+        if (Next.Select.OptionGroup) {
+          components['Select.OptionGroup'] = Next.Select.OptionGroup;
+        }
+      }
+      
+      // Radio 子组件
+      if (Next.Radio && Next.Radio.Group) {
+        components['Radio.Group'] = Next.Radio.Group;
+      }
+      
+      // Checkbox 子组件
+      if (Next.Checkbox && Next.Checkbox.Group) {
+        components['Checkbox.Group'] = Next.Checkbox.Group;
+      }
+      
+      // Menu 子组件
+      if (Next.Menu) {
+        const menuSubComponents = ['Item', 'Group', 'SubMenu', 'Divider'];
+        menuSubComponents.forEach(subComp => {
+          if (Next.Menu[subComp]) {
+            components[`Menu.${subComp}`] = Next.Menu[subComp];
+          }
+        });
+      }
+      
+      // Nav 子组件
+      if (Next.Nav) {
+        const navSubComponents = ['Item', 'Group', 'SubNav', 'PopupItem'];
+        navSubComponents.forEach(subComp => {
+          if (Next.Nav[subComp]) {
+            components[`Nav.${subComp}`] = Next.Nav[subComp];
+          }
+        });
+      }
+      
+      // Tab 子组件
+      if (Next.Tab && Next.Tab.Item) {
+        components['Tab.Item'] = Next.Tab.Item;
+      }
+      
+      // Step 子组件
+      if (Next.Step && Next.Step.Item) {
+        components['Step.Item'] = Next.Step.Item;
+      }
+      
+      // Timeline 子组件
+      if (Next.Timeline && Next.Timeline.Item) {
+        components['Timeline.Item'] = Next.Timeline.Item;
+      }
+      
+      // Card 子组件
+      if (Next.Card) {
+        const cardSubComponents = ['Header', 'Content', 'Actions', 'Divider', 'Media', 'BulletHeader'];
+        cardSubComponents.forEach(subComp => {
+          if (Next.Card[subComp]) {
+            components[`Card.${subComp}`] = Next.Card[subComp];
+          }
+        });
+      }
+      
+      console.log('[Preview] ✓ 已注入所有 Fusion Next 子组件');
+    }
+    
     setData({
       schema: pageSchema,
       components,

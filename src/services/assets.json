@@ -73,6 +73,18 @@
         "https://alifd.alicdn.com/npm/@alifd/fusion-ui@2.0.2/build/lowcode/view.js",
         "https://alifd.alicdn.com/npm/@alifd/fusion-ui@2.0.2/build/lowcode/view.css"
       ]
+    },
+    {
+      "title": "原生HTML Table组件",
+      "package": "html-components",
+      "version": "1.0.0",
+      "library": "HtmlComponents",
+      "urls": [
+        "/html-components.js"
+      ],
+      "editUrls": [
+        "/html-components.js"
+      ]
     }
   ],
   "components": [

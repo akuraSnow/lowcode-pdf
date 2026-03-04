@@ -21,30 +21,28 @@ const PluginPageManagement = (
     async init() {
       const { skeleton } = ctx;
 
-      // 注册页面标签栏到子顶部区域（在顶部工具栏和画布之间，独立一行）
-      skeleton.add({
-        area: 'subTopArea',
-        type: 'Widget',
-        name: 'pageManagerTabs',
-        content: PageManager as any,
-        contentProps: {
-          ctx,
-        },
-        props: {
-          align: 'center',
-        },
-      });
-
-      // 注册浮动添加按钮
+      // 注册页面标签栏到主区域，悬浮在底部
       skeleton.add({
         area: 'mainArea',
         type: 'Widget',
-        name: 'floatingAddButton',
-        content: FloatingAddButton as any,
-        contentProps: {
-          ctx,
+        name: 'pageManagerTabs',
+        content: () => <PageManager />,
+        contentProps: {},
+        props: {
+          align: 'bottom',
         },
       });
+
+      // 浮动添加按钮已移除，改为使用底部标签栏的添加按钮（类似 Excel）
+      // skeleton.add({
+      //   area: 'mainArea',
+      //   type: 'Widget',
+      //   name: 'floatingAddButton',
+      //   content: FloatingAddButton as any,
+      //   contentProps: {
+      //     ctx,
+      //   },
+      // });
 
       // 注册页面配置面板到右侧
       skeleton.add({

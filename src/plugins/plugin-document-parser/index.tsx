@@ -6,6 +6,7 @@
 import React from 'react';
 import { IPublicModelPluginContext } from '@alilc/lowcode-types';
 import { Button, Dialog, Upload, Message, Loading } from '@alifd/next';
+import { useEditorStore } from '../../stores/editorStore';
 
 // 从 CDN 加载 PDF.js (避免 Webpack 编译问题)
 let pdfjsLib: any = null;
@@ -232,6 +233,70 @@ const HtmlToSchemaConverter = {
           main: 'lib/index.js',
           destructuring: true,
           componentName: 'FDPage'
+        },
+        // 原生 HTML table 组件
+        {
+          componentName: 'table',
+          package: 'html-components',
+          version: '1.0.0',
+          exportName: 'table',
+          main: '',
+          destructuring: true,
+          subName: ''
+        },
+        {
+          componentName: 'thead',
+          package: 'html-components',
+          version: '1.0.0',
+          exportName: 'thead',
+          main: '',
+          destructuring: true,
+          subName: ''
+        },
+        {
+          componentName: 'tbody',
+          package: 'html-components',
+          version: '1.0.0',
+          exportName: 'tbody',
+          main: '',
+          destructuring: true,
+          subName: ''
+        },
+        {
+          componentName: 'tfoot',
+          package: 'html-components',
+          version: '1.0.0',
+          exportName: 'tfoot',
+          main: '',
+          destructuring: true,
+          subName: ''
+        },
+        {
+          componentName: 'tr',
+          package: 'html-components',
+          version: '1.0.0',
+          exportName: 'tr',
+          main: '',
+          destructuring: true,
+          subName: ''
+        },
+        {
+          componentName: 'td',
+          package: 'html-components',
+          version: '1.0.0',
+          exportName: 'td',
+          main: '',
+          destructuring: true,
+          subName: ''
+        },
+        {
+          componentName: 'th',
+          package: 'html-components',
+          version: '1.0.0',
+          exportName: 'th',
+          main: '',
+          destructuring: true,
+          subName: ''
         }
       ],
       componentsTree: [
@@ -242,7 +307,11 @@ const HtmlToSchemaConverter = {
           props: {
             ref: 'outerView',
             style: {
-              height: '100%'
+              height: '100%',
+              paddingLeft: '83px',
+              paddingRight: '83px',
+              paddingTop: '10px',
+              paddingBottom: '22px'
             }
           },
           fileName: fileName || '/',
@@ -262,6 +331,7 @@ const HtmlToSchemaConverter = {
                     background: 'rgba(255,255,255,0)'
                   }
                 },
+                style: {},
                 ref: 'fdpage-' + Math.random().toString(36).substr(2, 9)
               },
               title: '页面',
@@ -318,7 +388,7 @@ const HtmlToSchemaConverter = {
   /**
    * 递归转换HTML元素为Schema - 符合 Lowcode Engine 标准格式
    */
-  elementToSchema(element: HTMLElement, parentTag?: string): any {
+  elementToSchema(element: HTMLElement, parentTag?: string, isInTable: boolean = false): any {
     const tag = element.tagName.toLowerCase();
     const text = element.innerText?.trim();
     const styles = this.extractStyles(element);
@@ -331,9 +401,14 @@ const HtmlToSchemaConverter = {
     if (element.children.length > 0) {
       for (let i = 0; i < element.children.length; i++) {
         const child = element.children[i] as HTMLElement;
-        const childSchema = this.elementToSchema(child, tag);
+        const childSchema = this.elementToSchema(child, tag, isInTable);
         if (childSchema) {
-          childrenSchemas.push(childSchema);
+          // 如果返回的是数组（tbody/tr 等扁平化的情况），则展开数组
+          if (Array.isArray(childSchema)) {
+            childrenSchemas.push(...childSchema);
+          } else {
+            childrenSchemas.push(childSchema);
+          }
         }
       }
     }
@@ -356,39 +431,43 @@ const HtmlToSchemaConverter = {
         const headingLevel = parseInt(tag[1]);
         const fontSize = `${32 - headingLevel * 4}px`;
         
-        children = [{
-          componentName: 'NextText',
-          id: this.generateId(),
-          docId,
-          props: {
-            type: tag as any,
-            children: text || '',
-            mark: false,
-            code: false,
-            delete: false,
-            underline: false,
-            strong: false,
-            prefix: '',
-            classname: '',
-            style: {
-              fontSize,
-              ...styles,
-            }
-          },
-          hidden: false,
-          title: '',
-          isLocked: false,
-          condition: true,
-          conditionGroup: ''
-        }];
-        
         return {
           componentName: 'FDP',
           id: this.generateId(),
           docId,
           props: {
-            children
+            style: {
+              fontSize,
+              fontWeight: 'bold',
+              marginBottom: '16px',
+              marginTop: '16px',
+              ...styles,
+            }
           },
+          children: [{
+            componentName: 'NextText',
+            id: this.generateId(),
+            docId,
+            props: {
+              type: 'inherit',
+              children: text || '',
+              mark: false,
+              code: false,
+              delete: false,
+              underline: false,
+              strong: true,
+              prefix: '',
+              classname: '',
+              style: {
+                margin: '0'
+              }
+            },
+            hidden: false,
+            title: '文本',
+            isLocked: false,
+            condition: true,
+            conditionGroup: ''
+          }],
           title: `标题 H${headingLevel}`,
           hidden: false,
           isLocked: false,
@@ -398,12 +477,12 @@ const HtmlToSchemaConverter = {
       }
       
       case 'p': {
-        // 段落使用 FDP 组件
+        // 段落使用 FDP 包装 NextText
         if (childrenSchemas.length > 0) {
           // 有子元素（如嵌套的 span, strong 等）
           children = childrenSchemas;
         } else if (text) {
-          // 纯文本使用 NextText
+          // 纯文本使用 NextText 组件
           children = [{
             componentName: 'NextText',
             id: this.generateId(),
@@ -418,10 +497,12 @@ const HtmlToSchemaConverter = {
               strong: false,
               prefix: '',
               classname: '',
-              style: styles
+              style: {
+                margin: '0'
+              }
             },
             hidden: false,
-            title: '',
+            title: '文本',
             isLocked: false,
             condition: true,
             conditionGroup: ''
@@ -433,12 +514,12 @@ const HtmlToSchemaConverter = {
           id: this.generateId(),
           docId,
           props: {
-            children,
             style: {
-              marginBottom: '12px',
+              ...(isInTable ? {} : { marginBottom: '1em' }),
               ...styles
             }
           },
+          children,
           title: '段落',
           hidden: false,
           isLocked: false,
@@ -551,7 +632,7 @@ const HtmlToSchemaConverter = {
       }
       
       case 'li': {
-        // 列表项使用 FDCell
+        // 列表项使用 FDCell 包装 NextText
         componentName = 'FDCell';
         props = {
           align: 'left',
@@ -567,37 +648,25 @@ const HtmlToSchemaConverter = {
         if (childrenSchemas.length > 0) {
           children = childrenSchemas;
         } else if (text) {
-          // 列表项文本包装在 FDP + NextText 中（可编辑）
+          // 列表项文本使用 NextText
           children = [{
-            componentName: 'FDP',
+            componentName: 'NextText',
             id: this.generateId(),
             docId,
             props: {
-              children: [{
-                componentName: 'NextText',
-                id: this.generateId(),
-                docId,
-                props: {
-                  type: 'inherit',
-                  children: text,
-                  mark: false,
-                  code: false,
-                  delete: false,
-                  underline: false,
-                  strong: false,
-                  prefix: '',
-                  classname: '',
-                  style: {}
-                },
-                hidden: false,
-                title: '',
-                isLocked: false,
-                condition: true,
-                conditionGroup: ''
-              }]
+              type: 'inherit',
+              children: text,
+              mark: false,
+              code: false,
+              delete: false,
+              underline: false,
+              strong: false,
+              prefix: '',
+              classname: '',
+              style: {}
             },
-            title: '段落',
             hidden: false,
+            title: '文本',
             isLocked: false,
             condition: true,
             conditionGroup: ''
@@ -608,130 +677,151 @@ const HtmlToSchemaConverter = {
       }
       
       case 'table': {
-        // 表格使用 FDCell 作为容器
-        componentName = 'FDCell';
+        // 使用原生 table 元素
+        componentName = 'table';
         props = {
-          align: 'left',
-          verAlign: 'top',
           className: 'parsed-table',
           style: {
-            borderCollapse: 'collapse',
-            border: '1px solid #d9d9d9',
-            marginBottom: '12px',
             width: '100%',
-            display: 'table',
-            tableLayout: 'fixed',
-            borderSpacing: '0',
-            backgroundColor: '#fff',
+            borderCollapse: 'collapse',
+            marginBottom: '16px',
+            border: 'none',
             ...styles
           }
         };
-        children = childrenSchemas;
+        // 处理 table 子元素时传递 isInTable=true
+        const tableChildren: any[] = [];
+        for (let i = 0; i < element.children.length; i++) {
+          const child = element.children[i] as HTMLElement;
+          const childSchema = this.elementToSchema(child, tag, true);
+          if (childSchema) {
+            if (Array.isArray(childSchema)) {
+              tableChildren.push(...childSchema);
+            } else {
+              tableChildren.push(childSchema);
+            }
+          }
+        }
+        children = tableChildren;
         title = '表格';
         break;
       }
       
-      case 'tbody':
-      case 'thead':
-      case 'tfoot': {
-        componentName = 'FDCell';
+      case 'tbody': {
+        componentName = 'tbody';
+        props = {};
+        children = childrenSchemas;
+        title = '表格主体';
+        break;
+      }
+      
+      case 'thead': {
+        componentName = 'thead';
         props = {
-          align: 'left',
-          verAlign: 'top',
-          className: `parsed-table-${tag}`,
           style: {
-            display: 'table-row-group',
+            backgroundColor: '#fafafa',
             ...styles
           }
         };
         children = childrenSchemas;
-        title = tag.toUpperCase();
+        title = '表头';
+        break;
+      }
+      
+      case 'tfoot': {
+        componentName = 'tfoot';
+        props = {
+          style: {
+            backgroundColor: '#fafafa',
+            ...styles
+          }
+        };
+        children = childrenSchemas;
+        title = '表尾';
         break;
       }
       
       case 'tr': {
-        // 表格行使用 FDRow
-        componentName = 'FDRow';
+        // 使用原生 tr 元素
+        componentName = 'tr';
         props = {
           className: 'parsed-table-row',
-          style: {
-            display: 'table-row',
-            width: '100%',
-            borderBottom: '1px solid #d9d9d9',
-            margin: '0',
-            padding: '0',
-            backgroundColor: 'rgba(255,255,255,1)',
-            ...styles
-          }
+          style: styles
         };
         children = childrenSchemas;
-        title = '表行';
+        title = '表格行';
         break;
       }
       
       case 'td':
       case 'th': {
-        // 表格单元格使用 FDCell
-        componentName = 'FDCell';
         const isTh = tag === 'th';
+        
+        // 获取 colspan 和 rowspan 属性
+        const colspanAttr = element.getAttribute('colspan');
+        const rowspanAttr = element.getAttribute('rowspan');
+        const colspan = colspanAttr ? parseInt(colspanAttr, 10) : 1;
+        const rowspan = rowspanAttr ? parseInt(rowspanAttr, 10) : 1;
+        
+        // 使用原生 td/th 元素
+        componentName = isTh ? 'th' : 'td';
         props = {
-          align: 'left',
-          verAlign: 'top',
           className: isTh ? 'parsed-table-th' : 'parsed-table-td',
+          // 原生 colspan 和 rowspan 属性
+          ...(colspan > 1 ? { colspan } : {}),
+          ...(rowspan > 1 ? { rowspan } : {}),
           style: {
-            display: 'table-cell',
-            padding: '12px',
-            borderRight: '1px solid #d9d9d9',
-            fontSize: '14px',
-            verticalAlign: 'top',
-            wordWrap: 'break-word',
-            minWidth: '50px',
-            margin: '0',
-            ...(isTh ? { 
-              fontWeight: 'bold', 
-              backgroundColor: '#fafafa',
-              textAlign: 'left',
-            } : { 
-              backgroundColor: '#fff',
-            }),
+            padding: '2px',
+            border: 'none',
+            textAlign: isTh ? 'center' : 'left',
+            verticalAlign: 'middle',
+            ...(isTh ? {
+              fontWeight: 'bold'
+            } : {}),
             ...styles
           }
         };
         
+        // 处理表格单元格的子元素，扁平化 FDP 段落层
         if (childrenSchemas.length > 0) {
-          children = childrenSchemas;
+          // 扁平化处理：如果子元素是 FDP（段落），则提取其中的文本组件
+          const flattenedChildren: any[] = [];
+          childrenSchemas.forEach((childSchema) => {
+            if (childSchema.componentName === 'FDP' && childSchema.children) {
+              // 提取 FDP 中的子元素（通常是 NextText）
+              flattenedChildren.push(...childSchema.children);
+            } else {
+              // 非 FDP 元素，直接使用
+              flattenedChildren.push(childSchema);
+            }
+          });
+          children = flattenedChildren;
         } else if (text) {
-          // 单元格文本包装在 FDP + NextText 中（可编辑）
+          // 单元格文本使用 NextText
           children = [{
-            componentName: 'FDP',
+            componentName: 'NextText',
             id: this.generateId(),
             docId,
             props: {
-              children: [{
-                componentName: 'NextText',
-                id: this.generateId(),
-                docId,
-                props: {
-                  type: 'inherit',
-                  children: text,
-                  mark: false,
-                  code: false,
-                  delete: false,
-                  underline: false,
-                  strong: isTh,
-                  prefix: '',
-                  classname: '',
-                  style: {}
-                },
-                hidden: false,
-                title: '',
-                isLocked: false,
-                condition: true,
-                conditionGroup: ''
-              }]
+              type: 'inherit',
+              children: text,
+              mark: false,
+              code: false,
+              delete: false,
+              underline: false,
+              strong: isTh,
+              prefix: '',
+              classname: '',
+              style: {
+                lineHeight: '1.5',
+                margin: '0',
+                marginBottom: '0',
+                padding: '0',
+                fontSize: 'inherit'
+              }
             },
-            title: '段落',
             hidden: false,
+            title: '文本',
             isLocked: false,
             condition: true,
             conditionGroup: ''
@@ -797,7 +887,7 @@ const HtmlToSchemaConverter = {
       }
       
       case 'blockquote': {
-        // 引用块使用 FDCell
+        // 引用块使用 FDCell 包装 NextText
         componentName = 'FDCell';
         props = {
           align: 'left',
@@ -817,35 +907,26 @@ const HtmlToSchemaConverter = {
           }
         };
         children = childrenSchemas.length > 0 ? childrenSchemas : (text ? [{
-          componentName: 'FDP',
+          componentName: 'NextText',
           id: this.generateId(),
           docId,
-          props: { 
-            children: [{
-              componentName: 'NextText',
-              id: this.generateId(),
-              docId,
-              props: {
-                type: 'inherit',
-                children: text,
-                mark: false,
-                code: false,
-                delete: false,
-                underline: false,
-                strong: false,
-                prefix: '',
-                classname: '',
-                style: { fontStyle: 'italic', color: '#666' }
-              },
-              hidden: false,
-              title: '',
-              isLocked: false,
-              condition: true,
-              conditionGroup: ''
-            }]
+          props: {
+            type: 'inherit',
+            children: text,
+            mark: false,
+            code: false,
+            delete: false,
+            underline: false,
+            strong: false,
+            prefix: '',
+            classname: '',
+            style: {
+              fontStyle: 'italic',
+              color: '#666'
+            }
           },
-          title: '段落',
           hidden: false,
+          title: '文本',
           isLocked: false,
           condition: true,
           conditionGroup: ''
@@ -888,7 +969,7 @@ const HtmlToSchemaConverter = {
       }
       
       case 'pre': {
-        // 代码块使用 FDCell
+        // 代码块使用 FDCell 包装 NextText
         componentName = 'FDCell';
         props = {
           align: 'left',
@@ -908,39 +989,26 @@ const HtmlToSchemaConverter = {
           }
         };
         children = childrenSchemas.length > 0 ? childrenSchemas : (text ? [{
-          componentName: 'FDP',
+          componentName: 'NextText',
           id: this.generateId(),
           docId,
-          props: { 
-            children: [{
-              componentName: 'NextText',
-              id: this.generateId(),
-              docId,
-              props: {
-                type: 'inherit',
-                children: text,
-                code: true,
-                mark: false,
-                delete: false,
-                underline: false,
-                strong: false,
-                prefix: '',
-                classname: '',
-                style: {
-                  fontFamily: 'monospace',
-                  whiteSpace: 'pre-wrap',
-                  fontSize: '12px'
-                }
-              },
-              hidden: false,
-              title: '',
-              isLocked: false,
-              condition: true,
-              conditionGroup: ''
-            }]
+          props: {
+            type: 'inherit',
+            children: text,
+            code: true,
+            mark: false,
+            delete: false,
+            underline: false,
+            strong: false,
+            prefix: '',
+            classname: '',
+            style: {
+              fontFamily: 'monospace',
+              whiteSpace: 'pre-wrap'
+            }
           },
-          title: '段落',
           hidden: false,
+          title: '文本',
           isLocked: false,
           condition: true,
           conditionGroup: ''
@@ -972,7 +1040,7 @@ const HtmlToSchemaConverter = {
       case 'span':
       case 'div':
       default: {
-        // 通用容器使用 FDCell
+        // 通用容器使用 FDCell 包装 NextText
         componentName = 'FDCell';
         props = {
           align: 'left',
@@ -987,37 +1055,25 @@ const HtmlToSchemaConverter = {
         if (childrenSchemas.length > 0) {
           children = childrenSchemas;
         } else if (text) {
-          // 纯文本包装在 FDP + NextText 中（可编辑）
+          // 纯文本使用 NextText
           children = [{
-            componentName: 'FDP',
+            componentName: 'NextText',
             id: this.generateId(),
             docId,
-            props: { 
-              children: [{
-                componentName: 'NextText',
-                id: this.generateId(),
-                docId,
-                props: {
-                  type: 'inherit',
-                  children: text,
-                  mark: false,
-                  code: false,
-                  delete: false,
-                  underline: false,
-                  strong: false,
-                  prefix: '',
-                  classname: '',
-                  style: {}
-                },
-                hidden: false,
-                title: '',
-                isLocked: false,
-                condition: true,
-                conditionGroup: ''
-              }]
+            props: {
+              type: 'inherit',
+              children: text,
+              mark: false,
+              code: false,
+              delete: false,
+              underline: false,
+              strong: false,
+              prefix: '',
+              classname: '',
+              style: {}
             },
-            title: '段落',
             hidden: false,
+            title: '文本',
             isLocked: false,
             condition: true,
             conditionGroup: ''
@@ -1028,31 +1084,9 @@ const HtmlToSchemaConverter = {
       }
     }
     
-    // 如果有 children，添加到 props
-    if (children.length > 0) {
-      props.children = children;
-    } else if (!props.children && text && componentName === 'FDCell') {
-      // 没有children但有文本，且是FDCell，添加文本子节点
-      props.children = [{
-        componentName: 'FDP',
-        id: this.generateId(),
-        docId,
-        props: { children: text },
-        title: '段落',
-        hidden: false,
-        isLocked: false,
-        condition: true,
-        conditionGroup: ''
-      }];
-    }
-    
-    // 如果既没有 children 也没有文本内容，返回 null
-    if (!props.children && !text && children.length === 0) {
-      return null;
-    }
-    
     // 返回完整的 Schema 对象（符合 Lowcode Engine 标准格式）
-    return {
+    // children作为组件的直接属性，不放在props中
+    const schema: any = {
       componentName,
       id: this.generateId(),
       docId,
@@ -1063,6 +1097,24 @@ const HtmlToSchemaConverter = {
       condition: true,
       conditionGroup: '',
     };
+    
+    // 如果有children，添加为直接属性
+    if (children !== undefined && children !== null) {
+      if (Array.isArray(children) && children.length > 0) {
+        schema.children = children;
+      } else if (typeof children === 'string' && children.trim()) {
+        schema.children = children;
+      } else if (!Array.isArray(children)) {
+        schema.children = children;
+      }
+    }
+    
+    // 如果既没有 children 也没有文本内容，返回 null
+    if (!schema.children) {
+      return null;
+    }
+    
+    return schema;
   },
   
   /**
@@ -1094,13 +1146,10 @@ const HtmlToSchemaConverter = {
         // 展平可能的数组返回
         const flattened = flattenSchema(result);
         return flattened.length === 1 ? flattened[0] : 
-               flattened.length > 1 ? {
-                 componentName: '__MultipleContent__',
-                 props: { children: flattened }
-               } : null;
+               flattened.length > 1 ? flattened : null;
       }
       
-      // 如果有多个子元素，转换所有元素
+      // 如果有多个子元素，转换所有元素并展平
       const allChildren = Array.from(doc.body.children)
         .map(child => this.elementToSchema(child as HTMLElement))
         .map(result => flattenSchema(result))  // 展平每个结果
@@ -1112,14 +1161,9 @@ const HtmlToSchemaConverter = {
         return allChildren[0];
       }
       
-      // 多个元素用虚拟容器包装
+      // 多个元素直接返回数组，让外层处理
       if (allChildren.length > 1) {
-        return {
-          componentName: '__MultipleContent__',
-          props: {
-            children: allChildren,
-          },
-        };
+        return allChildren;
       }
       
       return null;
@@ -1133,7 +1177,7 @@ const HtmlToSchemaConverter = {
 const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
   return {
     async init() {
-      const { skeleton, project } = ctx;
+      const { skeleton, project, config } = ctx;
       
       // 预览和编辑对话框
       const showPreviewDialog = (
@@ -1166,20 +1210,29 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
             <div style={{ maxHeight: '60vh', overflowY: 'auto', padding: '20px' }}>
               {/* 添加表格相关的 CSS 样式 */}
               <style>{`
-                .parsed-table {
-                  display: table !important;
-                  border-collapse: collapse;
-                  width: 100%;
+                /* CSS Grid 表格样式 */
+                .parsed-table-grid {
+                  display: grid !important;
+                  gap: 0;
+                  margin-bottom: 12px;
+                  border: 1px solid #e0e0e0;
                 }
-                .parsed-table-thead, .parsed-table-tbody, .parsed-table-tfoot {
-                  display: table-row-group !important;
+                .parsed-table-th,
+                .parsed-table-td {
+                  padding: 8px;
+                  border: 1px solid #e0e0e0;
+                  display: flex !important;
+                  align-items: center;
+                  word-break: break-word;
                 }
-                .parsed-table-row {
-                  display: table-row !important;
+                .parsed-table-th {
+                  background-color: #fafafa;
+                  font-weight: bold;
+                  justify-content: center;
                 }
-                .parsed-table-th, .parsed-table-td {
-                  display: table-cell !important;
-                  vertical-align: middle;
+                .parsed-table-td {
+                  background-color: #fff;
+                  justify-content: flex-start;
                 }
               `}</style>
               
@@ -1491,7 +1544,7 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
         });
       };
       
-      // 解析PDF - 提取文本内容
+      // 解析PDF - 渲染每页为图片（保留完整样式和布局）
       const parsePDF = async (file: File): Promise<any> => {
         try {
           // 动态加载 PDF.js
@@ -1501,80 +1554,106 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
           const loadingTask = pdfLib.getDocument({ data: arrayBuffer });
           const pdf = await loadingTask.promise;
           
-          const children: any[] = [
-            {
-              componentName: 'Paragraph',
-              props: {
-                children: `📄 ${file.name} (共 ${pdf.numPages} 页)`,
-                style: {
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  marginBottom: '16px',
-                  color: '#1890ff',
-                },
-              },
-            },
-          ];
+          console.log(`[PDF解析] 开始解析PDF: ${file.name}, 共 ${pdf.numPages} 页`);
           
-          // 遍历所有页面
+          const pageSchemas: any[] = [];
+          
+          // 遍历所有页面，将每一页渲染为图片
           for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
             const page = await pdf.getPage(pageNum);
-            const textContent = await page.getTextContent();
             
-            // 提取文本并按行分组
-            const textItems = textContent.items.map((item: any) => item.str).filter(Boolean);
+            // 获取页面视口，设置合适的缩放比例以获得高清图片
+            const viewport = page.getViewport({ scale: 2.0 });
             
-            if (textItems.length > 0) {
-              // 添加页码标题（不用 Div 容器）
-              children.push({
-                componentName: 'Paragraph',
-                props: {
-                  children: `第 ${pageNum} 页`,
-                  style: {
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    color: '#1890ff',
-                    padding: '10px 0',
-                    borderBottom: '1px solid #e0e0e0',
-                    marginBottom: '10px',
-                  },
-                },
-              });
-              
-              // 添加文本内容（每行作为一个段落）
-              textItems.forEach((text: string) => {
-                if (text.trim()) {
-                  children.push({
-                    componentName: 'Paragraph',
-                    props: {
-                      children: text,
-                      style: {
-                        marginBottom: '8px',
-                        lineHeight: '1.6',
-                      },
-                    },
-                  });
-                }
-              });
+            // 创建 canvas 元素用于渲染
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            
+            if (!context) {
+              console.error(`[PDF解析] 第 ${pageNum} 页无法创建canvas context`);
+              continue;
             }
-          }
-          
-          Message.success(`PDF已解析，共 ${pdf.numPages} 页`);
-          
-          // 返回包含所有页面的数组 schema
-          // 由于平台可能不支持数组，改为返回单个根组件
-          // 用第一个 Paragraph 作为容器，其他内容作为附加属性
-          if (children.length > 0) {
-            // 对于多个组件，创建一个虚拟根组件，返回一个带有多个子元素的结构
-            return {
-              componentName: '__DocumentContent__',
-              props: {
-                children: children,
-              },
+            
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            // 渲染PDF页面到canvas
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
             };
-          } else {
-            throw new Error('PDF 中未找到可提取的文本');
+            
+            await page.render(renderContext).promise;
+            
+            // 将canvas转换为图片URL
+            const imageDataUrl = canvas.toDataURL('image/png');
+            
+            console.log(`[PDF解析] 第 ${pageNum}/${pdf.numPages} 页渲染完成，图片大小: ${(imageDataUrl.length / 1024).toFixed(1)}KB`);
+            
+            // 创建图片组件Schema
+            const pageComponents = [
+              {
+                componentName: 'FDCell',
+                id: HtmlToSchemaConverter.generateId(),
+                docId: HtmlToSchemaConverter.getDocId(),
+                props: {
+                  children: [
+                    {
+                      componentName: 'Image',
+                      id: HtmlToSchemaConverter.generateId(),
+                      docId: HtmlToSchemaConverter.getDocId(),
+                      props: {
+                        src: imageDataUrl,
+                        alt: `${file.name} - 第 ${pageNum} 页`,
+                        style: {
+                          width: '100%',
+                          height: 'auto',
+                          display: 'block',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '4px',
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                        }
+                      },
+                      hidden: false,
+                      title: `第${pageNum}页`,
+                      isLocked: false,
+                      condition: true,
+                      conditionGroup: ''
+                    }
+                  ],
+                  style: {
+                    padding: '0',
+                    backgroundColor: '#fff',
+                    marginBottom: pageNum < pdf.numPages ? '20px' : '0'
+                  }
+                },
+                hidden: false,
+                title: `第${pageNum}页`,
+                isLocked: false,
+                condition: true,
+                conditionGroup: ''
+              }
+            ];
+            
+            // 生成完整的页面Schema
+            const pageSchema = HtmlToSchemaConverter.generateLowcodeSchema(
+              pageComponents,
+              `${file.name}_page_${pageNum}`
+            );
+            
+            pageSchemas.push(pageSchema);
           }
+          
+          console.log(`[PDF解析] ✓ 所有页面渲染完成`);
+          Message.success(`PDF已解析: ${file.name}, 共 ${pdf.numPages} 页（完整保留样式）`);
+          
+          // 返回多页面数组,标记为多页面模式
+          return {
+            isMultiPage: true,
+            pages: pageSchemas,
+            fileName: file.name,
+            pageCount: pdf.numPages
+          };
         } catch (error) {
           console.error('PDF解析失败:', error);
           const errorMsg = error instanceof Error ? error.message : '未知错误';
@@ -1582,7 +1661,7 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
           
           // 返回错误提示组件
           return {
-            componentName: 'Paragraph',
+            componentName: 'FDP',
             props: {
               children: `PDF文件: ${file.name} (解析失败: ${errorMsg})`,
               style: {
@@ -1596,143 +1675,328 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
         }
       };
       
-      // 解析Word文档 - 提取段落和样式，返回完整的 Lowcode Schema
+      // 解析Word文档 - 按Word实际分页逐页解析并保存为数组
       const parseWord = async (file: File): Promise<any> => {
         try {
           // 动态加载 Mammoth
           const mammothLib = await loadMammoth();
           
           const arrayBuffer = await file.arrayBuffer();
-          const result = await mammothLib.default.convertToHtml({ arrayBuffer });
           
-          if (result.messages.length > 0) {
-            console.warn('Word解析警告:', result.messages);
-          }
+          console.log('[parseWord] 开始逐页解析Word文档...');
           
-          // 使用 HtmlToSchemaConverter 转换提取的HTML
-          console.log('[parseWord] Mammoth 转换结果 HTML 长度:', result.value?.length);
-          console.log('[parseWord] HTML 内容预览:', result.value?.substring(0, 200));
+          // 步骤1: 使用mammoth提取原始文档结构，按分页符分组段落
+          let currentPageParagraphs: any[] = [];
+          let allPages: any[][] = [];
+          let paragraphIndex = 0;
           
-          const schema = HtmlToSchemaConverter.parse(result.value);
-          
-          console.log('[parseWord] Schema 转换结果:', schema);
-          
-          if (schema) {
-            Message.success(`Word文档已解析: ${file.name}`);
-            
-            // 创建文件名标题
-            const titleComponent = {
-              componentName: 'FDP',
-              id: HtmlToSchemaConverter.generateId(),
-              docId: HtmlToSchemaConverter.getDocId(),
-              props: {
-                children: [{
-                  componentName: 'NextText',
-                  id: HtmlToSchemaConverter.generateId(),
-                  docId: HtmlToSchemaConverter.getDocId(),
-                  props: {
-                    type: 'h3',
-                    children: `📝 ${file.name}`,
-                    mark: false,
-                    code: false,
-                    delete: false,
-                    underline: false,
-                    strong: true,
-                    prefix: '',
-                    classname: '',
-                    style: {
-                      fontSize: '20px',
-                      color: '#1890ff',
-                      marginBottom: '16px'
+          // 使用transformDocument API遍历文档结构，按分页符分组
+          const extractOptions = {
+            arrayBuffer,
+            convertImage: mammothLib.default.images.imgElement((image: any) => {
+              return image.read("base64").then((imageBuffer: string) => {
+                return {
+                  src: "data:" + image.contentType + ";base64," + imageBuffer
+                };
+              });
+            }),
+            transformDocument: (document: any) => {
+              console.log('[parseWord] 开始提取文档结构...');
+              console.log('[parseWord] document.children 数量:', document.children?.length);
+              
+              // 遍历所有body元素
+              if (document.children) {
+                document.children.forEach((element: any, elemIdx: number) => {
+                  console.log(`[parseWord] 元素 #${elemIdx + 1}: type=${element.type}`);
+                  
+                  // 处理段落
+                  if (element.type === 'paragraph' && element.children) {
+                    // 查找段落内的所有分页符位置
+                    const pageBreakIndices: number[] = [];
+                    element.children.forEach((child: any, idx: number) => {
+                      if (child.type === 'break') {
+                        console.log(`[parseWord]   段落内子元素 #${idx}: type=break, breakType=${child.breakType}`);
+                      }
+                      if (child.type === 'break' && child.breakType === 'page') {
+                        pageBreakIndices.push(idx);
+                        console.log(`[parseWord]   ✓ 检测到分页符！位置=${idx}`);
+                      }
+                    });
+                    
+                    if (pageBreakIndices.length === 0) {
+                      // 没有分页符，整个段落添加到当前页
+                      currentPageParagraphs.push(element);
+                    } else {
+                      // 有分页符，需要分割段落
+                      console.log(`[parseWord]   段落包含 ${pageBreakIndices.length} 个分页符`);
+                      let lastIndex = 0;
+                      
+                      pageBreakIndices.forEach((breakIdx, idx) => {
+                        // 分页符前的内容
+                        if (breakIdx > lastIndex) {
+                          const beforeBreak = {
+                            ...element,
+                            children: element.children.slice(lastIndex, breakIdx)
+                          };
+                          currentPageParagraphs.push(beforeBreak);
+                        }
+                        
+                        // 保存当前页并开始新页
+                        if (currentPageParagraphs.length > 0) {
+                          allPages.push([...currentPageParagraphs]);
+                          console.log(`[parseWord] 段落内分页符 #${idx + 1}，保存第 ${allPages.length} 页，包含 ${currentPageParagraphs.length} 个元素`);
+                          currentPageParagraphs = [];
+                        }
+                        
+                        lastIndex = breakIdx + 1;
+                      });
+                      
+                      // 最后一个分页符后的内容
+                      if (lastIndex < element.children.length) {
+                        const afterBreak = {
+                          ...element,
+                          children: element.children.slice(lastIndex)
+                        };
+                        currentPageParagraphs.push(afterBreak);
+                      }
                     }
-                  },
-                  hidden: false,
-                  title: '',
-                  isLocked: false,
-                  condition: true,
-                  conditionGroup: ''
-                }]
-              },
-              title: '标题',
-              hidden: false,
-              isLocked: false,
-              condition: true,
-              conditionGroup: ''
-            };
-            
-            // 规范化schema为数组形式
-            let contentComponents: any[] = [];
-            
-            if (Array.isArray(schema)) {
-              // 直接是数组
-              contentComponents = schema;
-            } else if (schema.componentName === '__MultipleContent__' && schema.props?.children) {
-              // 虚拟容器，展开其子元素
-              const children = Array.isArray(schema.props.children) 
-                ? schema.props.children 
-                : [schema.props.children];
-              contentComponents = children.filter(Boolean);
-            } else {
-              // 单个组件
-              contentComponents = [schema];
+                  } 
+                  // 处理表格（表格通常不包含分页符）
+                  else if (element.type === 'table') {
+                    currentPageParagraphs.push(element);
+                  }
+                  // 处理独立的分页符（段落外的分页符）
+                  else if (element.type === 'break' && element.breakType === 'page') {
+                    console.log(`[parseWord] ✓ 检测到独立分页符！`);
+                    // 保存当前页
+                    if (currentPageParagraphs.length > 0) {
+                      allPages.push([...currentPageParagraphs]);
+                      console.log(`[parseWord] 独立分页符，保存第 ${allPages.length} 页，包含 ${currentPageParagraphs.length} 个元素`);
+                      currentPageParagraphs = [];
+                    }
+                  }
+                  // 其他元素类型也添加到当前页
+                  else {
+                    currentPageParagraphs.push(element);
+                  }
+                });
+              }
+              
+              // 保存最后一页
+              if (currentPageParagraphs.length > 0) {
+                allPages.push([...currentPageParagraphs]);
+                console.log(`[parseWord] 保存最后一页（第 ${allPages.length} 页），包含 ${currentPageParagraphs.length} 个元素`);
+              }
+              
+              console.log(`[parseWord] === 文档结构提取完成，共识别 ${allPages.length} 页 ===`);
+              
+              return document;
+            }
+          };
+          
+          // 执行文档结构提取
+          await mammothLib.default.convertToHtml(extractOptions);
+          
+          console.log(`[parseWord] ✓ 文档结构提取完成，共 ${allPages.length} 页`);
+          
+          // 步骤2: 逐页转换为HTML
+          let pages: string[] = [];
+          
+          if (allPages.length > 0) {
+            // 有明确的分页结构，逐页转换
+            for (let pageIdx = 0; pageIdx < allPages.length; pageIdx++) {
+              const pageParagraphs = allPages[pageIdx];
+              
+              console.log(`[parseWord] 正在转换第 ${pageIdx + 1}/${allPages.length} 页，包含 ${pageParagraphs.length} 个元素...`);
+              
+              // 构造临时文档结构用于转换
+              const pageDocument = {
+                type: 'document',
+                children: pageParagraphs
+              };
+              
+              // 转换这一页为HTML
+              try {
+                const pageResult = await mammothLib.default.convertToHtml({
+                  arrayBuffer,
+                  transformDocument: () => pageDocument
+                });
+                
+                if (pageResult.value) {
+                  pages.push(pageResult.value);
+                  const pageText = pageResult.value.replace(/<[^>]+>/g, '');
+                  const preview = pageText.substring(0, 60).replace(/\s+/g, ' ');
+                  console.log(`[parseWord] 第 ${pageIdx + 1} 页转换完成: ${pageText.length} 字符, 预览="${preview}..."`);
+                }
+              } catch (pageError) {
+                console.error(`[parseWord] 第 ${pageIdx + 1} 页转换失败:`, pageError);
+              }
             }
             
-            // 合并标题和内容
-            const childrenArray = [titleComponent, ...contentComponents];
-            
-            // 生成完整的 Lowcode Schema
-            return HtmlToSchemaConverter.generateLowcodeSchema(childrenArray, file.name);
+            console.log(`[parseWord] ✓ 所有页面转换完成，共 ${pages.length} 页`);
           } else {
-            // Schema 为空，可能是文档内容为空或无法识别
-            console.warn('[parseWord] Schema 转换结果为空，返回空内容提示');
-            Message.warning(`文档 "${file.name}" 可能为空或内容无法识别`);
+            // 没有检测到分页符，使用完整文档转换后再智能分割
+            console.log('[parseWord] ⚠ 未检测到分页符，将使用智能分割作为备用方案');
             
-            // 创建空内容提示组件
-            const emptyWarning = {
-              componentName: 'FDP',
-              id: HtmlToSchemaConverter.generateId(),
-              docId: HtmlToSchemaConverter.getDocId(),
-              props: {
-                children: [{
-                  componentName: 'NextText',
-                  id: HtmlToSchemaConverter.generateId(),
-                  docId: HtmlToSchemaConverter.getDocId(),
-                  props: {
-                    type: 'inherit',
-                    children: `⚠️ ${file.name}（文档内容为空或无法识别）`,
-                    mark: false,
-                    code: false,
-                    delete: false,
-                    underline: false,
-                    strong: false,
-                    prefix: '',
-                    classname: '',
-                    style: {
-                      fontSize: '14px',
-                      color: '#faad14',
-                      padding: '16px',
-                      backgroundColor: '#fffbe6',
-                      border: '1px solid #ffe58f',
-                      borderRadius: '4px'
-                    }
-                  },
-                  hidden: false,
-                  title: '',
-                  isLocked: false,
-                  condition: true,
-                  conditionGroup: ''
-                }]
-              },
-              title: '警告',
-              hidden: false,
-              isLocked: false,
-              condition: true,
-              conditionGroup: ''
-            };
+            // 执行标准转换获取完整HTML
+            const fullResult = await mammothLib.default.convertToHtml({ arrayBuffer });
+            const htmlContent = fullResult.value || '';
             
-            // 返回完整的 Lowcode Schema
-            return HtmlToSchemaConverter.generateLowcodeSchema([emptyWarning], file.name);
+            // 使用智能分页策略
+            const allElements = htmlContent.match(/<(p|h[1-6]|div|table|ul|ol)[^>]*>[\s\S]*?<\/\1>/gi) || [];
+            console.log(`[parseWord] 共提取到 ${allElements.length} 个内容元素`);
+            
+            if (allElements.length === 0) {
+              pages = [htmlContent];
+            } else {
+              const totalText = htmlContent.replace(/<[^>]+>/g, '');
+              const totalChars = totalText.length;
+              const charsPerPage = 2400; // 调整为2400字符/页，更接近A4纸实际容量
+              const estimatedPages = Math.max(1, Math.ceil(totalChars / charsPerPage));
+              
+              console.log(`[parseWord] 文档总字符数: ${totalChars}, 预估页数: ${estimatedPages}`);
+              
+              let currentPage: string[] = [];
+              let currentPageWeight = 0;
+              
+              for (const element of allElements) {
+                const elementText = element.replace(/<[^>]+>/g, '');
+                const elementChars = elementText.length;
+                let elementWeight = elementChars;
+                
+                if (element.match(/<table[\s\S]*?<\/table>/i)) {
+                  const tableRows = (element.match(/<tr[\s\S]*?<\/tr>/gi) || []).length;
+                  elementWeight = elementChars * 1.3 + (tableRows * 30); // 降低表格权重
+                }
+                else if (element.match(/<h[1-6]/i)) {
+                  elementWeight = elementChars * 1.2; // 降低标题权重
+                }
+                else if (element.match(/<(ul|ol)/i)) {
+                  const listItems = (element.match(/<li[\s\S]*?<\/li>/gi) || []).length;
+                  elementWeight = elementChars * 1.1 + (listItems * 10); // 降低列表权重
+                }
+                
+                if (currentPageWeight > 0 && currentPageWeight + elementWeight > charsPerPage) {
+                  pages.push(currentPage.join(''));
+                  currentPage = [element];
+                  currentPageWeight = elementWeight;
+                } else {
+                  currentPage.push(element);
+                  currentPageWeight += elementWeight;
+                }
+              }
+              
+              if (currentPage.length > 0) {
+                pages.push(currentPage.join(''));
+              }
+              
+              console.log(`[parseWord] 智能分页完成，共 ${pages.length} 个页面（备用方案）`);
+            }
           }
+          
+          // 步骤3: 将页面HTML数组转换为Lowcode Schema数组
+          console.log(`[parseWord] === 开始将 ${pages.length} 个页面转换为Schema ===`);
+          
+          if (pages.length === 0) {
+            console.warn('[parseWord] 没有提取到任何页面内容');
+            Message.warning(`文档 "${file.name}" 内容为空或无法识别`);
+            return null;
+          }
+          
+          const pageSchemas: any[] = [];
+          
+          for (let i = 0; i < pages.length; i++) {
+            const pageHtml = pages[i];
+            
+            // 验证分页内容
+            const pageText = pageHtml.replace(/<[^>]+>/g, '').trim();
+            if (!pageText) {
+              console.warn(`[parseWord] 第 ${i + 1} 页内容为空，跳过`);
+              continue;
+            }
+            
+            const preview = pageText.substring(0, 80).replace(/\s+/g, ' ');
+            const pageChars = pageText.length;
+            
+            // 统计页面中的特殊元素
+            const tables = (pageHtml.match(/<table[\s\S]*?<\/table>/gi) || []).length;
+            const headings = (pageHtml.match(/<h[1-6]/gi) || []).length;
+            const paragraphs = (pageHtml.match(/<p[\s\S]*?<\/p>/gi) || []).length;
+            
+            console.log(`[parseWord] 转换第 ${i + 1}/${pages.length} 页: 字符=${pageChars}, 段落=${paragraphs}, 表格=${tables}, 标题=${headings}`);
+            console.log(`[parseWord]   预览: "${preview}..."`);
+            
+            try {
+              const pageSchema = HtmlToSchemaConverter.parse(pageHtml);
+              
+              console.log(`[parseWord]   parse结果类型: ${typeof pageSchema}, 是否为数组: ${Array.isArray(pageSchema)}`);
+              console.log(`[parseWord]   parse结果:`, pageSchema);
+              
+              // 验证Schema有效性 - 支持多种返回格式
+              let isValid = false;
+              let componentCount = 0;
+              
+              if (Array.isArray(pageSchema)) {
+                // 返回的是组件数组
+                isValid = pageSchema.length > 0;
+                componentCount = pageSchema.length;
+              } else if (pageSchema && typeof pageSchema === 'object') {
+                // 返回的是对象
+                if (pageSchema.children && Array.isArray(pageSchema.children)) {
+                  isValid = pageSchema.children.length > 0;
+                  componentCount = pageSchema.children.length;
+                } else {
+                  // 单个组件对象
+                  isValid = true;
+                  componentCount = 1;
+                }
+              }
+              
+              if (!isValid) {
+                console.warn(`[parseWord] 第 ${i + 1} 页Schema转换失败或内容为空`);
+                console.warn(`[parseWord]   原始HTML长度: ${pageHtml.length}`);
+                continue;
+              }
+              
+              console.log(`[parseWord]   ✓ Schema转换成功，包含 ${componentCount} 个组件`);
+              pageSchemas.push(pageSchema);
+            } catch (error) {
+              console.error(`[parseWord] 第 ${i + 1} 页转换失败:`, error);
+              console.error(`[parseWord]   HTML内容:`, pageHtml.substring(0, 200));
+              Message.error(`文档第 ${i + 1} 页转换失败`);
+            }
+          }
+          
+          // 最终验证
+          if (pageSchemas.length === 0) {
+            console.error('[parseWord] 没有成功转换任何页面');
+            Message.error(`文档 "${file.name}" 解析失败：无法生成有效的页面内容`);
+            return null;
+          }
+          
+          console.log(`[parseWord] === 全部转换完成，成功生成 ${pageSchemas.length} 个页面Schema ===`);
+          
+          // 步骤4: 为每一页生成完整的Lowcode Schema
+          const fullPageSchemas = pageSchemas.map((pageSchema, index) => {
+            return HtmlToSchemaConverter.generateLowcodeSchema(pageSchema, `word_page_${index + 1}`);
+          });
+          
+          // 返回多页面格式
+          const result = {
+            isMultiPage: true,
+            pages: fullPageSchemas,
+            fileName: file.name,
+            pageCount: fullPageSchemas.length
+          };
+          
+          console.log(`[parseWord] === 最终结果 ===`);
+          console.log(`[parseWord] 文件名: ${result.fileName}`);
+          console.log(`[parseWord] 页面数量: ${result.pageCount}`);
+          console.log(`[parseWord] 是否多页面: ${result.isMultiPage}`);
+          console.log(`[parseWord] =====================`);
+          
+          Message.success(`成功导入 "${file.name}"，共 ${fullPageSchemas.length} 个页面（与Word文档一致）`);
+          return result;
         } catch (error) {
           console.error('Word解析失败:', error);
           const errorMsg = error instanceof Error ? error.message : '未知错误';
@@ -1785,7 +2049,7 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
       };
       
       // 处理文件上传
-      const handleFileUpload = async (file: File) => {
+      const handleFileUpload = async (file: File, shouldOverwrite: boolean = false, onComplete?: () => void) => {
         const fileType = file.type;
         const fileName = file.name.toLowerCase();
         
@@ -1793,25 +2057,294 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
           let schema: any = null;
           
           // 根据文件类型选择解析方式
-          if (fileName.endsWith('.html') || fileType === 'text/html') {
+          if (
+            fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            fileType === 'application/msword' ||
+            /\.(docx|doc)$/i.test(fileName)
+          ) {
+            // 直接解析Word文档
+            schema = await parseWord(file);
+          } else if (fileName.endsWith('.html') || fileType === 'text/html') {
             schema = await parseHTML(file);
           } else if (fileType.startsWith('image/') || /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(fileName)) {
             schema = await parseImage(file);
           } else if (fileType === 'application/pdf' || fileName.endsWith('.pdf')) {
             schema = await parsePDF(file);
-          } else if (
-            fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-            fileType === 'application/msword' ||
-            /\.(docx|doc)$/i.test(fileName)
-          ) {
-            schema = await parseWord(file);
           } else {
             Message.error(`不支持的文件类型: ${fileType || fileName}`);
             return false;
           }
           
-          // 解析成功后显示预览对话框
+          // 解析成功后处理结果
           if (schema) {
+            // 检查是否是多页面模式
+            if (schema.isMultiPage && schema.pages && Array.isArray(schema.pages)) {
+              console.log(`[文件上传] 检测到多页面文档,共 ${schema.pageCount} 页`);
+              
+              // ===== 重要：在创建新页面前，先保存当前页面的内容（覆盖模式下跳过） =====
+              if (!shouldOverwrite) {
+                try {
+                  const currentPageId = useEditorStore.getState().currentPageId;
+                  if (currentPageId && project.currentDocument) {
+                    console.log('[文件上传] 保存当前页面内容:', currentPageId);
+                  
+                  const currentPageSchema = project.exportSchema();
+                  if (currentPageSchema && currentPageSchema.componentsTree && currentPageSchema.componentsTree[0]) {
+                    const currentDocument = useEditorStore.getState().document;
+                    const currentPageIndex = currentDocument.pages.findIndex(p => p.settings.id === currentPageId);
+                    
+                    if (currentPageIndex >= 0) {
+                      const componentsToSave = JSON.parse(JSON.stringify(
+                        currentPageSchema.componentsTree[0].children || []
+                      ));
+                      
+                      const updatedPages = [...currentDocument.pages];
+                      updatedPages[currentPageIndex] = {
+                        ...updatedPages[currentPageIndex],
+                        components: componentsToSave,
+                      };
+                      
+                      useEditorStore.setState({
+                        document: {
+                          ...currentDocument,
+                          pages: updatedPages,
+                          updatedAt: new Date(),
+                        },
+                      });
+                      
+                      console.log('[文件上传] ✓ 已保存当前页面内容');
+                    }
+                  }
+                }
+              } catch (saveError) {
+                console.warn('[文件上传] 保存当前页面时出错:', saveError);
+              }
+              } else {
+                console.log('[文件上传] 覆盖模式：跳过保存当前页面内容');
+              }
+              // ===== 保存完成 =====
+              
+              // 验证每个页面的schema是否真的不同
+              console.log('[文件上传] 验证每页schema差异:');
+              for (let checkIdx = 0; checkIdx < Math.min(3, schema.pages.length); checkIdx++) {
+                const checkPage = schema.pages[checkIdx];
+                const checkChildren = checkPage?.componentsTree?.[0]?.children || [];
+                console.log(`  页面 ${checkIdx + 1}: ${checkChildren.length} 个子组件`);
+                
+                // 深入检查实际内容
+                if (checkChildren.length > 0) {
+                  const firstChild = checkChildren[0];
+                  const childInfo = JSON.stringify(firstChild).substring(0, 200);
+                  console.log(`  页面 ${checkIdx + 1} 第1个子组件预览: ${childInfo}`);
+                }
+              }
+              
+              // 为每一页创建新的低代码页面
+              let successCount = 0;
+              const createdPages: Array<{ id: string; name: string; content: any[] }> = [];
+              
+              for (let i = 0; i < schema.pages.length; i++) {
+                const pageSchema = schema.pages[i];
+                const pageName = `第${i + 1}页`; // 简洁的页面名称
+                
+                try {
+                  console.log(`[文件上传] 创建页面 ${i + 1}/${schema.pageCount}:`, pageName);
+                  
+                  // 提取页面内容 - 使用深拷贝避免引用共享
+                  let pageContent: any[] = [];
+                  if (pageSchema?.componentsTree?.[0]?.children) {
+                    // 深拷贝内容,避免所有页面共享同一个数组引用
+                    pageContent = JSON.parse(JSON.stringify(pageSchema.componentsTree[0].children));
+                  }
+                  
+                  console.log(`[文件上传] 页面 ${i + 1} 原始提取到 ${pageContent.length} 个组件`);
+                  
+                  // 递归展平嵌套的容器结构（FDPage/Page/FDSection/FDBlock等）
+                  const flattenComponents = (components: any[]): any[] => {
+                    const result: any[] = [];
+                    
+                    for (const component of components) {
+                      const isContainer = 
+                        component.componentName === 'FDPage' ||
+                        component.componentName === 'Page' ||
+                        component.componentName === 'FDSection' ||
+                        component.componentName === 'FDBlock';
+                      
+                      if (isContainer && component.children && Array.isArray(component.children)) {
+                        // 递归展平容器的子组件
+                        console.log(`[文件上传] 展平 ${component.componentName}, 子组件数: ${component.children.length}`);
+                        result.push(...flattenComponents(component.children));
+                      } else {
+                        // 保留非容器组件
+                        result.push(component);
+                      }
+                    }
+                    
+                    return result;
+                  };
+                  
+                  // 使用递归展平后的内容
+                  pageContent = flattenComponents(pageContent);
+                  
+                  console.log(`[文件上传] 页面 ${i + 1} 展平后有 ${pageContent.length} 个组件`);
+                  
+                  // 使用 editorStore 的 addPage 方法创建新页面
+                  const newPageId = useEditorStore.getState().addPage({
+                    name: pageName,
+                  });
+                  
+                  console.log(`[文件上传] ✓ 页面创建成功,ID: ${newPageId}`);
+                  
+                  // 先缓存页面信息,不立即更新store
+                  createdPages.push({
+                    id: newPageId,
+                    name: pageName,
+                    content: pageContent, // 已经是深拷贝的独立数组
+                  });
+                  
+                  // 添加验证日志 - 打印前3个组件的标题来验证内容
+                  const firstThreeTitles = pageContent.slice(0, 3).map((c: any) => 
+                    c.title || c.componentName || 'Unknown'
+                  ).join(', ');
+                  console.log(`[文件上传] 页面 ${i + 1} 前3个组件:`, firstThreeTitles);
+                  
+                  successCount++;
+                  
+                  console.log(`[文件上传] ✓ 页面 ${i + 1} 完成`);
+                } catch (err) {
+                  console.error(`[文件上传] ✗ 页面 ${i + 1} 创建失败:`, err);
+                }
+              }
+              
+              // 一次性批量更新所有页面的内容到store
+              if (createdPages.length > 0) {
+                console.log(`[文件上传] 开始批量更新 ${createdPages.length} 个页面的内容到store`);
+                
+                const currentDocument = useEditorStore.getState().document;
+                const updatedPages = [...currentDocument.pages];
+                
+                // 为每个创建的页面更新内容
+                for (const createdPage of createdPages) {
+                  const pageIndex = updatedPages.findIndex(p => p.settings.id === createdPage.id);
+                  if (pageIndex >= 0) {
+                    updatedPages[pageIndex] = {
+                      ...updatedPages[pageIndex],
+                      components: createdPage.content,
+                      settings: {
+                        ...updatedPages[pageIndex].settings,
+                        // 为Word导入的页面添加默认边距样式标记
+                        pageStyle: {
+                          height: '100%',
+                          paddingLeft: '83px',
+                          paddingRight: '83px',
+                          paddingTop: '10px',
+                          paddingBottom: '22px'
+                        }
+                      }
+                    };
+                    console.log(`[文件上传] 已更新页面 ${createdPage.name} 的内容,组件数: ${createdPage.content.length}`);
+                  }
+                }
+                
+                // 一次性更新整个document
+                useEditorStore.setState({
+                  document: {
+                    ...currentDocument,
+                    pages: updatedPages,
+                    updatedAt: new Date(),
+                  },
+                });
+                
+                console.log(`[文件上传] ✓ 批量更新完成,共 ${createdPages.length} 个页面`);
+                
+                // 切换到第一个新创建的页面（直接更新store，不触发handleTabChange）
+                const firstPage = createdPages[0];
+                
+                // 直接更新currentPageId，不通过setCurrentPage（避免触发页面切换保存逻辑）
+                useEditorStore.setState({
+                  currentPageId: firstPage.id,
+                });
+                
+                console.log(`[文件上传] 已设置当前页面为: ${firstPage.name}`);
+                
+                // 延迟导入schema,确保状态已更新
+                await new Promise(resolve => setTimeout(resolve, 200));
+                
+                // 导入到画布显示第一页
+                try {
+                  const displaySchema = {
+                    version: '1.0.0',
+                    componentsTree: [{
+                      componentName: 'Page',
+                      fileName: firstPage.name,
+                      id: firstPage.id,
+                      props: {
+                        ref: `page_${firstPage.id}`,
+                        style: {
+                          height: '100%',
+                          paddingLeft: '83px',
+                          paddingRight: '83px',
+                          paddingTop: '10px',
+                          paddingBottom: '22px'
+                        }
+                      },
+                      children: firstPage.content,
+                    }],
+                  };
+                  
+                  try {
+                    project.importSchema(displaySchema as any);
+                    console.log(`[文件上传] ✓ 第一页已显示到画布`);
+                  } catch (schemaError) {
+                    console.error(`[文件上传] Schema导入失败，尝试加载空页面:`, schemaError);
+                    // 如果导入失败，尝试导入空页面
+                    const emptyDisplaySchema = {
+                      version: '1.0.0',
+                      componentsTree: [{
+                        componentName: 'Page',
+                        fileName: firstPage.name,
+                        id: firstPage.id,
+                        props: {
+                          ref: `page_${firstPage.id}`,
+                          style: {
+                            height: '100%',
+                            paddingLeft: '83px',
+                            paddingRight: '83px',
+                            paddingTop: '10px',
+                            paddingBottom: '22px'
+                          }
+                        },
+                        children: [],
+                      }],
+                    };
+                    project.importSchema(emptyDisplaySchema as any);
+                    console.warn(`[文件上传] 已加载空页面作为降级方案`);
+                  }
+                } catch (err) {
+                  console.error(`[文件上传] 第一页 Schema导入画布失败:`, err);
+                }
+              }
+              
+              if (successCount > 0) {
+                Message.success(
+                  `文档 "${schema.fileName}" 已成功导入 ${successCount}/${schema.pageCount} 个页面`
+                );
+                // 关闭上传弹出框
+                if (onComplete) {
+                  onComplete();
+                }
+              } else {
+                Message.error(`文档导入失败,未能创建任何页面`);
+                // 即使失败也关闭弹出框
+                if (onComplete) {
+                  onComplete();
+                }
+              }
+              
+              return;
+            }
+            
+            // 单页面模式 - 显示预览对话框
             showPreviewDialog(
               schema,
               file.name,
@@ -1819,6 +2352,28 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                 // 用户点击"应用"按钮后的回调
                 
                 try {
+                  // 如果是覆盖模式，先清空画布
+                  if (shouldOverwrite) {
+                    try {
+                      if (project.currentDocument && typeof project.currentDocument.getRoot === 'function') {
+                        const rootNode = project.currentDocument.getRoot();
+                        if (rootNode) {
+                          const children = rootNode.children?.toArray() || [];
+                          children.forEach((child: any) => {
+                            try {
+                              child.remove();
+                            } catch (e) {
+                              console.warn('[单页面导入] 删除子节点失败:', e);
+                            }
+                          });
+                          console.log('[单页面导入] 已清空画布（覆盖模式）');
+                        }
+                      }
+                    } catch (clearError) {
+                      console.warn('[单页面导入] 清空画布时出错:', clearError);
+                    }
+                  }
+                  
                   // 检查是否是完整的 Lowcode Schema 格式（包含 version, componentsMap, componentsTree）
                   if (editedContent?.version && editedContent?.componentsMap && editedContent?.componentsTree) {
                     console.log('[导入Schema] 检测到完整的 Lowcode Schema 格式');
@@ -1828,11 +2383,19 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                       project.importSchema(editedContent);
                       Message.success(`文件 "${file.name}" 已成功导入为完整页面`);
                       dialogInstance?.hide();
+                      // 关闭上传弹出框
+                      if (onComplete) {
+                        onComplete();
+                      }
                       return;
                     } catch (err) {
                       console.error('导入完整 Schema 失败:', err);
                       Message.error(`导入失败: ${err instanceof Error ? err.message : '未知错误'}`);
                       dialogInstance?.hide();
+                      // 关闭上传弹出框
+                      if (onComplete) {
+                        onComplete();
+                      }
                       return;
                     }
                   }
@@ -1847,141 +2410,60 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                   
                   let addedCount = 0;
                   
-                  // 处理__DocumentContent__容器（Word文档旧格式）
-                  if (editedContent?.componentName === '__DocumentContent__' && editedContent.props?.children) {
-                    const children = Array.isArray(editedContent.props.children) 
-                      ? editedContent.props.children 
-                      : [editedContent.props.children];
-                    
-                    children.forEach((child: any) => {
-                      if (child) {
-                        // 递归展平所有嵌套的数组
-                        const flatItems = flattenSchema(child);
-                        console.log('[导入Schema] flatItems 长度:', flatItems.length);
-                        flatItems.forEach((item: any, idx: number) => {
-                          if (item && item.componentName) {
-                            try {
-                              console.log(`[导入Schema] 导入第 ${idx + 1} 个元素:`, {
-                                componentName: item.componentName,
-                                title: item.title,
-                                hasChildren: !!item.props?.children,
-                                childrenCount: Array.isArray(item.props?.children) ? item.props.children.length : 0,
-                              });
-                              rootNode.children?.importSchema(item);
-                              addedCount++;
-                            } catch (err) {
-                              console.error('导入Schema失败:', item, err);
-                            }
-                          }
+                  // 统一处理：数组或单个组件都展平后导入
+                  const contentToImport = Array.isArray(editedContent) ? editedContent : [editedContent];
+                  console.log('[导入Schema] 准备导入内容，数量:', contentToImport.length);
+                  
+                  const flatItems = flattenSchema(contentToImport);
+                  console.log('[导入Schema] 展平后元素数量:', flatItems.length);
+                  
+                  flatItems.forEach((item: any, idx: number) => {
+                    if (item && item.componentName) {
+                      try {
+                        console.log(`[导入Schema] 导入第 ${idx + 1}/${flatItems.length} 个元素:`, {
+                          componentName: item.componentName,
+                          title: item.title,
                         });
+                        rootNode.children?.importSchema(item);
+                        addedCount++;
+                      } catch (err) {
+                        console.error('导入Schema失败:', item, err);
                       }
-                    });
-                    
-                    if (addedCount > 0) {
-                      Message.success(`文件 "${file.name}" 已添加到画布（共 ${addedCount} 个元素）`);
-                      dialogInstance?.hide();
-                    } else {
-                      Message.error('文件解析成功但未能添加任何元素');
-                      dialogInstance?.hide();
                     }
-                  } 
-                  // 处理__MultipleContent__容器
-                  else if (editedContent?.componentName === '__MultipleContent__' && editedContent.props?.children) {
-                    const children = Array.isArray(editedContent.props.children) 
-                      ? editedContent.props.children 
-                      : [editedContent.props.children];
-                    
-                    console.log('[导入Schema] __MultipleContent__ 包含子元素数量:', children.length);
-                    
-                    children.forEach((child: any, childIdx: number) => {
-                      if (child) {
-                        // 如果child本身就是有效的Schema对象（不是数组），直接导入
-                        if (child.componentName && !Array.isArray(child)) {
-                          try {
-                            console.log(`[导入Schema] 直接导入元素 ${childIdx + 1}:`, {
-                              componentName: child.componentName,
-                              hasChildren: !!child.props?.children,
-                              childrenType: Array.isArray(child.props?.children) ? 'array' : typeof child.props?.children,
-                            });
-                            rootNode.children?.importSchema(child);
-                            addedCount++;
-                          } catch (err) {
-                            console.error('导入Schema失败:', child, err);
-                          }
-                        } else {
-                          // 否则展平处理
-                          const flatItems = flattenSchema(child);
-                          console.log(`[导入Schema] 展平元素 ${childIdx + 1} 后得到:`, flatItems.length, '个子项');
-                          flatItems.forEach((item: any, itemIdx: number) => {
-                            if (item && item.componentName) {
-                              try {
-                                console.log(`[导入Schema]   子项 ${itemIdx + 1}:`, item.componentName);
-                                rootNode.children?.importSchema(item);
-                                addedCount++;
-                              } catch (err) {
-                                console.error('导入Schema失败:', item, err);
-                              }
-                            }
-                          });
-                        }
-                      }
-                    });
-                    
-                    if (addedCount > 0) {
-                      Message.success(`文件 "${file.name}" 已添加到画布（共 ${addedCount} 个元素）`);
-                      dialogInstance?.hide();
-                    } else {
-                      Message.error('文件解析成功但未能添加任何元素');
-                      dialogInstance?.hide();
-                    }
-                  } 
-                  // 处理直接数组
-                  else if (Array.isArray(editedContent)) {
-                    const flatItems = flattenSchema(editedContent);
-                    flatItems.forEach((item: any) => {
-                      if (item && item.componentName) {
-                        try {
-                          rootNode.children?.importSchema(item);
-                          addedCount++;
-                        } catch (err) {
-                          console.error('导入Schema失败:', item, err);
-                        }
-                      }
-                    });
-                    
-                    if (addedCount > 0) {
-                      Message.success(`文件 "${file.name}" 已添加到画布（共 ${addedCount} 个元素）`);
-                      dialogInstance?.hide();
-                    } else {
-                      Message.error('文件解析成功但未能添加任何元素');
-                      dialogInstance?.hide();
-                    }
-                  } 
-                  // 处理单个组件
-                  else if (editedContent?.componentName) {
-                    try {
-                      rootNode.children?.importSchema(editedContent);
-                      Message.success(`文件 "${file.name}" 已添加到画布`);
-                      dialogInstance?.hide();
-                    } catch (err) {
-                      console.error('导入Schema失败:', editedContent, err);
-                      Message.error('添加到画布失败');
-                      dialogInstance?.hide();
-                    }
-                  } 
-                  else {
-                    Message.error('内容格式无效，无法添加到画布');
+                  });
+                  
+                  if (addedCount > 0) {
+                    Message.success(`文件 "${file.name}" 已添加到画布（共 ${addedCount} 个元素）`);
                     dialogInstance?.hide();
+                    // 关闭上传弹出框
+                    if (onComplete) {
+                      onComplete();
+                    }
+                  } else {
+                    Message.error('文件解析成功但未能添加任何元素');
+                    dialogInstance?.hide();
+                    // 关闭上传弹出框
+                    if (onComplete) {
+                      onComplete();
+                    }
                   }
                 } catch (error) {
                   console.error('处理内容时出错:', error);
                   Message.error(`处理内容失败: ${error instanceof Error ? error.message : '未知错误'}`);
                   dialogInstance?.hide();
+                  // 关闭上传弹出框
+                  if (onComplete) {
+                    onComplete();
+                  }
                 }
               },
               () => {
                 // 用户点击"取消"按钮的回调
                 Message.notice('已取消添加文件');
+                // 关闭上传弹出框
+                if (onComplete) {
+                  onComplete();
+                }
               }
             );
           }
@@ -1991,13 +2473,20 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
           console.error('文件解析失败:', error);
           const errorMsg = error instanceof Error ? error.message : '未知错误';
           Message.error(`文件解析失败: ${errorMsg}`);
+          // 解析失败也关闭上传弹出框
+          if (onComplete) {
+            onComplete();
+          }
           return false;
         }
       };
       
       // 显示上传对话框
       const showUploadDialog = () => {
-        Dialog.show({
+        // 状态管理：是否覆盖当前内容
+        let shouldOverwrite = false;
+        
+        const dialogInstance = Dialog.show({
           title: '上传文档/图片',
           style: { width: '500px' },
           content: (
@@ -2005,7 +2494,10 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
               <Upload.Dragger
                 accept=".html,.jpg,.jpeg,.png,.gif,.webp,.svg,.pdf,.doc,.docx"
                 beforeUpload={(file) => {
-                  handleFileUpload(file as File);
+                  handleFileUpload(file as File, shouldOverwrite, () => {
+                    // 解析完成后关闭弹出框
+                    dialogInstance.hide();
+                  });
                   return false; // 阻止自动上传
                 }}
                 style={{ padding: '40px' }}
@@ -2019,37 +2511,49 @@ const DocumentParserPlugin = (ctx: IPublicModelPluginContext) => {
                     支持: HTML网页、图片(JPG/PNG/GIF/SVG)、PDF文档、Word文档
                   </p>
                   <p style={{ fontSize: '12px', color: '#52c41a', marginTop: '8px' }}>
-                    ✨ 智能解析文档内容和样式，自动添加到画布末尾
+                    ✨ 智能解析文档内容和样式
                   </p>
                   <p style={{ fontSize: '11px', color: '#1890ff', marginTop: '4px' }}>
                     📄 PDF: 提取文本内容 | 📝 Word: 提取段落和样式 | 🖼️ 图片: 自动适配尺寸
                   </p>
                 </div>
               </Upload.Dragger>
+              
+              {/* 添加覆盖/追加选项 */}
+              <div style={{ marginTop: '16px', padding: '12px', background: '#f5f5f5', borderRadius: '4px' }}>
+                <div style={{ marginBottom: '8px', fontWeight: 500, color: '#333' }}>导入模式：</div>
+                <label style={{ display: 'flex', alignItems: 'center', marginBottom: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="importMode"
+                    value="append"
+                    defaultChecked
+                    onChange={() => { shouldOverwrite = false; }}
+                    style={{ marginRight: '8px' }}
+                  />
+                  <span style={{ color: '#52c41a' }}>📎 在后面追加内容</span>
+                  <span style={{ marginLeft: '8px', fontSize: '12px', color: '#999' }}>(默认)</span>
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                  <input
+                    type="radio"
+                    name="importMode"
+                    value="overwrite"
+                    onChange={() => { shouldOverwrite = true; }}
+                    style={{ marginRight: '8px' }}
+                  />
+                  <span style={{ color: '#ff4d4f' }}>🔄 覆盖当前内容</span>
+                  <span style={{ marginLeft: '8px', fontSize: '12px', color: '#999' }}>(清空画布后导入)</span>
+                </label>
+              </div>
             </div>
           ),
           footer: false,
         });
       };
-      
-      // 添加上传文档按钮
-      skeleton.add({
-        area: 'topArea',
-        type: 'Widget',
-        name: 'uploadDocButton',
-        content: Button,
-        contentProps: {
-          children: '📤 上传文档',
-          onClick: showUploadDialog,
-          style: {
-            marginRight: '8px',
-          },
-        },
-        props: {
-          align: 'right',
-          width: 100,
-        },
-      });
+
+      // 将上传文档功能暴露到 config 中供统一操作插件使用
+      config.set('uploadDocumentAction', showUploadDialog);
     },
   };
 };

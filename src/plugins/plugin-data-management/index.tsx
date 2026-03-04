@@ -39,6 +39,15 @@ const PluginDataManagement = (
     async init() {
       const { skeleton } = ctx;
 
+      // 初始化 schema state 同步机制
+      try {
+        const { initSchemaStateSync } = await import('../../utils/schemaStateSync');
+        initSchemaStateSync();
+        console.log('[DataManagement] ✓ Schema state 同步机制已启动');
+      } catch (err) {
+        console.warn('[DataManagement] 启动 schema state 同步失败:', err);
+      }
+
       // 注册右侧面板
       skeleton.add({
         area: 'rightArea',
@@ -389,6 +398,16 @@ const LifecyclePanel: React.FC = () => {
 const PageDataPanel: React.FC = () => {
   const [pageData, setPageData] = useState('{\n  \n}');
 
+  // 从 dataStore 加载初始数据
+  React.useEffect(() => {
+    const loadPageData = async () => {
+      const { useDataStore } = await import('../../stores/dataStore');
+      const currentData = useDataStore.getState().pageData;
+      setPageData(JSON.stringify(currentData, null, 2));
+    };
+    loadPageData();
+  }, []);
+
   const handleFormat = () => {
     try {
       const parsed = JSON.parse(pageData);
@@ -399,9 +418,28 @@ const PageDataPanel: React.FC = () => {
     }
   };
 
+  const handleSave = async () => {
+    try {
+      const parsed = JSON.parse(pageData);
+      
+      // 更新到 dataStore
+      const { useDataStore } = await import('../../stores/dataStore');
+      useDataStore.getState().setPageData(parsed);
+      
+      // 同步到 schema
+      const { syncPageDataToSchemaState } = await import('../../utils/schemaStateSync');
+      syncPageDataToSchemaState();
+      
+      message.success('数据已保存并同步到 schema');
+    } catch (error) {
+      message.error('JSON格式错误，保存失败');
+    }
+  };
+
   return (
     <div>
       <Space style={{ marginBottom: '16px' }}>
+        <Button type="primary" onClick={handleSave}>保存数据</Button>
         <Button onClick={handleFormat}>格式化</Button>
         <Button onClick={() => setPageData('{\n  \n}')}>清空</Button>
       </Space>

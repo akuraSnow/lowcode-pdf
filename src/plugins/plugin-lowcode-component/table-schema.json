@@ -1,0 +1,181 @@
+{
+  "version": "1.0.0",
+  "componentsMap": [
+    {
+      "package": "@alifd/next",
+      "version": "1.26.4",
+      "exportName": "Table",
+      "main": "lib/index.js",
+      "destructuring": true,
+      "componentName": "Table"
+    }
+  ],
+  "componentsTree": [
+    {
+      "componentName": "Component",
+      "id": "node_simple_table",
+      "props": {
+        "ref": "simpleTableRef",
+        "style": {
+          "width": "100%"
+        }
+      },
+      "docId": "doc_simple_table",
+      "fileName": "/",
+      "state": {
+        "dataSource": {
+          "type": "JSExpression",
+          "value": "[\n  { id: '1', name: '张三', age: 28, gender: '男', phone: '13800138000', email: 'zhangsan@example.com', department: '技术部', position: '前端工程师' },\n  { id: '2', name: '李四', age: 32, gender: '女', phone: '13900139000', email: 'lisi@example.com', department: '产品部', position: '产品经理' },\n  { id: '3', name: '王五', age: 25, gender: '男', phone: '13700137000', email: 'wangwu@example.com', department: '设计部', position: 'UI设计师' }\n]"
+        },
+        "columns": {
+          "type": "JSExpression",
+          "value": "[\n  { dataIndex: 'name', title: '姓名', width: 100 },\n  { dataIndex: 'age', title: '年龄', width: 80 },\n  { dataIndex: 'gender', title: '性别', width: 80 },\n  { dataIndex: 'phone', title: '电话', width: 130 },\n  { dataIndex: 'email', title: '邮箱', width: 180 },\n  { dataIndex: 'department', title: '部门', width: 100 },\n  { dataIndex: 'position', title: '职位', width: 120 }\n]"
+        },
+        "columnGroups": {
+          "type": "JSExpression",
+          "value": "[\n  { title: '基本信息', colSpan: 3, align: 'center' },\n  { title: '联系方式', colSpan: 2, align: 'center' },\n  { title: '工作信息', colSpan: 2, align: 'center' }\n]"
+        }
+      },
+      "methods": {
+        "getColumns": {
+          "type": "JSFunction",
+          "value": "function getColumns() {\n  const { columns, columnGroups } = this.state;\n  \n  // 如果没有分组配置，直接返回列配置\n  if (!columnGroups || columnGroups.length === 0) {\n    return columns;\n  }\n  \n  // 构建多级表头\n  const result = [];\n  let columnIndex = 0;\n  \n  columnGroups.forEach(group => {\n    const colSpan = group.colSpan || 1;\n    const groupConfig = {\n      title: group.title,\n      align: group.align || 'center',\n      children: []\n    };\n    \n    // 获取该组应该包含的列\n    for (let i = 0; i < colSpan && columnIndex < columns.length; i++) {\n      groupConfig.children.push(columns[columnIndex]);\n      columnIndex++;\n    }\n    \n    result.push(groupConfig);\n  });\n  \n  // 添加剩余未分组的列\n  while (columnIndex < columns.length) {\n    result.push(columns[columnIndex]);\n    columnIndex++;\n  }\n  \n  return result;\n}"
+        },
+        "updateDataSource": {
+          "type": "JSFunction",
+          "value": "function updateDataSource(newData) {\n  this.setState({\n    dataSource: newData\n  });\n}"
+        },
+        "updateColumns": {
+          "type": "JSFunction",
+          "value": "function updateColumns(newColumns) {\n  this.setState({\n    columns: newColumns\n  });\n}"
+        },
+        "updateColumnGroups": {
+          "type": "JSFunction",
+          "value": "function updateColumnGroups(newGroups) {\n  this.setState({\n    columnGroups: newGroups\n  });\n}"
+        }
+      },
+      "lifeCycles": {
+        "componentDidMount": {
+          "type": "JSFunction",
+          "value": "function componentDidMount() {\n  console.log('Simple Table mounted');\n}"
+        }
+      },
+      "children": [
+        {
+          "componentName": "Table",
+          "id": "node_table_component",
+          "props": {
+            "dataSource": {
+              "type": "JSExpression",
+              "value": "this.state.dataSource"
+            },
+            "style": {
+              "width": "100%"
+            },
+            "hasBorder": true,
+            "fixedHeader": false,
+            "maxBodyHeight": 400,
+            "size": "medium",
+            "loading": false,
+            "emptyContent": "暂无数据"
+          },
+          "children": [
+            {
+              "componentName": "Table.ColumnGroup",
+              "id": "node_table_group_basic",
+              "props": {
+                "title": "基本信息",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "componentName": "Table.Column",
+                  "id": "node_table_column_name",
+                  "props": {
+                    "dataIndex": "name",
+                    "title": "姓名",
+                    "width": 100
+                  }
+                },
+                {
+                  "componentName": "Table.Column",
+                  "id": "node_table_column_age",
+                  "props": {
+                    "dataIndex": "age",
+                    "title": "年龄",
+                    "width": 80
+                  }
+                },
+                {
+                  "componentName": "Table.Column",
+                  "id": "node_table_column_gender",
+                  "props": {
+                    "dataIndex": "gender",
+                    "title": "性别",
+                    "width": 80
+                  }
+                }
+              ]
+            },
+            {
+              "componentName": "Table.ColumnGroup",
+              "id": "node_table_group_contact",
+              "props": {
+                "title": "联系方式",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "componentName": "Table.Column",
+                  "id": "node_table_column_phone",
+                  "props": {
+                    "dataIndex": "phone",
+                    "title": "电话",
+                    "width": 130
+                  }
+                },
+                {
+                  "componentName": "Table.Column",
+                  "id": "node_table_column_email",
+                  "props": {
+                    "dataIndex": "email",
+                    "title": "邮箱",
+                    "width": 180
+                  }
+                }
+              ]
+            },
+            {
+              "componentName": "Table.ColumnGroup",
+              "id": "node_table_group_work",
+              "props": {
+                "title": "工作信息",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "componentName": "Table.Column",
+                  "id": "node_table_column_department",
+                  "props": {
+                    "dataIndex": "department",
+                    "title": "部门",
+                    "width": 100
+                  }
+                },
+                {
+                  "componentName": "Table.Column",
+                  "id": "node_table_column_position",
+                  "props": {
+                    "dataIndex": "position",
+                    "title": "职位",
+                    "width": 120
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

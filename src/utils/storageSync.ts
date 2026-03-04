@@ -8,7 +8,7 @@
  * - lowcode_templates (模板列表)
  */
 
-const API_BASE_URL = process.env.API_URL || 'http://localhost:3001';
+import { API_BASE_URL } from '../config/api';
 
 export type StorageType = 'projectSchema' | 'products' | 'templates';
 

@@ -4,189 +4,204 @@
 
 import React from 'react';
 import { IPublicModelPluginContext } from '@alilc/lowcode-types';
-import { Button, message, Modal, Space } from 'antd';
-import { CloudUploadOutlined, HomeOutlined } from '@ant-design/icons';
+import { Button, Message, Dialog } from '@alifd/next';
+import { CloudUploadOutlined } from '@ant-design/icons';
+import { useGlobalSettingsStore } from '../../stores/globalSettingsStore';
+import { useEditorStore } from '../../stores/editorStore';
+import { API_ENDPOINTS } from '../../config/api';
+import { toCamelCase } from '../../utils';
+import { useProductStore } from '../../stores/productStore';
+import { optimizeProjectSchema } from '../../utils/schema-optimizer';
 
 const PublishPlugin = (ctx: IPublicModelPluginContext) => {
   return {
     async init() {
-      const { skeleton, project } = ctx;
+      const { skeleton, config, project } = ctx;
 
-      // 注册顶部区域的按钮组
+      // 获取当前产品ID
+      const getCurrentProductId = () => {
+        return sessionStorage.getItem('currentProductId');
+      };
+
+      // 发布功能
+      const handlePublish = async () => {
+        const productId = getCurrentProductId();
+        
+        if (!productId) {
+          Message.warning('请先选择或创建一个产品');
+          return;
+        }
+
+        try {
+          // 获取全局设置
+          const globalSettings = useGlobalSettingsStore.getState().settings;
+          const productPath = globalSettings.paths?.productPath || './data/products';
+
+          // 先保存当前页面到 store
+          try {
+            const currentPageId = useEditorStore.getState().currentPageId;
+            if (currentPageId && project.currentDocument) {
+              const currentPageSchema = project.exportSchema();
+              
+              if (currentPageSchema && currentPageSchema.componentsTree && currentPageSchema.componentsTree[0]) {
+                const currentDocument = useEditorStore.getState().document;
+                const currentPageIndex = currentDocument.pages.findIndex(p => p.settings.id === currentPageId);
+                
+                if (currentPageIndex >= 0) {
+                  const componentsToSave = JSON.parse(JSON.stringify(
+                    currentPageSchema.componentsTree[0].children || []
+                  ));
+                  
+                  const updatedPages = [...currentDocument.pages];
+                  updatedPages[currentPageIndex] = {
+                    ...updatedPages[currentPageIndex],
+                    components: componentsToSave,
+                  };
+                  
+                  useEditorStore.setState({
+                    document: {
+                      ...currentDocument,
+                      pages: updatedPages,
+                      updatedAt: new Date(),
+                    },
+                  });
+                  
+                  console.log('[发布] 已保存当前页面到 store');
+                }
+              }
+            }
+          } catch (error) {
+            console.warn('[发布] 保存当前页面失败:', error);
+          }
+
+          // 从 editorStore 获取所有页面数据
+          const editorState = useEditorStore.getState();
+          const allPages = editorState.document.pages;
+          
+          console.log(`[发布] 准备发布 ${allPages.length} 个页面`);
+          
+          // 构建包含所有页面的完整 schema
+          const multiPageSchema = {
+            version: '1.0.0',
+            pages: allPages.map((page, index) => ({
+              componentName: 'Page',
+              id: page.settings.id,
+              fileName: page.settings.name || `Page ${index + 1}`,
+              props: {
+                ref: `page_${page.settings.id}`,
+                style: {
+                  height: '100%',
+                  paddingLeft: '83px',
+                  paddingRight: '83px',
+                  paddingTop: '10px',
+                  paddingBottom: '22px'
+                }
+              },
+              children: page.components || [],
+              settings: page.settings,
+            })),
+            currentPageId: editorState.currentPageId,
+            metadata: {
+              totalPages: allPages.length,
+              updatedAt: new Date().toISOString(),
+            }
+          };
+
+          // 获取产品名称用于生成文件名
+          const products = useProductStore.getState().products;
+          const currentProduct = products.find(p => p.id === productId);
+          const fileName = currentProduct ? toCamelCase(currentProduct.name) : productId;
+          
+          // 简化 schema 以减小文件大小
+          const optimizedSchema = optimizeProjectSchema(multiPageSchema);
+          
+          console.log('[发布] Schema 优化完成');
+          
+          // 显示确认对话框
+          Dialog.confirm({
+            title: '确认发布',
+            content: `确定要发布产品 ${currentProduct?.name || productId} 吗？\n这将保存所有 ${allPages.length} 个页面的修改。\n文件名: ${fileName}.json`,
+            onOk: async () => {
+              try {
+                Message.loading('正在发布...', 0);
+
+                // 发送到后端 API（使用优化后的 schema）
+                const response = await fetch(API_ENDPOINTS.publish, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    path: `${productPath}/${fileName}.json`,
+                    schema: optimizedSchema,
+                    productId: productId,
+                  }),
+                });
+
+                Message.hide();
+
+                if (!response.ok) {
+                  const errorData = await response.json().catch(() => ({}));
+                  throw new Error(`发布失败: ${response.statusText} - ${errorData.message || ''}`);
+                }
+
+                const result = await response.json();
+                Message.success(`发布成功！已保存 ${allPages.length} 个页面。正在返回主页...`);
+
+                // 延迟 1 秒后返回主页
+                setTimeout(() => {
+                  window.location.href = '/';
+                }, 1000);
+
+              } catch (error) {
+                Message.hide();
+                console.error('发布失败:', error);
+                Message.error(error instanceof Error ? error.message : '发布失败');
+              }
+            },
+          });
+
+        } catch (error) {
+          console.error('准备发布时出错:', error);
+          Message.error('准备发布时出错');
+        }
+      };
+
+      // 注册顶部发布按钮
       skeleton.add({
         area: 'topArea',
         type: 'Widget',
-        name: 'publishButtons',
-        content: PublishButtons as any,
+        name: 'publishButton',
+        content: Button,
+        contentProps: {
+          type: 'primary',
+          children: (
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <CloudUploadOutlined style={{ fontSize: '16px' }} />
+              <span>发布</span>
+            </span>
+          ),
+          onClick: handlePublish,
+          style: {
+            fontSize: '14px',
+            fontWeight: 500,
+            padding: '4px 16px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        },
         props: {
           align: 'right',
-        },
-        contentProps: {
-          project,
+          width: 100,
         },
       });
+
+      // 将发布功能暴露给其他插件（如果需要从 FAB 调用）
+      config.set('publishAction', handlePublish);
     },
   };
-};
-
-// 发布按钮组件
-const PublishButtons: React.FC<{ project: any }> = ({ project }) => {
-  // 获取当前产品ID
-  const getCurrentProductId = () => {
-    return sessionStorage.getItem('currentProductId');
-  };
-
-  // 获取全局路径设置
-  const getGlobalSettings = () => {
-    try {
-      const stored = localStorage.getItem('global-settings-storage');
-      if (stored) {
-        const settings = JSON.parse(stored);
-        return settings.state?.settings || null;
-      }
-    } catch (error) {
-      console.error('Failed to load global settings:', error);
-    }
-    return null;
-  };
-
-  // 发布函数
-  const handlePublish = async () => {
-    const productId = getCurrentProductId();
-    
-    if (!productId) {
-      message.error('未找到产品信息，请从产品列表进入编辑器');
-      return;
-    }
-
-    try {
-      // 获取产品信息
-      const products = JSON.parse(localStorage.getItem('lowcode_products') || '[]');
-      const product = products.find((p: any) => p.id === productId);
-      
-      if (!product) {
-        message.error('产品不存在');
-        return;
-      }
-
-      // 获取全局路径设置
-      const globalSettings = getGlobalSettings();
-      if (!globalSettings || !globalSettings.paths) {
-        message.error('未找到全局路径设置，请先在主页配置保存路径');
-        return;
-      }
-
-      // 使用全局路径 + 产品名称生成保存路径
-      const savePath = `${globalSettings.paths.productPath}/${product.name}.json`;
-
-      // 获取当前项目schema
-      const schema = project.exportSchema();
-      
-      Modal.confirm({
-        title: '确认发布',
-        content: `将要发布产品 "${product.name}" 到路径: ${savePath}`,
-        onOk: async () => {
-          try {
-            // 更新产品的schema
-            const updatedProducts = products.map((p: any) =>
-              p.id === productId
-                ? {
-                    ...p,
-                    schema,
-                    updatedAt: new Date().toISOString(),
-                  }
-                : p
-            );
-            
-            localStorage.setItem('lowcode_products', JSON.stringify(updatedProducts));
-            
-            // 调用后端API保存JSON到文件系统
-            try {
-              // API 服务运行在端口 3001，编辑器在 5556
-              const apiUrl = `http://localhost:3001/api/publish`;
-              const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  path: savePath,
-                  schema: schema,
-                  productId: productId,
-                  productName: product.name,
-                }),
-              });
-              
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              
-              const result = await response.json();
-              
-              if (result.success) {
-                message.success(`发布成功！文件已保存到: ${savePath}`);
-              } else {
-                throw new Error(result.message || '发布失败');
-              }
-            } catch (apiError: any) {
-              console.error('API调用失败:', apiError);
-              
-              // 如果后端API不可用，降级为本地保存
-              if (apiError.message.includes('Failed to fetch') || apiError.message.includes('HTTP error')) {
-                console.warn('后端API不可用，使用本地保存模式');
-                
-                // 创建JSON文件并触发下载
-                const jsonStr = JSON.stringify(schema, null, 2);
-                const blob = new Blob([jsonStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${product.name}_${Date.now()}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                message.warning('后端服务未启动，已下载JSON文件。请手动保存到: ' + savePath);
-              } else {
-                throw apiError;
-              }
-            }
-            
-          } catch (error) {
-            console.error('Publish failed:', error);
-            message.error('发布失败: ' + (error as Error).message);
-          }
-        },
-      });
-    } catch (error) {
-      console.error('Error during publish:', error);
-      message.error('获取产品信息失败');
-    }
-  };
-
-  // 返回主页
-  const handleBackHome = () => {
-    window.location.href = '/';
-  };
-
-  return (
-    <Space style={{ marginRight: '16px' }}>
-      <Button
-        type="primary"
-        icon={<CloudUploadOutlined />}
-        onClick={handlePublish}
-        title="发布到文件系统"
-      >
-        发布
-      </Button>
-      <Button
-        icon={<HomeOutlined />}
-        onClick={handleBackHome}
-        title="返回产品列表"
-      >
-        返回主页
-      </Button>
-    </Space>
-  );
 };
 
 PublishPlugin.pluginName = 'PublishPlugin';

@@ -24,21 +24,27 @@ const DEFAULT_MARGIN: PageMargin = {
   left: 20,
 };
 
+// 全局页面计数器
+let pageCounter = 0;
+
 // 默认页面设置
-const createDefaultPageSettings = (): PageSettings => ({
-  id: uuidv4(),
-  name: '新页面',
-  size: 'A4',
-  customWidth: 210,
-  customHeight: 297,
-  orientation: 'portrait',
-  margin: DEFAULT_MARGIN,
-  backgroundColor: '#ffffff',
-  defaultFontSize: 14,
-  defaultFontColor: '#000000',
-  defaultFontFamily: 'Arial',
-  componentGap: 10,
-});
+const createDefaultPageSettings = (): PageSettings => {
+  pageCounter++;
+  return {
+    id: uuidv4(),
+    name: `页面${pageCounter}`,
+    size: 'custom', // F4纸尺寸：210mm × 330mm
+    customWidth: 210,
+    customHeight: 330,
+    orientation: 'portrait',
+    margin: DEFAULT_MARGIN,
+    backgroundColor: '#ffffff',
+    defaultFontSize: 14,
+    defaultFontColor: '#000000',
+    defaultFontFamily: 'Arial',
+    componentGap: 10,
+  };
+};
 
 // 默认文档配置
 const createDefaultDocument = (): DocumentConfig => ({
@@ -189,26 +195,43 @@ export const useEditorStore = create<EditorStore>((set, get) => {
     },
 
     deletePage: (pageId) => {
+      console.log('[editorStore] deletePage 被调用，pageId:', pageId);
       setState((state) => {
+        console.log('[editorStore] 删除前的页面列表:', state.document.pages.map(p => ({ id: p.settings.id, name: p.settings.name })));
+        
         const pageIndex = state.document.pages.findIndex(
           (p) => p.settings.id === pageId
         );
 
+        console.log('[editorStore] 要删除的页面索引:', pageIndex);
+
         // 不允许删除最后一页
         if (state.document.pages.length <= 1) {
+          console.log('[editorStore] 不允许删除最后一页');
           return;
         }
 
         if (pageIndex !== -1) {
+          const deletedPage = state.document.pages[pageIndex];
+          console.log('[editorStore] 删除页面:', deletedPage.settings.name, 'ID:', deletedPage.settings.id);
+          
           state.document.pages.splice(pageIndex, 1);
+
+          console.log('[editorStore] 删除后的页面列表:', state.document.pages.map(p => ({ id: p.settings.id, name: p.settings.name })));
 
           // 如果删除的是当前页，切换到相邻页面
           if (state.currentPageId === pageId) {
             const newIndex = Math.min(pageIndex, state.document.pages.length - 1);
-            state.currentPageId = state.document.pages[newIndex].settings.id;
+            const newPage = state.document.pages[newIndex];
+            console.log('[editorStore] 删除的是当前页，切换到索引:', newIndex, '页面:', newPage.settings.name);
+            state.currentPageId = newPage.settings.id;
+          } else {
+            console.log('[editorStore] 删除的不是当前页，保持当前页不变:', state.currentPageId);
           }
 
           state.document.updatedAt = new Date();
+        } else {
+          console.log('[editorStore] 未找到要删除的页面！');
         }
       });
       get().addToHistory();

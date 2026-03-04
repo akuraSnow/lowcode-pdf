@@ -23,7 +23,7 @@ echo "⏳ 等待编辑器启动..."
 sleep 3
 
 # 启动 API 服务（后台运行）
-echo "🔌 启动 API 服务 (端口 3001)..."
+echo "🔌 启动 API 服务 (端口 8080)..."
 npm run storage-sync &
 API_PID=$!
 echo "API 服务 PID: $API_PID"
@@ -32,7 +32,7 @@ echo ""
 echo "✓ 所有服务已启动！"
 echo ""
 echo "📍 编辑器地址: http://localhost:5556"
-echo "📍 API 服务地址: http://localhost:3001"
+echo "📍 API 服务地址: http://localhost:8080"
 echo ""
 echo "按 Ctrl+C 停止所有服务..."
 echo ""

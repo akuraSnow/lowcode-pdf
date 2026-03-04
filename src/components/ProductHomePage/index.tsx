@@ -36,7 +36,8 @@ export const ProductHomePage: React.FC = () => {
   const addProduct = useProductStore((state) => state.addProduct);
   const updateProduct = useProductStore((state) => state.updateProduct);
   const deleteProduct = useProductStore((state) => state.deleteProduct);
-  const initProducts = useProductStore((state) => state.initProducts);
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
+  const isLoading = useProductStore((state) => state.isLoading);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
@@ -44,8 +45,9 @@ export const ProductHomePage: React.FC = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    initProducts();
-  }, [initProducts]);
+    // 从 API 加载产品列表
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleAddNew = () => {
     setEditingProduct(null);
@@ -73,7 +75,7 @@ export const ProductHomePage: React.FC = () => {
       
       if (editingProduct) {
         // 编辑模式 - 跳转到低代码平台编辑
-        updateProduct(editingProduct.id, values);
+        await updateProduct(editingProduct.id, values);
         message.success('产品信息已更新，准备进入编辑器...');
         
         // 跳转到低代码平台
@@ -82,7 +84,7 @@ export const ProductHomePage: React.FC = () => {
         }, 500);
       } else {
         // 新增模式 - 创建产品并跳转到低代码平台
-        const newProduct = addProduct(values);
+        const newProduct = await addProduct(values);
         message.success('产品已创建，准备进入编辑器...');
         
         // 跳转到低代码平台
@@ -229,6 +231,7 @@ export const ProductHomePage: React.FC = () => {
           columns={columns}
           dataSource={products}
           rowKey="id"
+          loading={isLoading}
           pagination={{
             pageSize: 10,
             showSizeChanger: true,

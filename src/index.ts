@@ -20,6 +20,7 @@ import PreviewSamplePlugin from './plugins/plugin-preview-sample';
 import CustomSetterSamplePlugin from './plugins/plugin-custom-setter-sample';
 import SetRefPropPlugin from '@alilc/lowcode-plugin-set-ref-prop';
 import LogoSamplePlugin from './plugins/plugin-logo-sample';
+import { useProductStore } from './stores/productStore';
 
 // 处理产品ID参数
 const urlParams = new URLSearchParams(window.location.search);
@@ -30,6 +31,7 @@ if (productId) {
 }
 import SimulatorLocalePlugin from './plugins/plugin-simulator-locale';
 import lowcodePlugin from './plugins/plugin-lowcode-component';
+import htmlTablePlugin from './plugins/plugin-html-table';
 import PluginDocumentExport from './plugins/plugin-document-export';
 import PluginDataManagement from './plugins/plugin-data-management';
 import PluginPageManagement from './plugins/plugin-page-management';
@@ -37,6 +39,8 @@ import PluginResourceManagement from './plugins/plugin-resource-management';
 import PublishPlugin from './plugins/plugin-publish';
 import TemplateManagerPlugin from './plugins/plugin-template-manager';
 import DocumentParserPlugin from './plugins/plugin-document-parser';
+import UnifiedActionsPlugin from './plugins/plugin-unified-actions';
+import ContainerClassNamePlugin from './plugins/plugin-container-classname';
 import appHelper from './appHelper';
 import './global.scss';
 import './styles/custom.scss';
@@ -70,10 +74,16 @@ async function registerPlugins() {
 
   await plugins.register(LogoSamplePlugin);
 
-  await plugins.register(ComponentPanelPlugin);
+  await plugins.register(ComponentPanelPlugin, {
+    // 配置组件面板在拖拽后保持打开
+    keepVisibleWhileDrag: true,
+  });
 
   // 注册组件库面板配置插件（固定左侧面板宽度为 250px）
   await plugins.register(ComponentPanelConfigPlugin);
+  
+  // 注册容器组件类名配置插件
+  await plugins.register(ContainerClassNamePlugin);
 
   // 注册左侧菜单导航插件（组件树、组件库、数据源、源码面板）
   // await plugins.register(PluginLeftSidebarMenu);
@@ -90,7 +100,15 @@ async function registerPlugins() {
 
   // await plugins.register(SetRefPropPlugin);
 
-  await plugins.register(SimulatorResizerPlugin);
+  await plugins.register(SimulatorResizerPlugin, {
+    options: [
+      {
+        name: 'custom',
+        width: 794,
+        height: 1247,
+      },
+    ],
+  });
 
   // await plugins.register(LoadIncrementalAssetsWidgetPlugin);
 
@@ -122,6 +140,9 @@ async function registerPlugins() {
   // await plugins.register(SimulatorLocalePlugin);
 
   await plugins.register(lowcodePlugin);
+  
+  // 注册原生 HTML Table 组件
+  await plugins.register(htmlTablePlugin);
 
   // 注册功能列表相关插件
   await plugins.register(PluginPageManagement);
@@ -137,9 +158,22 @@ async function registerPlugins() {
   
   // 注册文档解析插件
   await plugins.register(DocumentParserPlugin);
+  
+  // 注册统一操作插件（必须在其他功能插件之后注册）
+  await plugins.register(UnifiedActionsPlugin);
 };
 
 (async function main() {
+  // 在初始化编辑器前，先加载产品列表
+  console.log('[Main] 开始加载产品列表...');
+  try {
+    await useProductStore.getState().fetchProducts();
+    console.log('[Main] ✓ 产品列表加载完成');
+  } catch (error) {
+    console.error('[Main] ⚠️ 产品列表加载失败:', error);
+    // 即使加载失败，也继续初始化编辑器
+  }
+
   await registerPlugins();
 
   init(document.getElementById('lce-container')!, {
@@ -153,5 +187,11 @@ async function registerPlugins() {
     },
     // appHelper,
     enableContextMenu: true,
+    // 设置画布为平板模式 (F4 纸尺寸: 210mm × 330mm)
+    simulatorUrl: [
+      'https://unpkg.com/@alilc/lowcode-react-simulator-renderer@latest/dist/css/react-simulator-renderer.css',
+      'https://unpkg.com/@alilc/lowcode-react-simulator-renderer@latest/dist/js/react-simulator-renderer.js'
+    ],
+    device: 'default'
   });
 })();

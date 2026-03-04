@@ -53,7 +53,7 @@ else
 fi
 
 # 设置端口
-PORT=${PORT:-3001}
+PORT=${PORT:-8080}
 echo -e "${GREEN}✓ 服务端口: ${PORT}${NC}"
 
 echo -e "${BLUE}========================================${NC}"

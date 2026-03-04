@@ -113,6 +113,22 @@ module.exports = ({ onGetWebpackConfig }) => {
     config.plugins.delete('hot');
     config.devServer.hot(false);
 
+    // 配置开发服务器代理 - 将前端 /api 请求代理到后端 API 服务器
+    config.devServer.proxy({
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+        logLevel: 'debug',
+        onProxyReq: (proxyReq, req, res) => {
+          console.log(`[Proxy] ${req.method} ${req.url} -> http://localhost:8080${req.url}`);
+        },
+        onError: (err, req, res) => {
+          console.error('[Proxy Error]', err.message);
+        },
+      },
+    });
+
     config.module // fixes https://github.com/graphql/graphql-js/issues/1272
       .rule('mjs$')
       .test(/\.mjs$/)
