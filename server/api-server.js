@@ -18,6 +18,28 @@ const execAsync = promisify(exec);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+const DEFAULT_CORS_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000'];
+const corsOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map((item) => item.trim()).filter(Boolean)
+  : DEFAULT_CORS_ORIGINS;
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    if (corsOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS origin not allowed: ${origin}`));
+  },
+  credentials: true,
+};
+
 // 默认保存路径配置
 const DEFAULT_SAVE_PATH = process.env.SAVE_PATH || path.join(__dirname, '../data');
 const TEMP_UPLOAD_PATH = path.join(__dirname, '../data/temp');
@@ -52,7 +74,7 @@ const upload = multer({
 });
 
 // 中间件
-app.use(cors()); // 允许跨域
+app.use(cors(corsOptions)); // 允许跨域（支持凭证）
 app.use(express.json({ limit: '50mb' })); // 解析JSON body
 
 /**
@@ -740,6 +762,192 @@ app.post('/api/fix-products', (req, res) => {
 });
 
 /**
+ * 读取本地 JSON 文件
+ * GET /api/local-json?path=/absolute/or/relative/file.json&mode=wrapped
+ */
+app.get('/api/local-json', (req, res) => {
+  try {
+    const rawPath = req.query.path;
+    const mode = req.query.mode;
+
+    if (!rawPath || typeof rawPath !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: '缺少必要参数: path',
+      });
+    }
+
+    const normalizedPath = path.normalize(rawPath.trim());
+
+    if (!normalizedPath) {
+      return res.status(400).json({
+        success: false,
+        message: '无效的文件路径',
+      });
+    }
+
+    if (path.extname(normalizedPath).toLowerCase() !== '.json') {
+      return res.status(400).json({
+        success: false,
+        message: '只支持读取 .json 文件',
+      });
+    }
+
+    if (!fs.existsSync(normalizedPath)) {
+      return res.status(404).json({
+        success: false,
+        message: '文件不存在',
+      });
+    }
+
+    const fileStat = fs.statSync(normalizedPath);
+    if (!fileStat.isFile()) {
+      return res.status(400).json({
+        success: false,
+        message: 'path 必须是文件路径',
+      });
+    }
+
+    const fileContent = fs.readFileSync(normalizedPath, 'utf8');
+    const data = JSON.parse(fileContent);
+
+    if (mode === 'wrapped') {
+      return res.json({
+        success: true,
+        message: 'JSON 文件读取成功',
+        data,
+        filePath: normalizedPath,
+      });
+    }
+
+    return res.json(data);
+  } catch (error) {
+    console.error('[读取本地JSON失败]', error);
+    return res.status(500).json({
+      success: false,
+      message: `读取本地JSON失败: ${error.message}`,
+    });
+  }
+});
+
+/**
+ * 方法文件管理接口 - 列出目录下所有 .js 文件
+ * GET /api/methods?dir=<methodPath>
+ */
+app.get('/api/methods', async (req, res) => {
+  try {
+    const { dir } = req.query;
+    if (!dir) {
+      return res.status(400).json({ success: false, message: '缺少 dir 参数' });
+    }
+
+    const resolvedDir = path.resolve(dir);
+    validatePath(resolvedDir);
+
+    if (!fs.existsSync(resolvedDir)) {
+      fs.mkdirSync(resolvedDir, { recursive: true });
+    }
+
+    const files = fs.readdirSync(resolvedDir)
+      .filter(f => f.endsWith('.js'))
+      .map(f => ({ filename: f }));
+
+    res.json({ success: true, files });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
+ * 方法文件管理接口 - 读取单个 JS 文件内容
+ * GET /api/methods/:filename?dir=<methodPath>
+ */
+app.get('/api/methods/:filename', async (req, res) => {
+  try {
+    const { filename } = req.params;
+    const { dir } = req.query;
+
+    if (!dir) {
+      return res.status(400).json({ success: false, message: '缺少 dir 参数' });
+    }
+    if (!filename.endsWith('.js')) {
+      return res.status(400).json({ success: false, message: '只允许访问 .js 文件' });
+    }
+
+    const filePath = validatePath(path.join(path.resolve(dir), filename));
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, message: '文件不存在' });
+    }
+
+    const content = fs.readFileSync(filePath, 'utf-8');
+    res.json({ success: true, filename, content });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
+ * 方法文件管理接口 - 创建或更新 JS 文件
+ * POST /api/methods/:filename
+ * body: { dir, content }
+ */
+app.post('/api/methods/:filename', async (req, res) => {
+  try {
+    const { filename } = req.params;
+    const { dir, content } = req.body;
+
+    if (!dir) {
+      return res.status(400).json({ success: false, message: '缺少 dir 参数' });
+    }
+    if (!filename.endsWith('.js')) {
+      return res.status(400).json({ success: false, message: '只允许写入 .js 文件' });
+    }
+
+    const resolvedDir = path.resolve(dir);
+    if (!fs.existsSync(resolvedDir)) {
+      fs.mkdirSync(resolvedDir, { recursive: true });
+    }
+
+    const filePath = validatePath(path.join(resolvedDir, filename));
+    fs.writeFileSync(filePath, content || '', 'utf-8');
+
+    res.json({ success: true, message: '文件保存成功', filename });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
+ * 方法文件管理接口 - 删除 JS 文件
+ * DELETE /api/methods/:filename?dir=<methodPath>
+ */
+app.delete('/api/methods/:filename', async (req, res) => {
+  try {
+    const { filename } = req.params;
+    const { dir } = req.query;
+
+    if (!dir) {
+      return res.status(400).json({ success: false, message: '缺少 dir 参数' });
+    }
+    if (!filename.endsWith('.js')) {
+      return res.status(400).json({ success: false, message: '只允许删除 .js 文件' });
+    }
+
+    const filePath = validatePath(path.join(path.resolve(dir), filename));
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, message: '文件不存在' });
+    }
+
+    fs.unlinkSync(filePath);
+    res.json({ success: true, message: '文件删除成功', filename });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
  * 健康检查接口
  * GET /api/health
  */
@@ -763,6 +971,7 @@ app.listen(PORT, () => {
   console.log(`产品管理: http://localhost:${PORT}/api/products`);
   console.log(`模板管理: http://localhost:${PORT}/api/templates`);
   console.log(`修复工具: http://localhost:${PORT}/api/fix-products`);
+  console.log(`本地JSON: http://localhost:${PORT}/api/local-json?path=...`);
   console.log(`健康检查: http://localhost:${PORT}/api/health`);
   console.log(`========================================`);
   console.log(`\n可用的API:`);
@@ -776,6 +985,7 @@ app.listen(PORT, () => {
   console.log(`  GET    /api/templates           - 获取模板列表`);
   console.log(`  DELETE /api/templates/:id       - 删除模板`);
   console.log(`  POST   /api/fix-products        - 修复缺少schema的产品`);
+  console.log(`  GET    /api/local-json          - 读取本地JSON文件`);
   console.log(`  GET    /api/health              - 健康检查`);
   console.log(`========================================\n`);
 });

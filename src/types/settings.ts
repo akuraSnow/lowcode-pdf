@@ -11,6 +11,8 @@ export interface GlobalPathSettings {
   methodPath: string;
   /** 通用文件保存路径 */
   filePath: string;
+  /** JSON转换工具初始JSON文件路径（可选） */
+  initialJsonPath?: string;
 }
 
 export interface GlobalSettings {

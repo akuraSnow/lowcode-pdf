@@ -70,6 +70,7 @@ export const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
           templatePath: './data/templates',
           methodPath: './data/methods',
           filePath: './data/files',
+          initialJsonPath: '',
         });
         message.success('已恢复默认设置');
       },
@@ -197,7 +198,18 @@ export const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
             addonBefore="路径"
           />
         </Form.Item>
-      </Form>
+        <Form.Item
+          label="JSON转换工具 — 初始 JSON 路径"
+          name="initialJsonPath"
+          tooltip="打开JSON转换工具时若没有已导入的JSON，会自动从此路径加载文件。留空则不自动加载。"
+        >
+          <Input
+            placeholder="如: /absolute/path/to/data.json 或 ./data/source.json"
+            prefix={<FolderOpenOutlined />}
+            addonBefore="路径"
+            allowClear
+          />
+        </Form.Item>      </Form>
 
       <Divider />
 

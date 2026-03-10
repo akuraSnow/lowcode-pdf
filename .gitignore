@@ -6,4 +6,6 @@ temp/*
 coverage
 .scannerwork
 .idea
+.history
+.github
 /pos-report-engine.iml

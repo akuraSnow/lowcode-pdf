@@ -18,6 +18,7 @@ const DEFAULT_PATHS: GlobalPathSettings = {
   templatePath: './data/templates',
   methodPath: './data/methods',
   filePath: './data/files',
+  initialJsonPath: '',
 };
 
 const DEFAULT_SETTINGS: GlobalSettings = {

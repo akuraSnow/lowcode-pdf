@@ -3,7 +3,6 @@ import { Button, Balloon, Upload, Message, Dialog } from '@alifd/next';
 import { 
   HomeOutlined,
   DownloadOutlined,
-  FilePdfOutlined,
   FileTextOutlined,
   SaveOutlined,
   FolderOpenOutlined,
@@ -81,21 +80,6 @@ const UnifiedActionsPlugin = (ctx: IPublicModelPluginContext) => {
             a.click();
             URL.revokeObjectURL(url);
             Message.success('Schema 导出成功');
-          },
-        });
-
-        // 导出 PDF
-        actions.push({
-          key: 'exportPDF',
-          icon: <FilePdfOutlined />,
-          label: '导出PDF',
-          onClick: () => {
-            const exportPDFAction = getPluginAction('exportPDFAction');
-            if (exportPDFAction && typeof exportPDFAction === 'function') {
-              exportPDFAction();
-            } else {
-              Message.warning('PDF 导出功能暂未启用');
-            }
           },
         });
 

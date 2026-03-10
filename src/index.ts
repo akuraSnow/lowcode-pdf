@@ -40,6 +40,7 @@ import PublishPlugin from './plugins/plugin-publish';
 import TemplateManagerPlugin from './plugins/plugin-template-manager';
 import DocumentParserPlugin from './plugins/plugin-document-parser';
 import UnifiedActionsPlugin from './plugins/plugin-unified-actions';
+import PluginJsonTransform from './plugins/plugin-json-transform';
 import ContainerClassNamePlugin from './plugins/plugin-container-classname';
 import appHelper from './appHelper';
 import './global.scss';
@@ -158,6 +159,9 @@ async function registerPlugins() {
   
   // 注册文档解析插件
   await plugins.register(DocumentParserPlugin);
+
+  // 注册 JSON 转换插件
+  await plugins.register(PluginJsonTransform);
   
   // 注册统一操作插件（必须在其他功能插件之后注册）
   await plugins.register(UnifiedActionsPlugin);

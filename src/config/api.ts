@@ -40,6 +40,13 @@ export const API_ENDPOINTS = {
   
   // 健康检查
   health: `${API_BASE_URL}/health`,
+
+  // 方法文件管理
+  methods: `${API_BASE_URL}/methods`,
+  methodByName: (name: string) => `${API_BASE_URL}/methods/${encodeURIComponent(name)}`,
+
+  // 读取本地 JSON 文件
+  localJson: `${API_BASE_URL}/local-json`,
 };
 
 /**

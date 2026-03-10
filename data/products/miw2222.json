@@ -3,22 +3,13 @@
   "name": "miw2222",
   "description": "",
   "createdAt": "2026-02-27T08:31:30.401Z",
-  "updatedAt": "2026-03-02T01:44:30.093Z",
+  "updatedAt": "2026-03-05T06:48:48.531Z",
   "projectSchema": {
     "version": "1.0.0",
     "componentsMap": [
       {
         "devMode": "lowCode",
         "componentName": "HtmlRenderer"
-      },
-      {
-        "package": "@alilc/lowcode-materials",
-        "version": "1.0.7",
-        "exportName": "NextText",
-        "main": "lib/index.js",
-        "destructuring": true,
-        "subName": "",
-        "componentName": "NextText"
       },
       {
         "package": "html-components",
@@ -33,6 +24,15 @@
         "exportName": "tr",
         "destructuring": true,
         "componentName": "tr"
+      },
+      {
+        "package": "@alilc/lowcode-materials",
+        "version": "1.0.7",
+        "exportName": "NextText",
+        "main": "lib/index.js",
+        "destructuring": true,
+        "subName": "",
+        "componentName": "NextText"
       },
       {
         "package": "html-components",
@@ -65,9 +65,9 @@
     "componentsTree": [
       {
         "componentName": "Page",
-        "id": "451d995b-29ba-4838-a576-abe778b63487_1772415798419",
+        "id": "page_1772692014663",
         "props": {
-          "ref": "page_451d995b-29ba-4838-a576-abe778b63487_1772415798419",
+          "ref": "page_1772692014663",
           "style": {
             "height": "100%",
             "paddingLeft": "83px",
@@ -77,51 +77,57 @@
           }
         },
         "fileName": "第1页",
-        "hidden": false,
-        "title": "",
-        "isLocked": false,
-        "condition": true,
-        "conditionGroup": "",
-        "children": [
-          {
-            "componentName": "HtmlRenderer",
-            "id": "node_ocmm4pzxtz3",
-            "props": {
-              "htmlContent": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"200\" height=\"50\" viewBox=\"0 0 89 17\">\n    <defs>\n        <path id=\"a\" d=\"M0 0h88.58v16.24H0z\"/>\n    </defs>\n    <g fill=\"none\" fill-rule=\"evenodd\">\n        <mask id=\"b\" fill=\"#fff\">\n            <use xlink:href=\"#a\"/>\n        </mask>\n        <path fill=\"#000\" d=\"M72.643 14.026h1.952v-8.51h-1.952v8.51zm-3.95 0h1.876V.972l-1.876 1.86v11.194zm4.925-12.337c-.655 0-1.205.533-1.205 1.189 0 .655.55 1.205 1.205 1.205.641 0 1.19-.55 1.19-1.205a1.2 1.2 0 0 0-1.19-1.19zm5.139 3.827V3.869c0-.732.487-1.174 1.082-1.174.382 0 .778.152 1.037.305l.595-1.464a4.288 4.288 0 0 0-1.922-.443c-1.769 0-2.668 1.267-2.668 2.669v1.754h-1.144V7.07h1.144v6.955h1.876V7.07h1.784l.441-1.555h-2.225zm6.053 1.312c1.143 0 1.799.976 1.799 2.013h-3.782c.03-.977.885-2.013 1.983-2.013zm.137 5.795c-1.175 0-2.166-.976-2.18-2.35h5.809c.092-3.476-1.494-4.955-3.751-4.955-2.364 0-3.996 1.92-3.996 4.453 0 2.623 1.51 4.453 3.935 4.453 1.54 0 2.867-.81 3.553-1.815l-1.174-1.098c-.397.717-1.312 1.312-2.196 1.312zM55.768 5.318c-1.099 0-2.105.549-2.776 1.159v-.961h-1.876v8.51h1.876V7.91c.427-.396 1.342-1.006 2.059-1.006.869 0 1.219.716 1.219 1.555v5.567h1.876V7.97c0-2.074-1.373-2.653-2.378-2.653zm8.979 6.19c-.534.596-1.221 1.069-1.952 1.069-.885 0-1.312-.686-1.312-1.678V5.516h-1.876v5.993c0 2.135 1.525 2.715 2.623 2.715 1.098 0 1.937-.625 2.456-1.113v.915h1.936v-8.51h-1.875v5.993zM35.245 8.026h-.03l-3.478-5.81h-2.211v11.81h2.044V5.662h.031l3.598 5.948 3.584-5.948h.03v8.365h2.059V2.215h-2.165l-3.462 5.81zm12.319 3.53c-.458.579-1.189 1.159-2.074 1.159-.747 0-1.327-.457-1.327-1.128 0-.946.977-1.342 2.09-1.48l1.28-.152h.031v1.6zm-1.205-6.237c-1.509 0-2.669.594-3.324 1.449l1.068 1.265c.335-.533 1.235-1.204 2.165-1.204.808 0 1.342.41 1.342.976 0 .457-.244.838-.93.899l-.702.076c-1.799.199-3.644.916-3.644 2.883 0 1.616 1.235 2.562 2.729 2.562 1.296 0 2.029-.625 2.486-1.16v.962h1.891V8.002c0-1.678-1.129-2.684-3.081-2.684z\" mask=\"url(#b)\"/>\n        <path fill=\"#00A758\" d=\"M11.81 2.953V16.24l2.954-2.953V-.002zM5.905 16.24l2.953-2.953V0L5.905 2.953zM0 16.24l2.953-2.953V0L0 2.953z\" mask=\"url(#b)\"/>\n    </g>\n</svg>\n",
-              "style": {
-                "width": "100%",
-                "marginBottom": "30px",
-                "borderRadius": "4px",
-                "padding": "16px",
-                "backgroundColor": "#ffffff"
-              }
+        "dataSource": {
+          "list": [
+            {
+              "type": "fetch",
+              "isInit": true,
+              "options": {
+                "method": "GET",
+                "isCors": true,
+                "timeout": 5000,
+                "uri": "http://localhost:8080/api/local-json?path=/Users/WilliamsLi/Documents/FE/pos-report-engine-sgpos/public/testData/uiJson.json"
+              },
+              "id": "ddd"
             },
-            "docId": "docmm4pzxtz",
-            "state": {},
-            "hidden": false,
-            "title": "",
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": ""
-          },
+            {
+              "type": "fetch",
+              "isInit": true,
+              "options": {
+                "method": "GET",
+                "isCors": true,
+                "timeout": 5000,
+                "uri": "http://localhost:8080/api/local-json?path=/Users/WilliamsLi/Documents/FE/pos-report-engine-sgpos/public/testData/uiJson.json"
+              },
+              "id": "ffff"
+            }
+          ]
+        },
+        "methods": {
+          "testFunc": {
+            "type": "JSFunction",
+            "value": "function testFunc() {\n  console.log('test aliLowcode func');\n  return /*#__PURE__*/React.createElement(\"div\", {\n    className: \"test-aliLowcode-func\"\n  }, this.state.test);\n}",
+            "source": "function testFunc() {\n  console.log('test aliLowcode func');\n  return <div className=\"test-aliLowcode-func\">\n        {this.state.test}\n      </div>;\n}"
+          }
+        },
+        "originCode": "class Page extends Component {\n  undefined\n  \n  \n  // 你可以在这里编写函数，并且与组件的事件进行绑定，支持JSX语法\n  testFunc() {\n    console.log('test aliLowcode func');\n    return (\n      <div className=\"test-aliLowcode-func\">\n        {this.state.test}\n      </div>\n    );\n  }\n  \n}",
+        "css": "",
+        "children": [
           {
             "componentName": "table",
             "id": "node_1r2uecu1cmm4phhk5",
             "props": {
-              "className": "parsed-table",
+              "className": "page-fixed-header",
               "style": {
                 "width": "100%",
                 "borderCollapse": "collapse",
                 "marginBottom": "16px",
                 "border": "none"
-              }
+              },
+              "border": 4
             },
             "docId": "doc_ll33gt4cf",
             "title": "表格",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "tbody",
@@ -129,10 +135,6 @@
                 "props": {},
                 "docId": "doc_alzokk4gh",
                 "title": "表格主体",
-                "hidden": false,
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": "",
                 "children": [
                   {
                     "componentName": "tr",
@@ -143,10 +145,6 @@
                     },
                     "docId": "doc_pyffsnjzs",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -158,44 +156,73 @@
                             "border": "none",
                             "textAlign": "left",
                             "verticalAlign": "middle"
+                          },
+                          "colSpan": "4"
+                        },
+                        "docId": "doc_gv624a4yc",
+                        "title": "表格单元格",
+                        "children": [
+                          {
+                            "componentName": "HtmlRenderer",
+                            "id": "node_ocmm4pzxtz3",
+                            "props": {
+                              "htmlContent": "<div class=\"header-logo\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"200\" height=\"50\" viewBox=\"0 0 89 17\">\n    <defs>\n        <path id=\"a\" d=\"M0 0h88.58v16.24H0z\"/>\n    </defs>\n    <g fill=\"none\" fill-rule=\"evenodd\">\n        <mask id=\"b\" fill=\"#fff\">\n            <use xlink:href=\"#a\"/>\n        </mask>\n        <path fill=\"#000\" d=\"M72.643 14.026h1.952v-8.51h-1.952v8.51zm-3.95 0h1.876V.972l-1.876 1.86v11.194zm4.925-12.337c-.655 0-1.205.533-1.205 1.189 0 .655.55 1.205 1.205 1.205.641 0 1.19-.55 1.19-1.205a1.2 1.2 0 0 0-1.19-1.19zm5.139 3.827V3.869c0-.732.487-1.174 1.082-1.174.382 0 .778.152 1.037.305l.595-1.464a4.288 4.288 0 0 0-1.922-.443c-1.769 0-2.668 1.267-2.668 2.669v1.754h-1.144V7.07h1.144v6.955h1.876V7.07h1.784l.441-1.555h-2.225zm6.053 1.312c1.143 0 1.799.976 1.799 2.013h-3.782c.03-.977.885-2.013 1.983-2.013zm.137 5.795c-1.175 0-2.166-.976-2.18-2.35h5.809c.092-3.476-1.494-4.955-3.751-4.955-2.364 0-3.996 1.92-3.996 4.453 0 2.623 1.51 4.453 3.935 4.453 1.54 0 2.867-.81 3.553-1.815l-1.174-1.098c-.397.717-1.312 1.312-2.196 1.312zM55.768 5.318c-1.099 0-2.105.549-2.776 1.159v-.961h-1.876v8.51h1.876V7.91c.427-.396 1.342-1.006 2.059-1.006.869 0 1.219.716 1.219 1.555v5.567h1.876V7.97c0-2.074-1.373-2.653-2.378-2.653zm8.979 6.19c-.534.596-1.221 1.069-1.952 1.069-.885 0-1.312-.686-1.312-1.678V5.516h-1.876v5.993c0 2.135 1.525 2.715 2.623 2.715 1.098 0 1.937-.625 2.456-1.113v.915h1.936v-8.51h-1.875v5.993zM35.245 8.026h-.03l-3.478-5.81h-2.211v11.81h2.044V5.662h.031l3.598 5.948 3.584-5.948h.03v8.365h2.059V2.215h-2.165l-3.462 5.81zm12.319 3.53c-.458.579-1.189 1.159-2.074 1.159-.747 0-1.327-.457-1.327-1.128 0-.946.977-1.342 2.09-1.48l1.28-.152h.031v1.6zm-1.205-6.237c-1.509 0-2.669.594-3.324 1.449l1.068 1.265c.335-.533 1.235-1.204 2.165-1.204.808 0 1.342.41 1.342.976 0 .457-.244.838-.93.899l-.702.076c-1.799.199-3.644.916-3.644 2.883 0 1.616 1.235 2.562 2.729 2.562 1.296 0 2.029-.625 2.486-1.16v.962h1.891V8.002c0-1.678-1.129-2.684-3.081-2.684z\" mask=\"url(#b)\"/>\n        <path fill=\"#00A758\" d=\"M11.81 2.953V16.24l2.954-2.953V-.002zM5.905 16.24l2.953-2.953V0L5.905 2.953zM0 16.24l2.953-2.953V0L0 2.953z\" mask=\"url(#b)\"/>\n    </g>\n</svg>\n</div>\n",
+                              "style": {
+                                "width": "100%",
+                                "marginBottom": "30px",
+                                "borderRadius": "4px",
+                                "padding": "16px",
+                                "backgroundColor": "#ffffff"
+                              }
+                            },
+                            "docId": "docmm4pzxtz"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "componentName": "tr",
+                    "id": "node_ocmmcssrfw1",
+                    "props": {
+                      "className": "parsed-table-row",
+                      "style": {}
+                    },
+                    "docId": "doc_pyffsnjzs",
+                    "title": "表格行",
+                    "children": [
+                      {
+                        "componentName": "td",
+                        "id": "node_ocmmcssrfw2",
+                        "props": {
+                          "className": "parsed-table-td",
+                          "style": {
+                            "padding": "2px",
+                            "border": "none",
+                            "textAlign": "left",
+                            "verticalAlign": "middle"
                           }
                         },
                         "docId": "doc_gv624a4yc",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_cfg72d31imm4phhk4",
+                            "id": "node_ocmmcssrfw3",
                             "props": {
-                              "type": "inherit",
                               "children": "Specially prepared for",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_u1ive6kz1",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
                       {
                         "componentName": "td",
-                        "id": "node_j8adirnmrmm4phhk4",
+                        "id": "node_ocmmcssrfw4",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -207,40 +234,28 @@
                         },
                         "docId": "doc_y144vx1vn",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_pka0tkfn5mm4phhk4",
+                            "id": "node_ocmmcssrfw5",
                             "props": {
-                              "type": "inherit",
-                              "children": ": <OwnerSal> <OwnerName>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
+                              "children": {
+                                "type": "JSExpression",
+                                "value": "this.state.ddd",
+                                "mock": ": <OwnerSal> <OwnerName>"
+                              },
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_rdng94nnb",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
                       {
                         "componentName": "td",
-                        "id": "node_k27baijrdmm4phhk4",
+                        "id": "node_ocmmcssrfw6",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -252,40 +267,24 @@
                         },
                         "docId": "doc_fs4kn7m2z",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_fz9q5yzremm4phhk4",
+                            "id": "node_ocmmcssrfw7",
                             "props": {
-                              "type": "inherit",
                               "children": "Date Generated",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_rg5ogynam",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
                       {
                         "componentName": "td",
-                        "id": "node_y6pqjvi8kmm4phhk4",
+                        "id": "node_ocmmcssrfw8",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -297,34 +296,18 @@
                         },
                         "docId": "doc_a2g00v4ar",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_9mhiwlh0umm4phhk4",
+                            "id": "node_ocmmcssrfw9",
                             "props": {
-                              "type": "inherit",
                               "children": ": <DateGenerated>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_qpcktstri",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -339,10 +322,6 @@
                     },
                     "docId": "doc_cz6vyomsm",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -358,34 +337,18 @@
                         },
                         "docId": "doc_do90vbkqz",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_avylmmh6amm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "On the Life of",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_4ct01bonf",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -404,34 +367,18 @@
                         },
                         "docId": "doc_l1dxiizuq",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_un9mift1smm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": ": <InsuredSal> <InsuredName>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_re275tjex",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -450,34 +397,18 @@
                         },
                         "docId": "doc_194rre42e",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_8mt6vxllimm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "<Gender>, <Smoker Status>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_74w0w5bzn",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -492,10 +423,6 @@
                     },
                     "docId": "doc_t2tpqe55j",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -511,34 +438,18 @@
                         },
                         "docId": "doc_1t8p9z1a2",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ymt3u9bv1mm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "Plan",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_pfwdicjg4",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -556,34 +467,18 @@
                         },
                         "docId": "doc_miu79p5x9",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_lngkt9t3jmm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": ": <Product Name> (<Plan Code>)",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_gj7r1r92c",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -601,34 +496,18 @@
                         },
                         "docId": "doc_265o4f1xx",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ppioql8e0mm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "Age Last Birthday",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_fgphjoz8z",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -646,34 +525,18 @@
                         },
                         "docId": "doc_q8h1cv38u",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_jywsnppr9mm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": ": <Age>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_6swxejr4w",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -685,282 +548,176 @@
           },
           {
             "componentName": "FDP",
-            "id": "node_9drk9rx94mm4phhk5",
+            "id": "node_0jhh96u6mmmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_5mighed3y",
+            "docId": "doc_4cq70pfqx",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_ocrc0dcrtmm4phhk5",
+                "id": "node_23uz27t3ommcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "This policy is protected under the Policy Owners’ Protection Scheme which is administered by the Singapore Deposit Insurance Corporation (SDIC). Coverage for your policy is automatic and no further action is required from you. For more information on the types of benefits that are covered under the scheme as well as the limits of coverage, where applicable, please contact us or visit the Life Insurance Association (LIA) or SDIC websites (www.lia.org.sg or www.sdic.org.sg).",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_y5rrreb8b",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_qh94domcz",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_veldz2c0amm4phhk5",
+            "id": "node_z876h25femmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_t8qp45uo4",
+            "docId": "doc_fwjk1sjwi",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_v3azmwme9mm4phhk5",
+                "id": "node_drgcvec4pmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "Acknowledgement:",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_rcnnxnqjz",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_33tvt1qw8",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_22gg085bpmm4phhk5",
+            "id": "node_p9lhgbq7pmmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_ntnpdq4v0",
+            "docId": "doc_yk2y8djs4",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_plapktq4fmm4phhk5",
+                "id": "node_8acyfd38ummcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "I confirm that I have received all pages of the Cover Page, Policy Illustration, Product Summary and Bundled Product Disclosure Document, where applicable, for the plan.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_uhrpnhj8m",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_nkop7o7q4",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_yejbyp3zhmm4phhk5",
+            "id": "node_5ywubcq4ommcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_w4pf1zgmm",
+            "docId": "doc_1vzpihlnl",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_2rkgrz6wsmm4phhk5",
+                "id": "node_zkck45gbmmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "I understand that the Policy Illustration is intended for illustrative purposes only. I understand that there may be non-guaranteed elements illustrated which may be subject to change. The terms and conditions are specified in the Policy Contract.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_6016md1zr",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_ymxd5a4lr",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_xulr4zxsvmm4phhk5",
+            "id": "node_p4v6ar6mkmmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_yq4cbmbpe",
+            "docId": "doc_57pqzsxuf",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_r15fjoflkmm4phhk5",
+                "id": "node_v6to7uxd0mmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "The Representative(s) has/have explained the values, key benefits and information in the Cover Page, Policy Illustration, Product Summary and Bundled Product Disclosure Document, where applicable, to my satisfaction.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_yiowopsju",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_a4rk5dtgu",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_zto93j547mm4phhk5",
+            "id": "node_bovqqxx51mmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_k6f7r8wfb",
+            "docId": "doc_6joif9znl",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_vc1gaq47mmm4phhk5",
+                "id": "node_g58c4rrxnmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "I have also read through all the pages of the Cover Page, Policy Illustration, Product Summary and Bundled Product Disclosure Document, where applicable, and understand the benefits of the plan.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_dtcbcocph",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_q923v86fw",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_4q4ft2d17mm4phhk5",
+            "id": "node_txzneftu9mmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_mqbogue1j",
+            "docId": "doc_y5qp5vs8x",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_m0yeu9fxamm4phhk5",
+                "id": "node_f4tmtw0azmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "This quotation is valid for two months from the date generated if there is no change to any of the parameters.",
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "strong": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {
                     "margin": "0"
                   }
                 },
-                "docId": "doc_mqbogue1j",
-                "hidden": false,
-                "title": "文本",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_y5qp5vs8x",
+                "title": "文本"
               }
             ]
           },
           {
             "componentName": "table",
-            "id": "node_f71oik9m4mm4phhk6",
+            "id": "node_ebst2ezr9mmcuzcxs",
             "props": {
               "className": "parsed-table",
               "style": {
@@ -970,41 +727,29 @@
                 "border": "none"
               }
             },
-            "docId": "doc_ukwnyvbqa",
+            "docId": "doc_dtrr6vprt",
             "title": "表格",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "tbody",
-                "id": "node_nuznehtkqmm4phhk6",
+                "id": "node_kr7scfbcsmmcuzcxs",
                 "props": {},
-                "docId": "doc_sryuh69on",
+                "docId": "doc_st1s5qxnx",
                 "title": "表格主体",
-                "hidden": false,
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": "",
                 "children": [
                   {
                     "componentName": "tr",
-                    "id": "node_cl3g0uutumm4phhk6",
+                    "id": "node_p6lmxqqtammcuzcxs",
                     "props": {
                       "className": "parsed-table-row",
                       "style": {}
                     },
-                    "docId": "doc_t0lttvcuw",
+                    "docId": "doc_hak3fttck",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
-                        "id": "node_z4xjj1afcmm4phhk6",
+                        "id": "node_gn1htxujfmmcuzcxs",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -1014,34 +759,19 @@
                             "verticalAlign": "middle"
                           }
                         },
-                        "docId": "doc_ygfnrhv8w",
+                        "docId": "doc_ng7p7ziaw",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_8cirdqe2nmm4phhk6",
+                            "id": "node_ip9b5pcpzmmcuzcxs",
                             "props": {
-                              "type": "inherit",
                               "children": "Please refer to the main illustration, supplementary illustration and important notes pages for the illustration and explanation on the guaranteed scenario for this policy.",
                               "strong": true,
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {}
                             },
-                            "docId": "doc_vz5hj5zg9",
-                            "hidden": false,
-                            "title": "粗体",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "docId": "doc_wttbyotsy",
+                            "title": "粗体"
                           }
                         ]
                       }
@@ -1055,12 +785,12 @@
             "componentName": "table",
             "id": "node_ocmm4ph3fe1",
             "props": {
-              "className": "end-page",
+              "className": "page-fixed-footer",
               "style": {
                 "borderCollapse": "collapse",
                 "marginBottom": "16px",
                 "border": "none",
-                "position": "fixed",
+                "position": "absolute",
                 "bottom": "20px",
                 "left": "2cm",
                 "width": "calc(100% - 4cm)"
@@ -1068,10 +798,6 @@
             },
             "docId": "doc_ll33gt4cf",
             "title": "表格",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "tbody",
@@ -1079,10 +805,6 @@
                 "props": {},
                 "docId": "doc_alzokk4gh",
                 "title": "表格主体",
-                "hidden": false,
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": "",
                 "children": [
                   {
                     "componentName": "tr",
@@ -1093,10 +815,6 @@
                     },
                     "docId": "doc_cz6vyomsm",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -1112,24 +830,12 @@
                         },
                         "docId": "doc_do90vbkqz",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ocmm4ph3fee",
                             "props": {
-                              "type": "inherit",
                               "children": "This illustration is only valid when all pages are included.Version: 1.0 E.&O.E\t\t",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0",
                                 "fontSize": "10.6px",
@@ -1137,11 +843,7 @@
                               }
                             },
                             "docId": "doc_4ct01bonf",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -1149,7 +851,7 @@
                         "componentName": "td",
                         "id": "node_ocmm4ph3fef",
                         "props": {
-                          "className": "parsed-table-td",
+                          "className": "lowcode-page-number",
                           "style": {
                             "padding": "2px",
                             "border": "none",
@@ -1161,34 +863,18 @@
                         },
                         "docId": "doc_l1dxiizuq",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ocmm4ph3feg",
                             "props": {
-                              "type": "inherit",
                               "children": "Page 5 of 17",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_re275tjex",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -1208,34 +894,18 @@
                         },
                         "docId": "doc_194rre42e",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ocmm4ph3fei",
                             "props": {
-                              "type": "inherit",
                               "children": "Version: 32.0 / A E.&O.E",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_74w0w5bzn",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -1245,8 +915,7 @@
               }
             ]
           }
-        ],
-        "state": {}
+        ]
       }
     ],
     "i18n": {
@@ -1268,15 +937,6 @@
         "componentName": "HtmlRenderer"
       },
       {
-        "package": "@alilc/lowcode-materials",
-        "version": "1.0.7",
-        "exportName": "NextText",
-        "main": "lib/index.js",
-        "destructuring": true,
-        "subName": "",
-        "componentName": "NextText"
-      },
-      {
         "package": "html-components",
         "version": "1.0.0",
         "exportName": "td",
@@ -1289,6 +949,15 @@
         "exportName": "tr",
         "destructuring": true,
         "componentName": "tr"
+      },
+      {
+        "package": "@alilc/lowcode-materials",
+        "version": "1.0.7",
+        "exportName": "NextText",
+        "main": "lib/index.js",
+        "destructuring": true,
+        "subName": "",
+        "componentName": "NextText"
       },
       {
         "package": "html-components",
@@ -1321,9 +990,9 @@
     "componentsTree": [
       {
         "componentName": "Page",
-        "id": "451d995b-29ba-4838-a576-abe778b63487_1772415798419",
+        "id": "page_1772692014663",
         "props": {
-          "ref": "page_451d995b-29ba-4838-a576-abe778b63487_1772415798419",
+          "ref": "page_1772692014663",
           "style": {
             "height": "100%",
             "paddingLeft": "83px",
@@ -1333,51 +1002,57 @@
           }
         },
         "fileName": "第1页",
-        "hidden": false,
-        "title": "",
-        "isLocked": false,
-        "condition": true,
-        "conditionGroup": "",
-        "children": [
-          {
-            "componentName": "HtmlRenderer",
-            "id": "node_ocmm4pzxtz3",
-            "props": {
-              "htmlContent": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"200\" height=\"50\" viewBox=\"0 0 89 17\">\n    <defs>\n        <path id=\"a\" d=\"M0 0h88.58v16.24H0z\"/>\n    </defs>\n    <g fill=\"none\" fill-rule=\"evenodd\">\n        <mask id=\"b\" fill=\"#fff\">\n            <use xlink:href=\"#a\"/>\n        </mask>\n        <path fill=\"#000\" d=\"M72.643 14.026h1.952v-8.51h-1.952v8.51zm-3.95 0h1.876V.972l-1.876 1.86v11.194zm4.925-12.337c-.655 0-1.205.533-1.205 1.189 0 .655.55 1.205 1.205 1.205.641 0 1.19-.55 1.19-1.205a1.2 1.2 0 0 0-1.19-1.19zm5.139 3.827V3.869c0-.732.487-1.174 1.082-1.174.382 0 .778.152 1.037.305l.595-1.464a4.288 4.288 0 0 0-1.922-.443c-1.769 0-2.668 1.267-2.668 2.669v1.754h-1.144V7.07h1.144v6.955h1.876V7.07h1.784l.441-1.555h-2.225zm6.053 1.312c1.143 0 1.799.976 1.799 2.013h-3.782c.03-.977.885-2.013 1.983-2.013zm.137 5.795c-1.175 0-2.166-.976-2.18-2.35h5.809c.092-3.476-1.494-4.955-3.751-4.955-2.364 0-3.996 1.92-3.996 4.453 0 2.623 1.51 4.453 3.935 4.453 1.54 0 2.867-.81 3.553-1.815l-1.174-1.098c-.397.717-1.312 1.312-2.196 1.312zM55.768 5.318c-1.099 0-2.105.549-2.776 1.159v-.961h-1.876v8.51h1.876V7.91c.427-.396 1.342-1.006 2.059-1.006.869 0 1.219.716 1.219 1.555v5.567h1.876V7.97c0-2.074-1.373-2.653-2.378-2.653zm8.979 6.19c-.534.596-1.221 1.069-1.952 1.069-.885 0-1.312-.686-1.312-1.678V5.516h-1.876v5.993c0 2.135 1.525 2.715 2.623 2.715 1.098 0 1.937-.625 2.456-1.113v.915h1.936v-8.51h-1.875v5.993zM35.245 8.026h-.03l-3.478-5.81h-2.211v11.81h2.044V5.662h.031l3.598 5.948 3.584-5.948h.03v8.365h2.059V2.215h-2.165l-3.462 5.81zm12.319 3.53c-.458.579-1.189 1.159-2.074 1.159-.747 0-1.327-.457-1.327-1.128 0-.946.977-1.342 2.09-1.48l1.28-.152h.031v1.6zm-1.205-6.237c-1.509 0-2.669.594-3.324 1.449l1.068 1.265c.335-.533 1.235-1.204 2.165-1.204.808 0 1.342.41 1.342.976 0 .457-.244.838-.93.899l-.702.076c-1.799.199-3.644.916-3.644 2.883 0 1.616 1.235 2.562 2.729 2.562 1.296 0 2.029-.625 2.486-1.16v.962h1.891V8.002c0-1.678-1.129-2.684-3.081-2.684z\" mask=\"url(#b)\"/>\n        <path fill=\"#00A758\" d=\"M11.81 2.953V16.24l2.954-2.953V-.002zM5.905 16.24l2.953-2.953V0L5.905 2.953zM0 16.24l2.953-2.953V0L0 2.953z\" mask=\"url(#b)\"/>\n    </g>\n</svg>\n",
-              "style": {
-                "width": "100%",
-                "marginBottom": "30px",
-                "borderRadius": "4px",
-                "padding": "16px",
-                "backgroundColor": "#ffffff"
-              }
+        "dataSource": {
+          "list": [
+            {
+              "type": "fetch",
+              "isInit": true,
+              "options": {
+                "method": "GET",
+                "isCors": true,
+                "timeout": 5000,
+                "uri": "http://localhost:8080/api/local-json?path=/Users/WilliamsLi/Documents/FE/pos-report-engine-sgpos/public/testData/uiJson.json"
+              },
+              "id": "ddd"
             },
-            "docId": "docmm4pzxtz",
-            "state": {},
-            "hidden": false,
-            "title": "",
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": ""
-          },
+            {
+              "type": "fetch",
+              "isInit": true,
+              "options": {
+                "method": "GET",
+                "isCors": true,
+                "timeout": 5000,
+                "uri": "http://localhost:8080/api/local-json?path=/Users/WilliamsLi/Documents/FE/pos-report-engine-sgpos/public/testData/uiJson.json"
+              },
+              "id": "ffff"
+            }
+          ]
+        },
+        "methods": {
+          "testFunc": {
+            "type": "JSFunction",
+            "value": "function testFunc() {\n  console.log('test aliLowcode func');\n  return /*#__PURE__*/React.createElement(\"div\", {\n    className: \"test-aliLowcode-func\"\n  }, this.state.test);\n}",
+            "source": "function testFunc() {\n  console.log('test aliLowcode func');\n  return <div className=\"test-aliLowcode-func\">\n        {this.state.test}\n      </div>;\n}"
+          }
+        },
+        "originCode": "class Page extends Component {\n  undefined\n  \n  \n  // 你可以在这里编写函数，并且与组件的事件进行绑定，支持JSX语法\n  testFunc() {\n    console.log('test aliLowcode func');\n    return (\n      <div className=\"test-aliLowcode-func\">\n        {this.state.test}\n      </div>\n    );\n  }\n  \n}",
+        "css": "",
+        "children": [
           {
             "componentName": "table",
             "id": "node_1r2uecu1cmm4phhk5",
             "props": {
-              "className": "parsed-table",
+              "className": "page-fixed-header",
               "style": {
                 "width": "100%",
                 "borderCollapse": "collapse",
                 "marginBottom": "16px",
                 "border": "none"
-              }
+              },
+              "border": 4
             },
             "docId": "doc_ll33gt4cf",
             "title": "表格",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "tbody",
@@ -1385,10 +1060,6 @@
                 "props": {},
                 "docId": "doc_alzokk4gh",
                 "title": "表格主体",
-                "hidden": false,
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": "",
                 "children": [
                   {
                     "componentName": "tr",
@@ -1399,10 +1070,6 @@
                     },
                     "docId": "doc_pyffsnjzs",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -1414,44 +1081,73 @@
                             "border": "none",
                             "textAlign": "left",
                             "verticalAlign": "middle"
+                          },
+                          "colSpan": "4"
+                        },
+                        "docId": "doc_gv624a4yc",
+                        "title": "表格单元格",
+                        "children": [
+                          {
+                            "componentName": "HtmlRenderer",
+                            "id": "node_ocmm4pzxtz3",
+                            "props": {
+                              "htmlContent": "<div class=\"header-logo\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"200\" height=\"50\" viewBox=\"0 0 89 17\">\n    <defs>\n        <path id=\"a\" d=\"M0 0h88.58v16.24H0z\"/>\n    </defs>\n    <g fill=\"none\" fill-rule=\"evenodd\">\n        <mask id=\"b\" fill=\"#fff\">\n            <use xlink:href=\"#a\"/>\n        </mask>\n        <path fill=\"#000\" d=\"M72.643 14.026h1.952v-8.51h-1.952v8.51zm-3.95 0h1.876V.972l-1.876 1.86v11.194zm4.925-12.337c-.655 0-1.205.533-1.205 1.189 0 .655.55 1.205 1.205 1.205.641 0 1.19-.55 1.19-1.205a1.2 1.2 0 0 0-1.19-1.19zm5.139 3.827V3.869c0-.732.487-1.174 1.082-1.174.382 0 .778.152 1.037.305l.595-1.464a4.288 4.288 0 0 0-1.922-.443c-1.769 0-2.668 1.267-2.668 2.669v1.754h-1.144V7.07h1.144v6.955h1.876V7.07h1.784l.441-1.555h-2.225zm6.053 1.312c1.143 0 1.799.976 1.799 2.013h-3.782c.03-.977.885-2.013 1.983-2.013zm.137 5.795c-1.175 0-2.166-.976-2.18-2.35h5.809c.092-3.476-1.494-4.955-3.751-4.955-2.364 0-3.996 1.92-3.996 4.453 0 2.623 1.51 4.453 3.935 4.453 1.54 0 2.867-.81 3.553-1.815l-1.174-1.098c-.397.717-1.312 1.312-2.196 1.312zM55.768 5.318c-1.099 0-2.105.549-2.776 1.159v-.961h-1.876v8.51h1.876V7.91c.427-.396 1.342-1.006 2.059-1.006.869 0 1.219.716 1.219 1.555v5.567h1.876V7.97c0-2.074-1.373-2.653-2.378-2.653zm8.979 6.19c-.534.596-1.221 1.069-1.952 1.069-.885 0-1.312-.686-1.312-1.678V5.516h-1.876v5.993c0 2.135 1.525 2.715 2.623 2.715 1.098 0 1.937-.625 2.456-1.113v.915h1.936v-8.51h-1.875v5.993zM35.245 8.026h-.03l-3.478-5.81h-2.211v11.81h2.044V5.662h.031l3.598 5.948 3.584-5.948h.03v8.365h2.059V2.215h-2.165l-3.462 5.81zm12.319 3.53c-.458.579-1.189 1.159-2.074 1.159-.747 0-1.327-.457-1.327-1.128 0-.946.977-1.342 2.09-1.48l1.28-.152h.031v1.6zm-1.205-6.237c-1.509 0-2.669.594-3.324 1.449l1.068 1.265c.335-.533 1.235-1.204 2.165-1.204.808 0 1.342.41 1.342.976 0 .457-.244.838-.93.899l-.702.076c-1.799.199-3.644.916-3.644 2.883 0 1.616 1.235 2.562 2.729 2.562 1.296 0 2.029-.625 2.486-1.16v.962h1.891V8.002c0-1.678-1.129-2.684-3.081-2.684z\" mask=\"url(#b)\"/>\n        <path fill=\"#00A758\" d=\"M11.81 2.953V16.24l2.954-2.953V-.002zM5.905 16.24l2.953-2.953V0L5.905 2.953zM0 16.24l2.953-2.953V0L0 2.953z\" mask=\"url(#b)\"/>\n    </g>\n</svg>\n</div>\n",
+                              "style": {
+                                "width": "100%",
+                                "marginBottom": "30px",
+                                "borderRadius": "4px",
+                                "padding": "16px",
+                                "backgroundColor": "#ffffff"
+                              }
+                            },
+                            "docId": "docmm4pzxtz"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "componentName": "tr",
+                    "id": "node_ocmmcssrfw1",
+                    "props": {
+                      "className": "parsed-table-row",
+                      "style": {}
+                    },
+                    "docId": "doc_pyffsnjzs",
+                    "title": "表格行",
+                    "children": [
+                      {
+                        "componentName": "td",
+                        "id": "node_ocmmcssrfw2",
+                        "props": {
+                          "className": "parsed-table-td",
+                          "style": {
+                            "padding": "2px",
+                            "border": "none",
+                            "textAlign": "left",
+                            "verticalAlign": "middle"
                           }
                         },
                         "docId": "doc_gv624a4yc",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_cfg72d31imm4phhk4",
+                            "id": "node_ocmmcssrfw3",
                             "props": {
-                              "type": "inherit",
                               "children": "Specially prepared for",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_u1ive6kz1",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
                       {
                         "componentName": "td",
-                        "id": "node_j8adirnmrmm4phhk4",
+                        "id": "node_ocmmcssrfw4",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -1463,40 +1159,28 @@
                         },
                         "docId": "doc_y144vx1vn",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_pka0tkfn5mm4phhk4",
+                            "id": "node_ocmmcssrfw5",
                             "props": {
-                              "type": "inherit",
-                              "children": ": <OwnerSal> <OwnerName>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
+                              "children": {
+                                "type": "JSExpression",
+                                "value": "this.state.ddd",
+                                "mock": ": <OwnerSal> <OwnerName>"
+                              },
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_rdng94nnb",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
                       {
                         "componentName": "td",
-                        "id": "node_k27baijrdmm4phhk4",
+                        "id": "node_ocmmcssrfw6",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -1508,40 +1192,24 @@
                         },
                         "docId": "doc_fs4kn7m2z",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_fz9q5yzremm4phhk4",
+                            "id": "node_ocmmcssrfw7",
                             "props": {
-                              "type": "inherit",
                               "children": "Date Generated",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_rg5ogynam",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
                       {
                         "componentName": "td",
-                        "id": "node_y6pqjvi8kmm4phhk4",
+                        "id": "node_ocmmcssrfw8",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -1553,34 +1221,18 @@
                         },
                         "docId": "doc_a2g00v4ar",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_9mhiwlh0umm4phhk4",
+                            "id": "node_ocmmcssrfw9",
                             "props": {
-                              "type": "inherit",
                               "children": ": <DateGenerated>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_qpcktstri",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -1595,10 +1247,6 @@
                     },
                     "docId": "doc_cz6vyomsm",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -1614,34 +1262,18 @@
                         },
                         "docId": "doc_do90vbkqz",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_avylmmh6amm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "On the Life of",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_4ct01bonf",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -1660,34 +1292,18 @@
                         },
                         "docId": "doc_l1dxiizuq",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_un9mift1smm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": ": <InsuredSal> <InsuredName>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_re275tjex",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -1706,34 +1322,18 @@
                         },
                         "docId": "doc_194rre42e",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_8mt6vxllimm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "<Gender>, <Smoker Status>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_74w0w5bzn",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -1748,10 +1348,6 @@
                     },
                     "docId": "doc_t2tpqe55j",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -1767,34 +1363,18 @@
                         },
                         "docId": "doc_1t8p9z1a2",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ymt3u9bv1mm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "Plan",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_pfwdicjg4",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -1812,34 +1392,18 @@
                         },
                         "docId": "doc_miu79p5x9",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_lngkt9t3jmm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": ": <Product Name> (<Plan Code>)",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_gj7r1r92c",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -1857,34 +1421,18 @@
                         },
                         "docId": "doc_265o4f1xx",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ppioql8e0mm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": "Age Last Birthday",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_fgphjoz8z",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -1902,34 +1450,18 @@
                         },
                         "docId": "doc_q8h1cv38u",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_jywsnppr9mm4phhk5",
                             "props": {
-                              "type": "inherit",
                               "children": ": <Age>",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_6swxejr4w",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -1941,282 +1473,176 @@
           },
           {
             "componentName": "FDP",
-            "id": "node_9drk9rx94mm4phhk5",
+            "id": "node_0jhh96u6mmmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_5mighed3y",
+            "docId": "doc_4cq70pfqx",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_ocrc0dcrtmm4phhk5",
+                "id": "node_23uz27t3ommcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "This policy is protected under the Policy Owners’ Protection Scheme which is administered by the Singapore Deposit Insurance Corporation (SDIC). Coverage for your policy is automatic and no further action is required from you. For more information on the types of benefits that are covered under the scheme as well as the limits of coverage, where applicable, please contact us or visit the Life Insurance Association (LIA) or SDIC websites (www.lia.org.sg or www.sdic.org.sg).",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_y5rrreb8b",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_qh94domcz",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_veldz2c0amm4phhk5",
+            "id": "node_z876h25femmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_t8qp45uo4",
+            "docId": "doc_fwjk1sjwi",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_v3azmwme9mm4phhk5",
+                "id": "node_drgcvec4pmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "Acknowledgement:",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_rcnnxnqjz",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_33tvt1qw8",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_22gg085bpmm4phhk5",
+            "id": "node_p9lhgbq7pmmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_ntnpdq4v0",
+            "docId": "doc_yk2y8djs4",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_plapktq4fmm4phhk5",
+                "id": "node_8acyfd38ummcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "I confirm that I have received all pages of the Cover Page, Policy Illustration, Product Summary and Bundled Product Disclosure Document, where applicable, for the plan.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_uhrpnhj8m",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_nkop7o7q4",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_yejbyp3zhmm4phhk5",
+            "id": "node_5ywubcq4ommcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_w4pf1zgmm",
+            "docId": "doc_1vzpihlnl",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_2rkgrz6wsmm4phhk5",
+                "id": "node_zkck45gbmmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "I understand that the Policy Illustration is intended for illustrative purposes only. I understand that there may be non-guaranteed elements illustrated which may be subject to change. The terms and conditions are specified in the Policy Contract.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_6016md1zr",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_ymxd5a4lr",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_xulr4zxsvmm4phhk5",
+            "id": "node_p4v6ar6mkmmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_yq4cbmbpe",
+            "docId": "doc_57pqzsxuf",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_r15fjoflkmm4phhk5",
+                "id": "node_v6to7uxd0mmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "The Representative(s) has/have explained the values, key benefits and information in the Cover Page, Policy Illustration, Product Summary and Bundled Product Disclosure Document, where applicable, to my satisfaction.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_yiowopsju",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_a4rk5dtgu",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_zto93j547mm4phhk5",
+            "id": "node_bovqqxx51mmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_k6f7r8wfb",
+            "docId": "doc_6joif9znl",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_vc1gaq47mmm4phhk5",
+                "id": "node_g58c4rrxnmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "I have also read through all the pages of the Cover Page, Policy Illustration, Product Summary and Bundled Product Disclosure Document, where applicable, and understand the benefits of the plan.",
                   "strong": true,
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {}
                 },
-                "docId": "doc_dtcbcocph",
-                "hidden": false,
-                "title": "粗体",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_q923v86fw",
+                "title": "粗体"
               }
             ]
           },
           {
             "componentName": "FDP",
-            "id": "node_4q4ft2d17mm4phhk5",
+            "id": "node_txzneftu9mmcuzcxr",
             "props": {
               "style": {
                 "marginBottom": "1em"
               }
             },
-            "docId": "doc_mqbogue1j",
+            "docId": "doc_y5qp5vs8x",
             "title": "段落",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "NextText",
-                "id": "node_m0yeu9fxamm4phhk5",
+                "id": "node_f4tmtw0azmmcuzcxr",
                 "props": {
-                  "type": "inherit",
                   "children": "This quotation is valid for two months from the date generated if there is no change to any of the parameters.",
-                  "mark": false,
-                  "code": false,
-                  "delete": false,
-                  "underline": false,
-                  "strong": false,
-                  "prefix": "",
-                  "classname": "",
                   "style": {
                     "margin": "0"
                   }
                 },
-                "docId": "doc_mqbogue1j",
-                "hidden": false,
-                "title": "文本",
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": ""
+                "docId": "doc_y5qp5vs8x",
+                "title": "文本"
               }
             ]
           },
           {
             "componentName": "table",
-            "id": "node_f71oik9m4mm4phhk6",
+            "id": "node_ebst2ezr9mmcuzcxs",
             "props": {
               "className": "parsed-table",
               "style": {
@@ -2226,41 +1652,29 @@
                 "border": "none"
               }
             },
-            "docId": "doc_ukwnyvbqa",
+            "docId": "doc_dtrr6vprt",
             "title": "表格",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "tbody",
-                "id": "node_nuznehtkqmm4phhk6",
+                "id": "node_kr7scfbcsmmcuzcxs",
                 "props": {},
-                "docId": "doc_sryuh69on",
+                "docId": "doc_st1s5qxnx",
                 "title": "表格主体",
-                "hidden": false,
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": "",
                 "children": [
                   {
                     "componentName": "tr",
-                    "id": "node_cl3g0uutumm4phhk6",
+                    "id": "node_p6lmxqqtammcuzcxs",
                     "props": {
                       "className": "parsed-table-row",
                       "style": {}
                     },
-                    "docId": "doc_t0lttvcuw",
+                    "docId": "doc_hak3fttck",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
-                        "id": "node_z4xjj1afcmm4phhk6",
+                        "id": "node_gn1htxujfmmcuzcxs",
                         "props": {
                           "className": "parsed-table-td",
                           "style": {
@@ -2270,34 +1684,19 @@
                             "verticalAlign": "middle"
                           }
                         },
-                        "docId": "doc_ygfnrhv8w",
+                        "docId": "doc_ng7p7ziaw",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
-                            "id": "node_8cirdqe2nmm4phhk6",
+                            "id": "node_ip9b5pcpzmmcuzcxs",
                             "props": {
-                              "type": "inherit",
                               "children": "Please refer to the main illustration, supplementary illustration and important notes pages for the illustration and explanation on the guaranteed scenario for this policy.",
                               "strong": true,
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {}
                             },
-                            "docId": "doc_vz5hj5zg9",
-                            "hidden": false,
-                            "title": "粗体",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "docId": "doc_wttbyotsy",
+                            "title": "粗体"
                           }
                         ]
                       }
@@ -2311,12 +1710,12 @@
             "componentName": "table",
             "id": "node_ocmm4ph3fe1",
             "props": {
-              "className": "end-page",
+              "className": "page-fixed-footer",
               "style": {
                 "borderCollapse": "collapse",
                 "marginBottom": "16px",
                 "border": "none",
-                "position": "fixed",
+                "position": "absolute",
                 "bottom": "20px",
                 "left": "2cm",
                 "width": "calc(100% - 4cm)"
@@ -2324,10 +1723,6 @@
             },
             "docId": "doc_ll33gt4cf",
             "title": "表格",
-            "hidden": false,
-            "isLocked": false,
-            "condition": true,
-            "conditionGroup": "",
             "children": [
               {
                 "componentName": "tbody",
@@ -2335,10 +1730,6 @@
                 "props": {},
                 "docId": "doc_alzokk4gh",
                 "title": "表格主体",
-                "hidden": false,
-                "isLocked": false,
-                "condition": true,
-                "conditionGroup": "",
                 "children": [
                   {
                     "componentName": "tr",
@@ -2349,10 +1740,6 @@
                     },
                     "docId": "doc_cz6vyomsm",
                     "title": "表格行",
-                    "hidden": false,
-                    "isLocked": false,
-                    "condition": true,
-                    "conditionGroup": "",
                     "children": [
                       {
                         "componentName": "td",
@@ -2368,24 +1755,12 @@
                         },
                         "docId": "doc_do90vbkqz",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ocmm4ph3fee",
                             "props": {
-                              "type": "inherit",
                               "children": "This illustration is only valid when all pages are included.Version: 1.0 E.&O.E\t\t",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0",
                                 "fontSize": "10.6px",
@@ -2393,11 +1768,7 @@
                               }
                             },
                             "docId": "doc_4ct01bonf",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -2405,7 +1776,7 @@
                         "componentName": "td",
                         "id": "node_ocmm4ph3fef",
                         "props": {
-                          "className": "parsed-table-td",
+                          "className": "lowcode-page-number",
                           "style": {
                             "padding": "2px",
                             "border": "none",
@@ -2417,34 +1788,18 @@
                         },
                         "docId": "doc_l1dxiizuq",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ocmm4ph3feg",
                             "props": {
-                              "type": "inherit",
                               "children": "Page 5 of 17",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_re275tjex",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       },
@@ -2464,34 +1819,18 @@
                         },
                         "docId": "doc_194rre42e",
                         "title": "表格单元格",
-                        "hidden": false,
-                        "isLocked": false,
-                        "condition": true,
-                        "conditionGroup": "",
                         "children": [
                           {
                             "componentName": "NextText",
                             "id": "node_ocmm4ph3fei",
                             "props": {
-                              "type": "inherit",
                               "children": "Version: 32.0 / A E.&O.E",
-                              "mark": false,
-                              "code": false,
-                              "delete": false,
-                              "underline": false,
-                              "strong": false,
-                              "prefix": "",
-                              "classname": "",
                               "style": {
                                 "margin": "0"
                               }
                             },
                             "docId": "doc_74w0w5bzn",
-                            "hidden": false,
-                            "title": "文本",
-                            "isLocked": false,
-                            "condition": true,
-                            "conditionGroup": ""
+                            "title": "文本"
                           }
                         ]
                       }
@@ -2501,8 +1840,7 @@
               }
             ]
           }
-        ],
-        "state": {}
+        ]
       }
     ],
     "i18n": {
