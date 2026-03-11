@@ -11,6 +11,8 @@ This file removes duplicated content and defers to the canonical instruction sou
   - JSDoc Standards: [.github/instructions/react/jsdoc-standards.instructions.md](instructions/react/jsdoc-standards.instructions.md)
   - Interaction Facade: [.github/instructions/methodology/ai-assistant-interaction.instructions.md](instructions/methodology/ai-assistant-interaction.instructions.md)
   - Large File Protocol: [.github/instructions/methodology/large-file-editing.instructions.md](instructions/methodology/large-file-editing.instructions.md)
+- Skills (apply automatically when trigger phrases are detected):
+  - Requirement → PRD → Feishu Board: [.github/skills/skills/requirement-to-prd-feishu-board/SKILL.md](skills/skills/requirement-to-prd-feishu-board/SKILL.md) — triggers: `需求分析`, `分析需求`, `requirement analysis`, `PRD writing`
 - Step 2: Apply all rules from those docs during implementation/review
 - Step 3: Output the mandatory summary at the end of every PR review (see below)
 

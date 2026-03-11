@@ -361,6 +361,9 @@ function NodeEditor(props: {
   const functionCodeDirty = functionCode !== originalFunctionCode;
 
   // 当选中节点的 jsFileName 变化时，解析该文件内的函数列表
+  // 注意：故意不将 methodContents / onLoadContent 列入依赖，
+  // 因为 onLoadContent 每次执行后会更新 methodContents，
+  // 若将二者列为依赖会导致 useEffect 反复触发，产生无限网络请求。
   useEffect(() => {
     if (!selectedNode?.jsFileName) {
       setLocalFunctions([]);
@@ -370,12 +373,12 @@ function NodeEditor(props: {
     const cached = methodContents[filename];
     if (cached !== undefined) {
       setLocalFunctions(parseExportedFunctions(cached));
-    } else {
-      onLoadContent(filename).then((content) => {
-        setLocalFunctions(parseExportedFunctions(content));
-      });
     }
-  }, [selectedNode?.jsFileName, methodContents]);
+    onLoadContent(filename).then((content) => {
+      setLocalFunctions(parseExportedFunctions(content));
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedNode?.jsFileName]);
 
   // 当文件/函数变化时，加载当前函数代码片段
   useEffect(() => {
@@ -387,10 +390,7 @@ function NodeEditor(props: {
       }
 
       setFunctionCodeLoading(true);
-      const content =
-        methodContents[selectedNode.jsFileName] !== undefined
-          ? methodContents[selectedNode.jsFileName]
-          : await onLoadContent(selectedNode.jsFileName);
+      const content = await onLoadContent(selectedNode.jsFileName);
 
       const segment = extractFunctionSegment(content || '', selectedNode.functionName);
       if (!segment) {
@@ -416,10 +416,7 @@ function NodeEditor(props: {
     }
 
     setFunctionCodeSaving(true);
-    const latestContent =
-      methodContents[selectedNode.jsFileName] !== undefined
-        ? methodContents[selectedNode.jsFileName]
-        : await onLoadContent(selectedNode.jsFileName);
+    const latestContent = await onLoadContent(selectedNode.jsFileName);
 
     const replaced = replaceFunctionSegment(
       latestContent || '',
@@ -573,7 +570,7 @@ function NodeEditor(props: {
             />
           </div>
           <div style={{ fontSize: 11, color: '#999' }}>
-            函数签名：<code>function(sourceJson, nodePath) {'{ return ... }'}</code>
+            函数签名：<code>function(nodePath) {'{ return uiJson ... }'}</code>
           </div>
 
           <div>

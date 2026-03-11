@@ -17,13 +17,13 @@ interface MethodManagerProps {
 
 const DEFAULT_TEMPLATE = `/**
  * 转换函数模板
- * @param {any} sourceJson - 导入的原始 JSON 数据
  * @param {string} nodePath - 当前节点的直接路径（可选）
+ * @description 可直接使用全局变量 uiJson（导入的原始 JSON 数据）
  * @returns {any} 转换后的值
  */
-function transform(sourceJson, nodePath) {
+function transform(nodePath) {
   // 在此编写转换逻辑
-  return sourceJson;
+  return uiJson;
 }
 `;
 
@@ -60,15 +60,15 @@ export function MethodManager({
       return;
     }
 
-    if (methodContents[selectedFile] !== undefined) {
-      setEditingContent(methodContents[selectedFile]);
+    const cachedContent = methodContents[selectedFile];
+    if (cachedContent !== undefined) {
+      setEditingContent(cachedContent);
       setIsDirty(false);
-    } else {
-      onLoadContent(selectedFile).then((content) => {
-        setEditingContent(content);
-        setIsDirty(false);
-      });
     }
+    onLoadContent(selectedFile).then((content) => {
+      setEditingContent(content);
+      setIsDirty(false);
+    });
   }, [selectedFile]);
 
   // 当已加载内容变更时同步（例如外部刷新）

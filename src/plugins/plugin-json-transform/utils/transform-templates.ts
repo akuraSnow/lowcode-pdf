@@ -304,10 +304,15 @@ function computeNodeValue(sourceJson: JsonValue, node: TransformNode): JsonValue
     try {
       const fnBody = `
         ${(node as any).__fnContent}
-        return typeof ${node.functionName} === 'function' ? ${node.functionName}(sourceJson, nodePath) : null;
+        const targetFn = typeof ${node.functionName} === 'function' ? ${node.functionName} : null;
+        if (!targetFn) return null;
+        if (targetFn.length >= 2) {
+          return targetFn(uiJson, nodePath);
+        }
+        return targetFn(nodePath);
       `;
       // eslint-disable-next-line no-new-func
-      const executor = new Function('sourceJson', 'nodePath', fnBody);
+      const executor = new Function('uiJson', 'nodePath', fnBody);
       const result = executor(sourceJson, node.directPath || '');
       return result !== undefined ? result : null;
     } catch (err) {

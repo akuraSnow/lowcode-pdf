@@ -82,24 +82,25 @@ export function useJsonTransform(project: any) {
   const [methodFiles, setMethodFiles] = useState<JsMethodFile[]>([]);
   const [methodFilesLoading, setMethodFilesLoading] = useState(false);
 
-  // 若 sourceJson 为空且配置了初始JSON路径，自动加载
+  // 配置了初始 JSON 路径时，每次面板打开（组件挂载）都重新请求最新数据；失败则保留本地缓存
   useEffect(() => {
-    if (sourceJson !== null || !initialJsonPath?.trim()) return;
+    const jsonPath = initialJsonPath?.trim();
+    if (!jsonPath) return;
     const load = async () => {
       try {
         const res = await fetch(
-          `${API_ENDPOINTS.localJson}?path=${encodeURIComponent(initialJsonPath.trim())}&mode=wrapped`
+          `${API_ENDPOINTS.localJson}?path=${encodeURIComponent(jsonPath)}&mode=wrapped`
         );
         const data = await res.json();
         if (data.success && data.data !== undefined) {
           setSourceJson(data.data as JsonValue);
-          setSourceJsonCollapsed(false);
         }
       } catch {
         // 静默失败，不打扰用户
       }
     };
     load();
+  // 每次挂载（重新打开 Drawer）及 initialJsonPath 变化时都执行，确保始终显示最新数据
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialJsonPath]);
 
@@ -153,9 +154,21 @@ export function useJsonTransform(project: any) {
     }
   }, [methodDir]);
 
+  // 每次面板打开（组件挂载）时，主动刷新：
+  //   1. 清除方法文件内容持久化缓存，避免使用磁盘上已更改但缓存过期的内容
+  //   2. 重新拉取方法文件列表，确保显示最新的文件状态
+  useEffect(() => {
+    setMethodContents({});
+    loadMethodFiles();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const loadMethodContent = useCallback(async (filename: string): Promise<string> => {
-    if (methodContents[filename] !== undefined) return methodContents[filename];
-    if (!methodDir) return '';
+    // 通过 getState() 在调用时读取最新缓存，而非将 methodContents 列入依赖。
+    // 若将 methodContents 列入依赖，每次 setMethodContents 后 loadMethodContent
+    // 都会产生新引用，引发依赖该函数的 useEffect 反复触发，造成无限网络请求。
+    const cachedContent = useJsonTransformPersistStore.getState().methodContents[filename];
+    if (!methodDir) return cachedContent ?? '';
     try {
       const res = await fetch(
         `${API_ENDPOINTS.methodByName(filename)}?dir=${encodeURIComponent(methodDir)}`
@@ -168,8 +181,8 @@ export function useJsonTransform(project: any) {
     } catch {
       // ignore
     }
-    return '';
-  }, [methodDir, methodContents]);
+    return cachedContent ?? '';
+  }, [methodDir]);
 
   const saveMethodFile = useCallback(async (filename: string, content: string): Promise<boolean> => {
     if (!methodDir) { Message.error('请先在全局设置中配置方法保存路径'); return false; }
